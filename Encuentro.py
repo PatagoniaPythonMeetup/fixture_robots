@@ -27,6 +27,9 @@ class Encuentro(set):
         return (self.robot_1 == other.robot_1 and self.robot_2 == other.robot_2) or \
             (self.robot_1 == other.robot_2 and self.robot_2 == other.robot_1)
 
+    def finalizado(self):
+        return self.ganador() != None
+        
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]
         r2 = [ r for r in self.ganadas if r == self.robot_2 ] 
