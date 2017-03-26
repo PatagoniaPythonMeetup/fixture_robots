@@ -5,6 +5,12 @@ class Encuentro(set):
         self.robot_2 = robot_2
         self.ganadas = []
 
+    def puntaje(self, robot):
+        assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
+        victorias = len([r for r in self.ganadas if r == robot])
+        derrotas = len([r for r in self.ganadas if r != robot])
+        return victorias, derrotas
+
     def gano(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
         self.ganadas.append(robot)
@@ -39,7 +45,7 @@ def main():
     e.gano("2")
     e.gano("1")
     e.gano("2")
-    print(e.ganador())
+    print(e.ganador(), e.puntaje("1"), e.puntaje("2"))
 
 if __name__ == '__main__':
     main()
