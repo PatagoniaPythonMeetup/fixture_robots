@@ -24,12 +24,11 @@ class Encuentro(set):
 
     def __eq__(self, other):
         """Un encuentro es igual a otro si tiene los mismos robots"""
-        return (self.robot_1 == other.robot_1 and self.robot_2 == other.robot_2) or \
-            (self.robot_1 == other.robot_2 and self.robot_2 == other.robot_1)
-
+        return hash(self) == hash(other)
+        
     def finalizado(self):
         return self.ganador() != None
-        
+
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]
         r2 = [ r for r in self.ganadas if r == self.robot_2 ] 
@@ -40,6 +39,9 @@ class Encuentro(set):
 
     def __str__(self):
         return "<%s vs %s>" % (self.robot_1, self.robot_2)
+    
+    def __hash__(self):
+        return hash(self.robot_1) + hash(self.robot_2) 
 
 def main():
     e = Encuentro("1", "2")
