@@ -24,7 +24,7 @@ def generador_samu(robots):
     robots.remove(_rob_2)
     _encuentros.append(Encuentro(_rob_1, _rob_2))
     
-    _encuentros.extend(self._generar_encuentros(robots))
+    _encuentros.extend(generador_samu(robots))
     
     return _encuentros
 
@@ -37,10 +37,23 @@ def generador_brutus(robots):
     encuentros = [encuentro for encuentro in encuentros if encuentro.es_valido()]
     # Filtramos los iguales
     encuentros = reduce(lambda acumulador, encuentro: encuentro in acumulador and acumulador or acumulador + [encuentro], encuentros, [])
-    # Quitar los que conpite la misma escuela
-    encuentros = filter(lambda encuentro: not encuentro.misma_escuela(), encuentros)
-
-    return encuentros
+    # Quitar los que compite la misma escuela, solo si hay un numero suficiente de encuentros
+    encuentros_distintos = [encuentro for encuentro in encuentros if not encuentro.misma_escuela()]
+    if len(encuentros_distintos) > len(robots) // 2:
+        encuentros = encuentros_distintos
+    # Filtramos los encuentros por robot y generamos la ronda
+    ronda = []
+    _robots = robots[:]
+    while _robots:
+        encuentro = encuentros.pop()
+        if encuentro.robot_1 in _robots and encuentro.robot_2 in _robots:
+            _robots.remove(encuentro.robot_1)
+            _robots.remove(encuentro.robot_2)
+            ronda.append(encuentro)
+        elif not encuentros:
+            ronda.append(encuentro)
+            break
+    return ronda
 
 GENERADORES = {
     "samu": generador_samu,
@@ -54,26 +67,15 @@ class Fixture(object):
         self.rondas = []
         self._generador = GENERADORES["brutus"]
 
-
-    def vencedor(self, robot):
-        pass
-
-
     def ronda(self):
+        assert not self.rondas or all([e.finalizado() for e in self.rondas[-1]]), "No se finalizaron los encuentros previos"
         robots = not self.rondas and self.robots or [e for e in self.rondas[-1] if e.ganador() ]
         self.rondas.append(self._generador(robots))
+        return len(self.rondas) - 1
 
+    def limpiar(self):
+        self.rondas = []
 
-    def encuentros(self, ronda):
-        return self.rondas[ronda]
-    
-
-    def cambiar_ronda(self, _robots_ganadores):
-        """ Avanza de ronda, generando los encuentros entre los robots ganadores
-            Pre:
-            Post: """
-        print("Robots en juego:\n".format(_robots_ganadores))
-        _encuentros_ronda = self.generar_encuentros(self.robots.copy())
-        self.encuentros.append(_encuentros_ronda)
-        return
+    def encuentros(self, key):
+        return self.rondas[key]
     
