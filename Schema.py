@@ -65,6 +65,22 @@ encuentroType = GraphQLObjectType(
     }
 )
 
+rondaType = GraphQLObjectType(
+    'Ronda',
+    description='Una vuelta completa de competencias.',
+    fields=lambda: {
+        'numero': GraphQLField(
+            GraphQLNonNull(GraphQLInt),
+            description='Numero de la ronda con base 0.',
+        ),
+        'encuentros': GraphQLField(
+            GraphQLList(encuentroType),
+            description='Los encuentros de cada ronda.',
+            resolver=lambda ronda, args, *_: ronda.encuentros,
+        )
+    }
+)
+
 queryType = GraphQLObjectType(
     name='Query',
     fields = {
@@ -72,6 +88,11 @@ queryType = GraphQLObjectType(
         GraphQLList(robotType),
         description='Los robots inscriptos en la competencia.',
         resolver=lambda root, *_: fixture.robots,
+      ),
+      'rondas': GraphQLField(
+        GraphQLList(rondaType),
+        description='Las rondas de la competencia.',
+        resolver=lambda root, *_: fixture.rondas,
       ),
       'encuentros': GraphQLField(
         GraphQLList(encuentroType),

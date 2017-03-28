@@ -1,5 +1,6 @@
 import random
 from Encuentro import Encuentro
+from Ronda import Ronda
 from functools import reduce
 
 def generador_samu(robots):
@@ -70,13 +71,13 @@ class Fixture(object):
     def ronda(self):
         assert not self.rondas or all([e.finalizado() for e in self.rondas[-1]]), "No se finalizaron los encuentros previos"
         robots = not self.rondas and self.robots or [e for e in self.rondas[-1] if e.ganador() ]
-        self.rondas.append(self._generador(robots))
-        return len(self.rondas) - 1
+        numero = len(self.rondas)
+        self.rondas.append(Ronda(numero, self._generador(robots)))
+        return numero
 
     def limpiar(self):
         self.rondas = []
 
     def encuentros(self, key):
-        print(key)
         return self.rondas[key]
     
