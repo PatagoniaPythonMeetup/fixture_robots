@@ -55,9 +55,38 @@ def generador_brutus(robots):
             break
     return ronda
 
+def generador_combinaciones(robots):
+    def potencia(c):
+        if len(c) == 0:
+            return [[]]
+        r = potencia(c[:-1])
+        return r + [s + [c[-1]] for s in r]
+    def combinaciones(rs, n):
+        return [s for s in potencia(rs) if len(s) == n]
+    encuentros = [Encuentro(*e) for e in combinaciones(robots, 2)]
+    encuentros = [e for e in encuentros if not e.misma_escuela()]
+    escuelas = [r.escuela for r in robots]
+    escuelas = [(escuela, escuelas.count(escuela)) for escuela in set(escuelas)]
+    escuelas = sorted(escuelas, key=lambda e: e[1], reverse=True)
+    ronda = []
+    _robots = robots[:]
+    for escuela, count in escuelas:
+        for c in range(count):
+            es = [e for e in encuentros if e.participa(escuela) and e.robot_1 in _robots and e.robot_2 in _robots]
+            if es:
+                _robots.remove(es[0].robot_1)
+                _robots.remove(es[0].robot_2)
+                encuentros.remove(es[0])
+                ronda.append(es[0])
+                if not _robots:
+                    break
+        print(ronda)
+    return ronda
+
 GENERADORES = {
     "samu": generador_samu,
-    "brutus": generador_brutus
+    "brutus": generador_brutus,
+    "combinaciones": generador_combinaciones
 }
 
 class Fixture(object):
@@ -65,7 +94,7 @@ class Fixture(object):
     def __init__(self, robots):
         self.robots = robots
         self.rondas = []
-        self._generador = GENERADORES["brutus"]
+        self._generador = GENERADORES["combinaciones"]
 
     def ronda(self):
         assert not self.rondas or all([e.finalizado() for e in self.rondas[-1]]), "No se finalizaron los encuentros previos"

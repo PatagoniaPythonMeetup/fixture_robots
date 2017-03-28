@@ -37,6 +37,9 @@ class Encuentro(set):
         elif len(r1) < len(r2):
             return self.robot_2
 
+    def participa(self, valor):
+        return valor in self.robot_1 or valor in self.robot_2
+
     def __str__(self):
         return "<%s vs %s>" % (self.robot_1, self.robot_2)
     
