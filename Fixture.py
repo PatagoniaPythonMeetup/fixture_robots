@@ -65,19 +65,17 @@ def generador_combinaciones(robots):
     def combinaciones(rs, n):
         return [s for s in potencia(rs) if len(s) == n]
     encuentros = [Encuentro(*e) for e in combinaciones(robots, 2)]
-    escuelas = [r.escuela for r in robots]
-    escuelas = [(escuela, escuelas.count(escuela)) for escuela in set(escuelas)]
-    escuelas = sorted(escuelas, key=lambda e: e[1], reverse=True)
     ronda = []
     random.shuffle(encuentros)
-    for escuela, _ in escuelas:
-        escuela_encuentros = [ e for e in encuentros if e.participa(escuela) ]
-        while escuela_encuentros:
-            encuentro = escuela_encuentros.pop()
+    distinta_escuela = [ e for e in encuentros if not e.misma_escuela() ]
+    misma_escuela = [ e for e in encuentros if e.misma_escuela() ]
+    for _encuentros in [distinta_escuela, misma_escuela]:
+        while _encuentros:
+            encuentro = _encuentros.pop()
             if all([not (e.participa(encuentro.robot_1) or e.participa(encuentro.robot_2)) for e in ronda]):
                 ronda.append(encuentro)
-        if len(ronda) == len(robots) // 2:
-            break
+            if len(ronda) == len(robots) // 2:
+                break
     return ronda
 
 GENERADORES = {
