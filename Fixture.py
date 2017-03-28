@@ -65,23 +65,19 @@ def generador_combinaciones(robots):
     def combinaciones(rs, n):
         return [s for s in potencia(rs) if len(s) == n]
     encuentros = [Encuentro(*e) for e in combinaciones(robots, 2)]
-    encuentros = [e for e in encuentros if not e.misma_escuela()]
     escuelas = [r.escuela for r in robots]
     escuelas = [(escuela, escuelas.count(escuela)) for escuela in set(escuelas)]
     escuelas = sorted(escuelas, key=lambda e: e[1], reverse=True)
     ronda = []
-    _robots = robots[:]
-    for escuela, count in escuelas:
-        for c in range(count):
-            es = [e for e in encuentros if e.participa(escuela) and e.robot_1 in _robots and e.robot_2 in _robots]
-            if es:
-                _robots.remove(es[0].robot_1)
-                _robots.remove(es[0].robot_2)
-                encuentros.remove(es[0])
-                ronda.append(es[0])
-                if not _robots:
-                    break
-        print(ronda)
+    random.shuffle(encuentros)
+    for escuela, _ in escuelas:
+        escuela_encuentros = [ e for e in encuentros if e.participa(escuela) ]
+        while escuela_encuentros:
+            encuentro = escuela_encuentros.pop()
+            if all([not (e.participa(encuentro.robot_1) or e.participa(encuentro.robot_2)) for e in ronda]):
+                ronda.append(encuentro)
+        if len(ronda) == len(robots) // 2:
+            break
     return ronda
 
 GENERADORES = {
@@ -98,15 +94,11 @@ class Fixture(object):
         self._generador = GENERADORES["combinaciones"]
 
     def ronda(self):
-        assert not self.rondas or all([e.finalizado() for e in self.rondas[-1]]), "No se finalizaron los encuentros previos"
+        assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = not self.rondas and self.robots or [e for e in self.rondas[-1] if e.ganador() ]
-        numero = len(self.rondas)
-        self.rondas.append(Ronda(numero, self._generador(robots)))
-        return numero
+        ronda = Ronda(len(self.rondas), self._generador(robots))
+        self.rondas.append(ronda)
+        return ronda
 
     def limpiar(self):
         self.rondas = []
-
-    def encuentros(self, key):
-        return self.rondas[key]
-    

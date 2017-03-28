@@ -18,9 +18,9 @@ class TestStringMethods(unittest.TestCase):
 
     def test_rondas(self):
         for i in range(1000):
-            key = self.fixture.ronda()
+            ronda = self.fixture.ronda()
             robots = set()
-            for e in self.fixture.encuentros(key):
+            for e in ronda.encuentros:
                 robots.add(e.robot_1)
                 robots.add(e.robot_2)
             self.assertEqual(set(self.robots), robots)

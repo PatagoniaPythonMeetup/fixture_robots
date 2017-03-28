@@ -25,7 +25,7 @@ robots = [
 ]
 
 fixture = Fixture(robots)
-fixture.ronda()
+ronda = fixture.ronda()
 
 robotType = GraphQLObjectType(
     'Robot',
@@ -93,17 +93,6 @@ queryType = GraphQLObjectType(
         GraphQLList(rondaType),
         description='Las rondas de la competencia.',
         resolver=lambda root, *_: fixture.rondas,
-      ),
-      'encuentros': GraphQLField(
-        GraphQLList(encuentroType),
-        args={
-            'ronda': GraphQLArgument(
-                description='El numero de ronda con base 0',
-                type=GraphQLNonNull(GraphQLInt),
-            )
-        },
-        description='Los encuentros de cada ronda.',
-        resolver=lambda root, args, *_: fixture.encuentros(args["ronda"]),
       )
     }
   )

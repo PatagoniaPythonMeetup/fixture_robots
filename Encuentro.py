@@ -1,5 +1,5 @@
 
-class Encuentro(set):
+class Encuentro(object):
     def __init__(self, robot_1, robot_2):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
@@ -38,7 +38,7 @@ class Encuentro(set):
             return self.robot_2
 
     def participa(self, valor):
-        return valor in self.robot_1 or valor in self.robot_2
+        return valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2
 
     def __str__(self):
         return "<%s vs %s>" % (self.robot_1, self.robot_2)
