@@ -5,7 +5,7 @@ from Fixture import Fixture
 class TestStringMethods(unittest.TestCase):
     def setUp(self):
         self.robots = robots = [
-            Robot("Ultron", "Los Avengers","Nick Fury"),
+            #Robot("Ultron", "Los Avengers","Nick Fury"),
             Robot("Wall-e","Pixar","Sr. Disney"),
             Robot("Sony","R&H Mecanicos","Dt. Spooner"),
             Robot("Robocop","O.C.P.","Bob Morthon"),
@@ -20,10 +20,7 @@ class TestStringMethods(unittest.TestCase):
         for i in range(1000):
             ronda = self.fixture.ronda()
             robots = set()
-            for e in ronda.encuentros:
-                robots.add(e.robot_1)
-                robots.add(e.robot_2)
-            self.assertEqual(set(self.robots), robots)
+            self.assertEqual(set(self.robots), set(ronda.robots))
             self.fixture.limpiar()
 
 

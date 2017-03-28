@@ -93,8 +93,10 @@ class Fixture(object):
 
     def ronda(self):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
-        robots = not self.rondas and self.robots or [e for e in self.rondas[-1] if e.ganador() ]
-        ronda = Ronda(len(self.rondas), self._generador(robots))
+        robots = not self.rondas and self.robots or self.rondas[-1].ganadores()
+        encuentros = self._generador(robots)
+        promovidos = set(self.robots).difference(set(reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], encuentros, [])))
+        ronda = Ronda(len(self.rondas), encuentros, list(promovidos))
         self.rondas.append(ronda)
         return ronda
 
