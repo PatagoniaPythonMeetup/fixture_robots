@@ -5,7 +5,9 @@ from graphql import (
     GraphQLField,
     GraphQLList,
     GraphQLNonNull,
-    GraphQLString
+    GraphQLString,
+    GraphQLInt,
+    GraphQLArgument
 )
 
 from Fixture import Fixture
@@ -23,6 +25,7 @@ robots = [
 ]
 
 fixture = Fixture(robots)
+fixture.ronda()
 
 robotType = GraphQLObjectType(
     'Robot',
@@ -43,6 +46,25 @@ robotType = GraphQLObjectType(
     }
 )
 
+encuentroType = GraphQLObjectType(
+    'Encuentro',
+    description='Dos robots entran solo uno sale.',
+    fields=lambda: {
+        'robot_1': GraphQLField(
+            GraphQLNonNull(robotType),
+            description='El primer robot.',
+        ),
+        'robot_2': GraphQLField(
+            GraphQLNonNull(robotType),
+            description='El segundo robot.',
+        ),
+        'ganadas': GraphQLField(
+            GraphQLList(robotType),
+            description='Listado de enfrentamientos ganados entre el primero y el segundo robot.',
+        )
+    }
+)
+
 queryType = GraphQLObjectType(
     name='Query',
     fields = {
@@ -50,6 +72,17 @@ queryType = GraphQLObjectType(
         GraphQLList(robotType),
         description='Los robots inscriptos en la competencia.',
         resolver=lambda root, *_: fixture.robots,
+      ),
+      'encuentros': GraphQLField(
+        GraphQLList(encuentroType),
+        args={
+            'ronda': GraphQLArgument(
+                description='El numero de ronda con base 0',
+                type=GraphQLNonNull(GraphQLInt),
+            )
+        },
+        description='Los encuentros de cada ronda.',
+        resolver=lambda root, args, *_: fixture.encuentros(args["ronda"]),
       )
     }
   )

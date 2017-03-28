@@ -61,7 +61,7 @@ GENERADORES = {
 }
 
 class Fixture(object):
-    
+
     def __init__(self, robots):
         self.robots = robots
         self.rondas = []
@@ -77,5 +77,6 @@ class Fixture(object):
         self.rondas = []
 
     def encuentros(self, key):
+        print(key)
         return self.rondas[key]
     
