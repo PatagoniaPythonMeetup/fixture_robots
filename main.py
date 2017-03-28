@@ -1,24 +1,15 @@
-from Robot import Robot
-from Fixture import Fixture
+from flask import Flask
+from flask_graphql import GraphQLView
+#http://www.aropupu.fi/bracket/
 
-# 7 o 8 robots en total
+from Schema import schema
+
+app = Flask(__name__)
+
+app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
+
 def main():
-    robots = [
-		Robot("Ultron", "Los Avengers","Nick Fury"),
-		Robot("Wall-e","Pixar","Sr. Disney"),
-		Robot("Sony","R&H Mecanicos","Dt. Spooner"),
-		Robot("Robocop","O.C.P.","Bob Morthon"),
-		Robot("Terminator","Skynet","Jhon Connor"),
-		Robot("R2-D2","La Republica","Obiwan Kenobi"),
-		Robot("3-CPO","La Republica","Anakin Skywalker"),
-		Robot("BB-8","La Republica","Poe Dameron")
-	]
+    app.run()
 
-    fixture = Fixture(robots)
-    key = fixture.ronda()
-    for encuentro in fixture.encuentros(key):
-        print(encuentro)
-    key = fixture.ronda()
-        
 if __name__ == '__main__':
     main()
