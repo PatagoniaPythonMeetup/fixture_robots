@@ -47,12 +47,32 @@ class TestStringMethods(unittest.TestCase):
         ronda = fixture.ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
-    def test_robots_en_ronda_random(self):
+    def test_robots_random_en_ronda(self):
         robots = self.robots[:]
         robots = robots[random.randint(1, len(robots)):]
         fixture = Fixture(robots)
         ronda = fixture.ronda()
         self.assertEqual(set(robots), set(ronda.robots))
+
+    def test_ganador_1_en_ronda_1(self):
+        robots = self.robots[:]
+        ganadores = set()
+        fixture = Fixture(robots)
+        ronda = fixture.ronda()
+        for e in ronda.encuentros:
+            ganadores.add(e.robot_1)
+            ronda.gano(e.robot_1)
+        self.assertEqual(set(ganadores), set(ronda.ganadores()))
+        
+    def test_ganador_2_en_ronda_1(self):
+        robots = self.robots[:]
+        ganadores = set()
+        fixture = Fixture(robots)
+        ronda = fixture.ronda()
+        for e in ronda.encuentros:
+            ganadores.add(e.robot_2)
+            ronda.gano(e.robot_2)
+        self.assertEqual(set(ganadores), set(ronda.ganadores()))
 
 if __name__ == '__main__':
     unittest.main()

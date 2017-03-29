@@ -1,8 +1,9 @@
 
 class Encuentro(object):
-    def __init__(self, robot_1, robot_2):
+    def __init__(self, robot_1, robot_2, numero=None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
+        self.numero = numero
         self.ganadas = []
 
     def puntaje(self, robot):
@@ -41,7 +42,7 @@ class Encuentro(object):
         return valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2
 
     def __str__(self):
-        return "<%s vs %s>" % (self.robot_1, self.robot_2)
+        return "<%s[%s] vs %s[%s]>" % (self.robot_1.nombre, self.puntaje(self.robot_1), self.robot_2.nombre, self.puntaje(self.robot_2))
     
     def __hash__(self):
         return hash(self.robot_1) + hash(self.robot_2) 

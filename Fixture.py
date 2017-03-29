@@ -96,9 +96,12 @@ class Fixture(object):
         robots = not self.rondas and self.robots or self.rondas[-1].ganadores()
         encuentros = self._generador(robots)
         promovidos = set(self.robots).difference(set(reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], encuentros, [])))
-        ronda = Ronda(len(self.rondas), encuentros, list(promovidos))
+        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
         self.rondas.append(ronda)
         return ronda
 
     def limpiar(self):
         self.rondas = []
+    
+    def get_ronda(self, numero):
+        return self.rondas[numero - 1]
