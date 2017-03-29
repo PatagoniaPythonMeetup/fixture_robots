@@ -10,23 +10,6 @@ from graphql import (
     GraphQLArgument
 )
 
-from Fixture import Fixture
-from Robot import Robot
-
-robots = [
-    Robot("Ultron", "Los Avengers","Nick Fury"),
-    Robot("Wall-e","Pixar","Sr. Disney"),
-    Robot("Sony","R&H Mecanicos","Dt. Spooner"),
-    Robot("Robocop","O.C.P.","Bob Morthon"),
-    Robot("Terminator","Skynet","Jhon Connor"),
-    Robot("R2-D2","La Republica","Obiwan Kenobi"),
-    Robot("3-CPO","La Republica","Anakin Skywalker"),
-    Robot("BB-8","La Republica","Poe Dameron")
-]
-
-fixture = Fixture(robots)
-ronda = fixture.ronda()
-
 robotType = GraphQLObjectType(
     'Robot',
     description='Un robot.',
@@ -77,26 +60,29 @@ rondaType = GraphQLObjectType(
             GraphQLList(encuentroType),
             description='Los encuentros de cada ronda.',
             resolver=lambda ronda, args, *_: ronda.encuentros,
+        ),
+        'promovidos': GraphQLField(
+            GraphQLList(robotType),
+            description='Los robots promovidos de la ronda.',
+            resolver=lambda ronda, args, *_: ronda.promovidos,
         )
     }
 )
 
-queryType = GraphQLObjectType(
-    name='Query',
-    fields = {
-      'robots': GraphQLField(
-        GraphQLList(robotType),
-        description='Los robots inscriptos en la competencia.',
-        resolver=lambda root, *_: fixture.robots,
-      ),
-      'rondas': GraphQLField(
-        GraphQLList(rondaType),
-        description='Las rondas de la competencia.',
-        resolver=lambda root, *_: fixture.rondas,
-      )
-    }
-  )
-
-schema = GraphQLSchema(
-  queryType
-)
+def schema(fixture):
+    queryType = GraphQLObjectType(
+        name='Query',
+        fields = {
+        'robots': GraphQLField(
+            GraphQLList(robotType),
+            description='Los robots inscriptos en la competencia.',
+            resolver=lambda root, *_: fixture.robots,
+        ),
+        'rondas': GraphQLField(
+            GraphQLList(rondaType),
+            description='Las rondas de la competencia.',
+            resolver=lambda root, *_: fixture.rondas,
+        )
+        }
+    )
+    return GraphQLSchema(queryType)
