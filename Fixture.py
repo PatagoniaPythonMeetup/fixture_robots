@@ -93,9 +93,9 @@ class Fixture(object):
 
     def ronda(self):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
-        robots = not self.rondas and self.robots or self.rondas[-1].ganadores()
+        robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         encuentros = self._generador(robots)
-        promovidos = set(self.robots).difference(set(reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], encuentros, [])))
+        promovidos = set(robots).difference(set(reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], encuentros, [])))
         ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
         self.rondas.append(ronda)
         return ronda
@@ -105,3 +105,10 @@ class Fixture(object):
     
     def get_ronda(self, numero):
         return self.rondas[numero - 1]
+
+    def finalizado(self):
+        """Un fixture esta finalizado cuando todas las rondas estan finalizadas y la ultima ronda tiene a un solo ganador"""
+        return self.rondas and all([r.finalizada() for r in self.rondas]) and len(self.rondas[-1].ganadores()) == 1
+
+    def ganador(self):
+        return self.rondas[-1].ganadores().pop()
