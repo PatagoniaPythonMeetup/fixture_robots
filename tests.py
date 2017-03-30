@@ -3,7 +3,7 @@ import random
 from Robot import Robot
 from Fixture import Fixture
 
-class TestStringMethods(unittest.TestCase):
+class TestGeneradoresDeRonda(unittest.TestCase):
     def setUp(self):
         self.robots = [
             Robot("Ultron I", "Los Avengers","Nick Fury"),
@@ -54,6 +54,28 @@ class TestStringMethods(unittest.TestCase):
         ronda = fixture.ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
+class TestGanadores(unittest.TestCase):
+    def setUp(self):
+        self.robots = [
+            Robot("Ultron I", "Los Avengers","Nick Fury"),
+            Robot("Wall-e I","Pixar","Sr. Disney"),
+            Robot("Sony I","R&H Mecanicos","Dt. Spooner"),
+            Robot("Robocop I","O.C.P.","Bob Morthon"),
+            Robot("Terminator I","Skynet","Jhon Connor"),
+            Robot("R2-D2 I","La Republica","Obiwan Kenobi"),
+            Robot("3-CPO I","La Republica","Anakin Skywalker"),
+            Robot("BB-8 I","La Republica","Poe Dameron"),
+            Robot("Ultron II", "Los Avengers","Nick Fury"),
+            Robot("Wall-e II","Pixar","Sr. Disney"),
+            Robot("Sony II","R&H Mecanicos","Dt. Spooner"),
+            Robot("Robocop II","O.C.P.","Bob Morthon"),
+            Robot("Terminator II","Skynet","Jhon Connor"),
+            Robot("R2-D2 II","La Republica","Obiwan Kenobi"),
+            Robot("3-CPO II","La Republica","Anakin Skywalker"),
+            Robot("BB-8 II","La Republica","Poe Dameron")
+        ]
+        random.shuffle(self.robots)
+
     def test_ganador_1_en_ronda_1(self):
         robots = self.robots[:]
         ganadores = set()
@@ -73,6 +95,20 @@ class TestStringMethods(unittest.TestCase):
             ganadores.add(e.robot_2)
             ronda.gano(e.robot_2)
         self.assertEqual(set(ganadores), set(ronda.ganadores()))
+
+    def test_ganador_del_torneo(self):
+        robots = self.robots[:]
+        ganador = random.choice(self.robots)
+        ganadores = set()
+        fixture = Fixture(robots)
+        while not fixture.finalizado():
+            ronda = fixture.ronda()
+            while not ronda.finalizada() or ronda.vuelta() < 3:
+                for e in ronda.encuentros:
+                    robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
+                    ganadores.add(robot)
+                    ronda.gano(robot)
+        self.assertEqual(ganador, fixture.ganador())
 
 if __name__ == '__main__':
     unittest.main()
