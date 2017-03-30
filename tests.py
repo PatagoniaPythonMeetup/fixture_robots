@@ -99,14 +99,12 @@ class TestGanadores(unittest.TestCase):
     def test_ganador_del_torneo(self):
         robots = self.robots[:]
         ganador = random.choice(self.robots)
-        ganadores = set()
         fixture = Fixture(robots)
         while not fixture.finalizado():
             ronda = fixture.ronda()
             while not ronda.finalizada() or ronda.vuelta() < 3:
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
-                    ganadores.add(robot)
                     ronda.gano(robot)
         self.assertEqual(ganador, fixture.ganador())
 
