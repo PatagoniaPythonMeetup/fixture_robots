@@ -6,6 +6,9 @@ class Encuentro(object):
         self.numero = numero
         self.ganadas = []
 
+    def vuelta(self):
+        return len(self.ganadas)
+
     def puntaje(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
         victorias = len([r for r in self.ganadas if r == robot])

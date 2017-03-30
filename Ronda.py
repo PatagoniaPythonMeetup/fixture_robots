@@ -25,3 +25,6 @@ class Ronda(object):
         assert robot in self.robots, "El robot ganador no es parte de la ronda"
         encuentro = [ e for e in self.encuentros if e.participa(robot)].pop()
         encuentro.gano(robot)
+    
+    def vuelta(self):
+        return max([e.vuelta() for e in self.encuentros])
