@@ -21,7 +21,10 @@ fixture = Fixture(robots)
 
 app = Flask(__name__)
 
-app.add_url_rule('/graphql', view_func = GraphQLView.as_view('graphql', schema=schema(fixture), graphiql=True))
+app.add_url_rule('/graphql', view_func = GraphQLView.as_view('graphql', 
+    schema=schema, 
+    context={"fixture": fixture},
+    graphiql=True))
 
 def main():
     app.run()

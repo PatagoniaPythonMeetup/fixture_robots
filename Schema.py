@@ -1,88 +1,43 @@
-from graphql import (
-    graphql,
-    GraphQLSchema,
-    GraphQLObjectType,
-    GraphQLField,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLString,
-    GraphQLInt,
-    GraphQLArgument
-)
+import graphene
+from graphene import resolve_only_args
 
-robotType = GraphQLObjectType(
-    'Robot',
-    description='Un robot.',
-    fields=lambda: {
-        'nombre': GraphQLField(
-            GraphQLNonNull(GraphQLString),
-            description='El nombre del robot.',
-        ),
-        'escuela': GraphQLField(
-            GraphQLNonNull(GraphQLString),
-            description='El nombre de la escuela manufacturera.',
-        ),
-        'encargado': GraphQLField(
-            GraphQLNonNull(GraphQLString),
-            description='El nombre del encargado por escuela.',
-        )
-    }
-)
+class Robot(graphene.ObjectType):
+    nombre = graphene.String()
+    escuela = graphene.String()
+    encargado = graphene.String()
 
-encuentroType = GraphQLObjectType(
-    'Encuentro',
-    description='Dos robots entran solo uno sale.',
-    fields=lambda: {
-        'robot_1': GraphQLField(
-            GraphQLNonNull(robotType),
-            description='El primer robot.',
-        ),
-        'robot_2': GraphQLField(
-            GraphQLNonNull(robotType),
-            description='El segundo robot.',
-        ),
-        'ganadas': GraphQLField(
-            GraphQLList(robotType),
-            description='Listado de enfrentamientos ganados entre el primero y el segundo robot.',
-        )
-    }
-)
+class Encuentro(graphene.ObjectType):
+    numero = graphene.Int()
+    robot_1 = graphene.Field(Robot)
+    robot_2 = graphene.Field(Robot)
+    ganadas = graphene.List(Robot)
 
-rondaType = GraphQLObjectType(
-    'Ronda',
-    description='Una vuelta completa de competencias.',
-    fields=lambda: {
-        'numero': GraphQLField(
-            GraphQLNonNull(GraphQLInt),
-            description='Numero de la ronda con base 0.',
-        ),
-        'encuentros': GraphQLField(
-            GraphQLList(encuentroType),
-            description='Los encuentros de cada ronda.',
-            resolver=lambda ronda, args, *_: ronda.encuentros,
-        ),
-        'promovidos': GraphQLField(
-            GraphQLList(robotType),
-            description='Los robots promovidos de la ronda.',
-            resolver=lambda ronda, args, *_: ronda.promovidos,
-        )
-    }
-)
+class Ronda(graphene.ObjectType):
+    numero = graphene.Int()
+    encuentros = graphene.List(Encuentro)
+    promovidos = graphene.List(Robot)
 
-def schema(fixture):
-    queryType = GraphQLObjectType(
-        name='Query',
-        fields = {
-        'robots': GraphQLField(
-            GraphQLList(robotType),
-            description='Los robots inscriptos en la competencia.',
-            resolver=lambda root, *_: fixture.robots,
-        ),
-        'rondas': GraphQLField(
-            GraphQLList(rondaType),
-            description='Las rondas de la competencia.',
-            resolver=lambda root, *_: fixture.rondas,
-        )
-        }
-    )
-    return GraphQLSchema(queryType)
+class CrearRonda(graphene.Mutation):
+    ok = graphene.Boolean()
+    ronda = graphene.Field(lambda: Ronda)
+
+    @staticmethod
+    def mutate(root, args, context, info):
+        ronda = context["fixture"].ronda()
+        ok = True
+        return CrearRonda(ronda=ronda, ok=ok)
+
+class Query(graphene.ObjectType):
+    robots = graphene.List(Robot)
+    rondas = graphene.List(Ronda)
+
+    def resolve_robots(self, args, context, info):
+        return context["fixture"].robots
+
+    def resolve_rondas(self, args, context, info):
+        return context["fixture"].rondas
+
+class Mutations(graphene.ObjectType):
+    crear_ronda = CrearRonda.Field()
+
+schema = graphene.Schema(query=Query, mutation=Mutations)
