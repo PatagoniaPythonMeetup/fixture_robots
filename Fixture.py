@@ -108,7 +108,12 @@ class Fixture(object):
 
     def finalizado(self):
         """Un fixture esta finalizado cuando todas las rondas estan finalizadas y la ultima ronda tiene a un solo ganador"""
-        return self.rondas and all([r.finalizada() for r in self.rondas]) and len(self.rondas[-1].ganadores()) == 1
+        tiene_robots = bool(self.robots)
+        rondas_finalizadas = bool(self.rondas and all([r.finalizada() for r in self.rondas]))
+        ultima_ronda_un_ganador = bool(self.rondas and len(self.rondas[-1].ganadores()) == 1)
+        return not tiene_robots or (tiene_robots and rondas_finalizadas and ultima_ronda_un_ganador)
 
     def ganador(self):
-        return self.rondas[-1].ganadores().pop()
+        robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
+        if robots:
+            return robots.pop()

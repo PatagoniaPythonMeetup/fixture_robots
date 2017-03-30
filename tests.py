@@ -25,6 +25,19 @@ class TestGeneradoresDeRonda(unittest.TestCase):
         ]
         random.shuffle(self.robots)
 
+    def test_sin_robots(self):
+        fixture = Fixture([])
+        self.assertEqual(fixture.finalizado(), True)
+        
+    def test_un_robot(self):
+        robots = self.robots[:]
+        robot = random.choice(robots)
+        fixture = Fixture([robot])
+        self.assertEqual(fixture.finalizado(), False)
+        ronda = fixture.ronda()
+        self.assertEqual(fixture.finalizado(), True)
+        self.assertEqual(robot, fixture.ganador())
+
     def test_robots_en_ronda(self):
         robots = self.robots[:]
         fixture = Fixture(robots)
