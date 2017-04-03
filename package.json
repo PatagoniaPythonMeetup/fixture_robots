@@ -1,0 +1,19 @@
+{
+  "name": "fixture-robots",
+  "version": "1.0.0",
+  "description": "Fixture de robots para la Hackathon anual de la UNP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatagoniaPythonMeetup/fixture_robots.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PatagoniaPythonMeetup/fixture_robots/issues"
+  },
+  "homepage": "https://github.com/PatagoniaPythonMeetup/fixture_robots#readme"
+}
