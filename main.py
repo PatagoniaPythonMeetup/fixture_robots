@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_graphql import GraphQLView
 #http://www.aropupu.fi/bracket/
 
@@ -25,6 +25,10 @@ app.add_url_rule('/graphql', view_func = GraphQLView.as_view('graphql',
     schema=schema, 
     context={"fixture": fixture},
     graphiql=True))
+
+@app.route('/')
+def index(): 
+    return render_template("index.html")
 
 def main():
     app.run()

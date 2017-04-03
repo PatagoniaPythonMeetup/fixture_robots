@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "babel": {
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PatagoniaPythonMeetup/fixture_robots.git"
@@ -15,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/PatagoniaPythonMeetup/fixture_robots/issues"
   },
-  "homepage": "https://github.com/PatagoniaPythonMeetup/fixture_robots#readme"
+  "homepage": "https://github.com/PatagoniaPythonMeetup/fixture_robots#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "webpack": "^2.3.3"
+  }
 }
