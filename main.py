@@ -2,22 +2,22 @@ from flask import Flask
 from flask_graphql import GraphQLView
 #http://www.aropupu.fi/bracket/
 
-from Fixture import Fixture
-from Robot import Robot
-from Schema import schema
+from server import Fixture, schema
 
-robots = [
-    Robot("Ultron", "Los Avengers","Nick Fury"),
-    Robot("Wall-e","Pixar","Sr. Disney"),
-    Robot("Sony","R&H Mecanicos","Dt. Spooner"),
-    Robot("Robocop","O.C.P.","Bob Morthon"),
-    Robot("Terminator","Skynet","Jhon Connor"),
-    Robot("R2-D2","La Republica","Obiwan Kenobi"),
-    Robot("3-CPO","La Republica","Anakin Skywalker"),
-    Robot("BB-8","La Republica","Poe Dameron")
+ROBOTS = [
+    ("Ultron", "Los Avengers","Nick Fury"),
+    ("Wall-e","Pixar","Sr. Disney"),
+    ("Sony","R&H Mecanicos","Dt. Spooner"),
+    ("Robocop","O.C.P.","Bob Morthon"),
+    ("Terminator","Skynet","Jhon Connor"),
+    ("R2-D2","La Republica","Obiwan Kenobi"),
+    ("3-CPO","La Republica","Anakin Skywalker"),
+    ("BB-8","La Republica","Poe Dameron")
 ]
 
-fixture = Fixture(robots)
+fixture = Fixture()
+for robot in ROBOTS:
+    fixture.inscribir(*robot)
 
 app = Flask(__name__)
 

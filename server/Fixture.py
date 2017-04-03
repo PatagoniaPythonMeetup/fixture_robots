@@ -1,7 +1,9 @@
 import random
-from Encuentro import Encuentro
-from Ronda import Ronda
 from functools import reduce
+
+from .Robot import Robot
+from .Encuentro import Encuentro
+from .Ronda import Ronda
 
 def generador_samu(robots):
     if len(robots) == 2:
@@ -86,8 +88,8 @@ GENERADORES = {
 
 class Fixture(object):
 
-    def __init__(self, robots):
-        self.robots = robots
+    def __init__(self):
+        self.robots = []
         self.rondas = []
         self._generador = GENERADORES["combinaciones"]
 
@@ -117,3 +119,6 @@ class Fixture(object):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         if robots:
             return robots.pop()
+    
+    def inscribir(self, nombre, escuela, responsable):
+        self.robots.append(Robot(nombre, escuela, responsable))
