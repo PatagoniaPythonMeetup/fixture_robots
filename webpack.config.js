@@ -23,7 +23,6 @@ module.exports = {
   resolve: {
     alias: {
       "jquery-bracket": "jquery-bracket/dist/jquery.bracket.min.js",
-      "jquery-bracket-css": "jquery-bracket/dist/jquery.bracket.min.css",
     }
   }
 };
