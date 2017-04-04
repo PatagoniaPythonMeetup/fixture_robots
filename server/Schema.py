@@ -17,6 +17,11 @@ class Ronda(graphene.ObjectType):
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
 
+class Fixture(graphene.ObjectType):
+    numero = graphene.Int()
+    encuentros = graphene.List(Encuentro)
+    promovidos = graphene.List(Robot)
+
 class CrearRonda(graphene.Mutation):
     ok = graphene.Boolean()
     ronda = graphene.Field(lambda: Ronda)

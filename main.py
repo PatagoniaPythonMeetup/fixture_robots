@@ -21,7 +21,7 @@ for robot in ROBOTS:
 
 app = Flask(__name__)
 
-app.add_url_rule('/graphql', view_func = GraphQLView.as_view('graphql', 
+app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture', 
     schema=schema, 
     context={"fixture": fixture},
     graphiql=True))

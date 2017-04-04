@@ -23,6 +23,8 @@
     "babel-loader": "^6.4.1",
     "css-loader": "^0.28.0",
     "imports-loader": "^0.7.1",
+    "lokka": "^1.7.0",
+    "lokka-transport-http": "^1.6.1",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.3"
   },
