@@ -3,8 +3,6 @@ from functools import reduce
 class Ronda(object):
     def __init__(self, numero, encuentros, promovidos=None):
         self.numero = numero
-        for index, encuentro in enumerate(encuentros):
-            encuentro.numero = index + 1
         self.encuentros = encuentros
         self.promovidos = promovidos or []
 
@@ -28,3 +26,10 @@ class Ronda(object):
     
     def vuelta(self):
         return max([e.vuelta() for e in self.encuentros])
+    
+    def to_dict(self):
+        return {
+            "numero": self.numero,
+            "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
+            "promovidos": self.promovidos
+        }

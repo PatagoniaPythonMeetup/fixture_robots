@@ -1,10 +1,10 @@
 
 class Encuentro(object):
-    def __init__(self, robot_1, robot_2, numero=None):
+    def __init__(self, robot_1, robot_2, numero=None, ganadas = None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
         self.numero = numero
-        self.ganadas = []
+        self.ganadas = ganadas or []
 
     def vuelta(self):
         return len(self.ganadas)
@@ -43,6 +43,14 @@ class Encuentro(object):
 
     def participa(self, valor):
         return valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2
+
+    def to_dict(self):
+        return {
+            "numero": self.numero,
+            "robot_1": self.robot_1,
+            "robot_2": self.robot_2,
+            "ganadas": self.ganadas
+        }
 
     def __str__(self):
         return "<%s[%s] vs %s[%s]>" % (self.robot_1.nombre, self.puntaje(self.robot_1), self.robot_2.nombre, self.puntaje(self.robot_2))

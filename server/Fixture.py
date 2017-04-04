@@ -1,4 +1,5 @@
 import random
+import json
 from functools import reduce
 
 from .Robot import Robot
@@ -95,19 +96,61 @@ class Fixture(object):
         self.rondas = []
         self._generador = GENERADORES["combinaciones"]
 
+    def inscribir(self, nombre, escuela, responsable):
+        robot = Robot(nombre, escuela, responsable)
+        self.robots.append(robot)
+        return robot
+
+    def crear_ronda(self, tuplas, promovidos):
+        encuentros = [Encuentro(*t, numero = i + 1) for i, t in enumerate(tuplas)]
+        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
+        return ronda
+
+    def agregar_ronda(self, ronda):
+        self.rondas.append(ronda)
+
     def generar_ronda(self):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         tuplas = self._generador(robots)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
-        encuentros = [Encuentro(*t) for t in tuplas]
-        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
-        self.rondas.append(ronda)
+        ronda = self.crear_ronda(tuplas, promovidos)
+        self.agregar_ronda(ronda)
         return ronda
 
-    def limpiar(self):
+    def limpiar_rondas(self):
         self.rondas = []
-    
+
+    # Json dumps and loads
+    def to_dict(self):
+        return {
+            "robots": self.robots,
+            "rondas": [ ronda.to_dict() for ronda in self.rondas ]
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, data):
+        fixture = cls()
+        robots = []
+        for robot_data in data["robots"]:
+            robot = fixture.inscribir(*robot_data)
+            robots.append(robot)
+        for ronda_data in data["rondas"]:
+            encuentros = []
+            for encuentro_data in ronda_data["encuentros"]:
+                r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
+                r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
+                ganadas = [ tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"] ]
+                encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas = ganadas)
+                encuentros.append(encuentro)
+            promovidos = [robot for robot in robots if robot == tuple(ronda_data["promovidos"])]
+            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos)
+            fixture.agregar_ronda(ronda)
+        return fixture
+
     def get_ronda(self, numero):
         return self.rondas[numero - 1]
 
@@ -122,8 +165,3 @@ class Fixture(object):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         if robots:
             return robots.pop()
-    
-    def inscribir(self, nombre, escuela, responsable):
-        robot = Robot(nombre, escuela, responsable)
-        self.robots.append(robot)
-        return robot

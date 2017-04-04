@@ -24,11 +24,11 @@ client.query(`
 var minimalData = {
     teams : [
       ["Team 1", "Team 2"],
-      ["Team 3", "Team 4"] 
+      ["Team 3", "Team 4"]
     ],
     results : [
-      [[1,2], [3,4]],      
-      [[4,6], [2,1]]       
+      [[1,2], [3,4]],
+      [[4,6], [2,1]]
     ]
   }
  
