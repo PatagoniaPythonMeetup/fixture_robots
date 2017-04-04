@@ -18,11 +18,13 @@ ROBOTS = [
     ("3-CPO","La Republica","Anakin Skywalker"),
     ("BB-8","La Republica","Poe Dameron"),
     ("Roy Batty","Blade Runner","Roy"),
+    ("HAL 9000","Discovery Uno","David Bowman"),
     ("Ash","Nostromo","Ellen Ripley"),
     ("Optimus Prime","Transformers","Ellen Ripley"),
     ("David Swinton","IA","Ellen Ripley"),
     ("Teddy","IA","Haley Joel Osment"),
-    ("Centinelas","Matrix","Neo")
+    ("Centinelas","Matrix","Neo"),
+    ("Bender", "Futurama", "Philip J. Fry")
 ]
 
 fixture = Fixture()
