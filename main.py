@@ -7,12 +7,23 @@ from server import Fixture, schema
 ROBOTS = [
     ("Ultron", "Los Avengers","Nick Fury"),
     ("Wall-e","Pixar","Sr. Disney"),
+    ("EVA","Pixar","Sr. Disney"),
+    ("Rodney","Robots","Sr. Ewan McGregor"),
     ("Sony","R&H Mecanicos","Dt. Spooner"),
     ("Robocop","O.C.P.","Bob Morthon"),
-    ("Terminator","Skynet","Jhon Connor"),
+    ("ED 209","O.C.P.","Bob Morthon"),
+    ("Johnny 5","Cortocircuito","Ally Sheedy"),
+    ("T-800","Cyberdyne Systems","Jhon Connor"),
+    ("T-1000","Cyberdyne Systems","Arnie"),
     ("R2-D2","La Republica","Obiwan Kenobi"),
     ("3-CPO","La Republica","Anakin Skywalker"),
-    ("BB-8","La Republica","Poe Dameron")
+    ("BB-8","La Republica","Poe Dameron"),
+    ("Roy Batty","Blade Runner","Roy"),
+    ("Ash","Nostromo","Ellen Ripley"),
+    ("Optimus Prime","Transformers","Ellen Ripley"),
+    ("David Swinton","IA","Ellen Ripley"),
+    ("Teddy","IA","Haley Joel Osment"),
+    ("Centinelas","Matrix","Neo")
 ]
 
 fixture = Fixture()
