@@ -64,18 +64,20 @@ def generador_combinaciones(robots):
             return [[]]
         r = potencia(c[:-1])
         return r + [s + [c[-1]] for s in r]
+
     def combinaciones(rs, n):
         return [s for s in potencia(rs) if len(s) == n]
-    encuentros = [Encuentro(*e) for e in combinaciones(robots, 2)]
+
+    tuplas = combinaciones(robots, 2)
     ronda = []
-    random.shuffle(encuentros)
-    distinta_escuela = [ e for e in encuentros if not e.misma_escuela() ]
-    misma_escuela = [ e for e in encuentros if e.misma_escuela() ]
-    for _encuentros in [distinta_escuela, misma_escuela]:
-        while _encuentros:
-            encuentro = _encuentros.pop()
-            if all([not (e.participa(encuentro.robot_1) or e.participa(encuentro.robot_2)) for e in ronda]):
-                ronda.append(encuentro)
+    random.shuffle(tuplas)
+    distinta_escuela = [ e for e in tuplas if e[0].escuela != e[1].escuela ]
+    misma_escuela = [ e for e in tuplas if e[0].escuela == e[1].escuela ]
+    for _tuplas in [distinta_escuela, misma_escuela]:
+        while _tuplas:
+            tupla = _tuplas.pop()
+            if all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
+                ronda.append(tupla)
             if len(ronda) == len(robots) // 2:
                 break
     return ronda
@@ -88,16 +90,17 @@ GENERADORES = {
 
 class Fixture(object):
 
-    def __init__(self):
-        self.robots = []
+    def __init__(self, robots = None):
+        self.robots = robots or []
         self.rondas = []
         self._generador = GENERADORES["combinaciones"]
 
-    def ronda(self):
+    def generar_ronda(self):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
-        encuentros = self._generador(robots)
-        promovidos = set(robots).difference(set(reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], encuentros, [])))
+        tuplas = self._generador(robots)
+        promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
+        encuentros = [Encuentro(*t) for t in tuplas]
         ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
         self.rondas.append(ronda)
         return ronda

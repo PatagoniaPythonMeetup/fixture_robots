@@ -1,7 +1,7 @@
 import unittest
 import random
-from Robot import Robot
-from Fixture import Fixture
+
+from server import Robot, Fixture
 
 class TestGeneradoresDeRonda(unittest.TestCase):
     def setUp(self):
@@ -34,14 +34,14 @@ class TestGeneradoresDeRonda(unittest.TestCase):
         robot = random.choice(robots)
         fixture = Fixture([robot])
         self.assertEqual(fixture.finalizado(), False)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         self.assertEqual(fixture.finalizado(), True)
         self.assertEqual(robot, fixture.ganador())
 
     def test_robots_en_ronda(self):
         robots = self.robots[:]
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
     def test_robots_pares_en_ronda(self):
@@ -49,7 +49,7 @@ class TestGeneradoresDeRonda(unittest.TestCase):
         while len(robots) % 2 != 0:
             robots.pop()
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
     def test_robots_impares_en_ronda(self):
@@ -57,14 +57,14 @@ class TestGeneradoresDeRonda(unittest.TestCase):
         while len(robots) % 2 != 1:
             robots.pop()
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
     def test_robots_random_en_ronda(self):
         robots = self.robots[:]
         robots = robots[random.randint(1, len(robots)):]
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
 class TestGanadores(unittest.TestCase):
@@ -93,7 +93,7 @@ class TestGanadores(unittest.TestCase):
         robots = self.robots[:]
         ganadores = set()
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         for e in ronda.encuentros:
             ganadores.add(e.robot_1)
             ronda.gano(e.robot_1)
@@ -103,7 +103,7 @@ class TestGanadores(unittest.TestCase):
         robots = self.robots[:]
         ganadores = set()
         fixture = Fixture(robots)
-        ronda = fixture.ronda()
+        ronda = fixture.generar_ronda()
         for e in ronda.encuentros:
             ganadores.add(e.robot_2)
             ronda.gano(e.robot_2)
@@ -114,7 +114,7 @@ class TestGanadores(unittest.TestCase):
         ganador = random.choice(robots)
         fixture = Fixture(robots)
         while not fixture.finalizado():
-            ronda = fixture.ronda()
+            ronda = fixture.generar_ronda()
             while not ronda.finalizada() or ronda.vuelta() < 5:
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
@@ -128,7 +128,7 @@ class TestGanadores(unittest.TestCase):
         ganador = random.choice(robots)
         fixture = Fixture(robots)
         while not fixture.finalizado():
-            ronda = fixture.ronda()
+            ronda = fixture.generar_ronda()
             while not ronda.finalizada() or ronda.vuelta() < 5:
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
