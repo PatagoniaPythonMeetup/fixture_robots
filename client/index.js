@@ -16,9 +16,36 @@ client.query(`
         escuela
         encargado
       }
+      rondas {
+        numero
+        encuentros {
+          numero
+          robot1 {
+            nombre
+            escuela
+            encargado
+          }
+          robot2 {
+            nombre
+            escuela
+            encargado
+          }
+          ganadas {
+            nombre
+            escuela
+            encargado
+          }
+        }
+        promovidos {
+          nombre
+          escuela
+          encargado
+        }
+      }
     }
 `).then(result => {
     console.log(result.robots);
+    console.log(result.rondas);
 });
 
 var minimalData = {

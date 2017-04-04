@@ -146,7 +146,7 @@ class Fixture(object):
                 ganadas = [ tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"] ]
                 encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas = ganadas)
                 encuentros.append(encuentro)
-            promovidos = [robot for robot in robots if robot == tuple(ronda_data["promovidos"])]
+            promovidos = [robot for robot in robots if robot in [ tuple(p) for p in ronda_data["promovidos"]] ]
             ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos)
             fixture.agregar_ronda(ronda)
         return fixture
