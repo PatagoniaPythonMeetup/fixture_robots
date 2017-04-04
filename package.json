@@ -1,10 +1,12 @@
 {
   "name": "fixture-robots",
   "version": "1.0.0",
-  "description": "Fixture de robots para la Hackathon anual de la UNP",
+  "description": "Fixture de robots para la Hackathon en UNPJSB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/webpack && python3 main.py",
+    "test": "python3 tests.py",
+    "postinstall": "pip3 install -r requirements.txt"
   },
   "babel": {},
   "repository": {
