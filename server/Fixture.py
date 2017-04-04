@@ -121,4 +121,6 @@ class Fixture(object):
             return robots.pop()
     
     def inscribir(self, nombre, escuela, responsable):
-        self.robots.append(Robot(nombre, escuela, responsable))
+        robot = Robot(nombre, escuela, responsable)
+        self.robots.append(robot)
+        return robot
