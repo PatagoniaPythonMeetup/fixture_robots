@@ -22154,8 +22154,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_imports_loader_jQuery_jquery_jquery_bracket__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_imports_loader_jQuery_jquery_jquery_bracket___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_imports_loader_jQuery_jquery_jquery_bracket__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_style_loader_node_modules_jquery_bracket_dist_jquery_bracket_min_css__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_style_loader_node_modules_jquery_bracket_dist_jquery_bracket_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_style_loader_node_modules_jquery_bracket_dist_jquery_bracket_min_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_style_loader_sass_jquery_bracket_scss__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_style_loader_sass_jquery_bracket_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_style_loader_sass_jquery_bracket_scss__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lokka__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lokka___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lokka__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lokka_transport_http__ = __webpack_require__(179);
@@ -22184,18 +22184,12 @@ client.query(`
           numero
           robot1 {
             nombre
-            escuela
-            encargado
           }
           robot2 {
             nombre
-            escuela
-            encargado
           }
           ganadas {
             nombre
-            escuela
-            encargado
           }
         }
         promovidos {
@@ -22206,19 +22200,26 @@ client.query(`
       }
     }
 `).then(result => {
-  console.log(result.robots);
-  console.log(result.rondas);
+    console.log(result.robots);
+    console.log(result.rondas);
 });
 
 var minimalData = {
-  teams: [["Team 1", "Team 2"], ["Team 3", "Team 4"]],
-  results: [[[1, 2], [3, 4]], [[4, 6], [2, 1]]]
-};
+    teams : [
+      ["Team 1", "Team 2"],
+      ["Team 3", "Team 4"]
+    ],
+    results : [
+      [[1,2], [3,4]],
+      [[4,6], [2,1]]
+    ]
+  }
+ 
+__WEBPACK_IMPORTED_MODULE_0_jquery___default()(function() {
+    __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#bracket.demo').bracket({
+      init: minimalData })
+  })
 
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()(function () {
-  __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#bracket.demo').bracket({
-    init: minimalData });
-});
 
 /***/ }),
 /* 89 */
@@ -25195,7 +25196,7 @@ exports = module.exports = __webpack_require__(152)(undefined);
 
 
 // module
-exports.push([module.i, "/* jQuery Bracket | Copyright (c) Teijo Laine 2011-2016 | Licenced under the MIT licence */\ndiv.jQBracket{font-family:Arial;font-size:14px;position:relative}div.jQBracket .tools{position:absolute;top:0;color:#FFF}div.jQBracket .tools span{cursor:pointer;margin:5px;display:block;text-align:center;width:18px;height:18px;background-color:#666}div.jQBracket .tools span:hover{background-color:#999}div.jQBracket .finals{float:right;right:0;clear:right;position:relative}div.jQBracket .bracket{float:right;clear:left}div.jQBracket .loserBracket{float:right;clear:left;position:relative}div.jQBracket .round{position:relative;float:left}div.jQBracket .match{position:relative}div.jQBracket .editable{cursor:pointer}div.jQBracket .team{position:relative;z-index:1;float:left;background-color:#EEE;cursor:default}div.jQBracket .team:first-child{border-bottom:1px solid #999}div.jQBracket .team input{font-size:14px;padding:0;width:100%;border:0;margin:0;outline:0}div.jQBracket .team div.label{padding:3px;position:absolute;height:22px;white-space:nowrap;overflow:hidden;box-sizing:border-box}div.jQBracket .team div.label[disabled]{cursor:default}div.jQBracket .team div.score{float:right;padding:3px;background-color:rgba(255,255,255,.3);text-align:center;box-sizing:border-box}div.jQBracket .team div.score input{text-align:center}div.jQBracket .team div.score[disabled]{color:#999;cursor:default}div.jQBracket .team div.label input.error,div.jQBracket .team div.score input.error{background-color:#FCC}div.jQBracket .team.np{background-color:#666;color:#EEE}div.jQBracket .team.na{background-color:#999;color:#CCC}div.jQBracket .team.win{color:#333}div.jQBracket .team.win div.score{color:#060}div.jQBracket .team.lose div.score{color:#900}div.jQBracket .team.lose{background-color:#DDD;color:#999}div.jQBracket .team.tie div.score{color:#00F}div.jQBracket .team.highlightWinner{background-color:#DA0;color:#000}div.jQBracket .team.highlightLoser{background-color:#CCC;color:#000}div.jQBracket .team.highlight{background-color:#3C0;color:#000}div.jQBracket .team.bye{background-color:#999;color:#CCC}div.jQBracket .teamContainer{z-index:1;position:relative;float:left}div.jQBracket .connector{border:2px solid #666;border-left-style:none;position:absolute;z-index:1}div.jQBracket .connector div.connector{border:0;border-bottom:2px solid #666;height:0;position:absolute}div.jQBracket .connector.highlightWinner,div.jQBracket .connector div.connector.highlightWinner{border-color:#DA0}div.jQBracket .connector.highlightLoser,div.jQBracket .connector div.connector.highlightLoser{border-color:#CCC}div.jQBracket .connector.highlight,div.jQBracket .connector div.connector.highlight{border-color:#0C0}div.jQBracket .np .connector,div.jQBracket .np .connector div.connector{border-color:#999}div.jQBracket .bubble{height:22px;line-height:22px;width:30px;right:-35px;position:absolute;text-align:center;font-size:11px}div.jQBracket .bubble:after{content:'';position:absolute;top:6px;width:0;height:0;border-top:5px solid transparent;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:5px solid transparent}div.jQBracket .bubble:after{left:-5px;border-left:0}div.jQBracket .win .bubble{background-color:#DA0;color:#960}div.jQBracket .win .bubble:after{border-right-color:#DA0}div.jQBracket .win .bubble.third{background-color:#963;color:#D95}div.jQBracket .win .bubble.third:after{border-right:6px solid #963}div.jQBracket .lose .bubble{background-color:#CCC;color:#333}div.jQBracket .lose .bubble:after{border-right-color:#CCC}div.jQBracket .lose .bubble.fourth{background-color:#678;color:#CCD}div.jQBracket .lose .bubble.fourth:after{border-right:6px solid #678}div.jQBracket.rl .finals{float:left;left:0;clear:left}div.jQBracket.rl .bracket{float:left;clear:right}div.jQBracket.rl .loserBracket{float:left;clear:right}div.jQBracket.rl .round{margin-right:0;float:right}div.jQBracket.rl .team{float:right}div.jQBracket.rl .team div.label{right:0}div.jQBracket.rl .team div.score{float:left}div.jQBracket.rl .teamContainer{float:right}div.jQBracket.rl .connector{border-left-style:solid;border-right-style:none;border-width:2px}div.jQBracket.rl .connector.highlightWinner,div.jQBracket.rl .connector div.connector.highlightWinner{border-color:#DA0}div.jQBracket.rl .connector.highlightLoser,div.jQBracket.rl .connector div.connector.highlightLoser{border-color:#CCC}div.jQBracket.rl .connector.highlight,div.jQBracket.rl .connector div.connector.highlight{border-color:#0C0}div.jQBracket.rl .bubble{left:-35px}div.jQBracket.rl .bubble.third{background-color:#963;color:#310}div.jQBracket.rl .bubble.fourth{background-color:#678;color:#CCD}div.jQBracket.rl .bubble:after{left:auto;right:-5px;border-left:5px solid transparent;border-right:0}div.jQBracket.rl .bubble.third:after{border-right:0;border-left:6px solid #963}div.jQBracket.rl .bubble.fourth:after{border-right:0;border-left:6px solid #678}div.jQBracket.rl .highlightWinner .bubble:after{border-left-color:#DA0}div.jQBracket.rl .highlightLoser .bubble:after{border-left-color:#CCC}", ""]);
+exports.push([module.i, "/**\n * jQuery Bracket\n *\n * Copyright (c) 2011-2016, Teijo Laine,\n * http://aropupu.fi/bracket/\n *\n * Licenced under the MIT licence\n */\ndiv.jQBracket {\n  font-family: \"Arial\";\n  font-size: 14px;\n  position: relative; }\n  div.jQBracket .tools {\n    position: absolute;\n    top: 0px;\n    color: #FFF; }\n  div.jQBracket .tools span {\n    cursor: pointer;\n    margin: 5px;\n    display: block;\n    text-align: center;\n    width: 18px;\n    height: 18px;\n    background-color: #666; }\n  div.jQBracket .tools span:hover {\n    background-color: #999; }\n  div.jQBracket .finals {\n    float: right;\n    right: 0px;\n    clear: right;\n    position: relative; }\n  div.jQBracket .bracket {\n    float: right;\n    clear: left; }\n  div.jQBracket .loserBracket {\n    float: right;\n    clear: left;\n    position: relative; }\n  div.jQBracket .round {\n    position: relative;\n    float: left; }\n  div.jQBracket .match {\n    position: relative; }\n  div.jQBracket .editable {\n    cursor: pointer; }\n  div.jQBracket .team {\n    position: relative;\n    z-index: 1;\n    float: left;\n    background-color: #EEE;\n    cursor: default; }\n    div.jQBracket .team:first-child {\n      border-bottom: 1px solid #999; }\n    div.jQBracket .team input {\n      font-size: 14px;\n      padding: 0;\n      width: 100%;\n      border: none;\n      margin: 0;\n      outline: none; }\n    div.jQBracket .team div.label {\n      padding: 3px;\n      position: absolute;\n      height: 22px;\n      white-space: nowrap;\n      overflow: hidden;\n      box-sizing: border-box; }\n      div.jQBracket .team div.label[disabled] {\n        cursor: default; }\n    div.jQBracket .team div.score {\n      float: right;\n      padding: 3px;\n      background-color: rgba(255, 255, 255, 0.3);\n      text-align: center;\n      box-sizing: border-box; }\n      div.jQBracket .team div.score input {\n        text-align: center; }\n      div.jQBracket .team div.score[disabled] {\n        color: #999;\n        cursor: default; }\n    div.jQBracket .team div.label input.error,\n    div.jQBracket .team div.score input.error {\n      background-color: #FCC; }\n    div.jQBracket .team.np {\n      background-color: #666;\n      color: #EEE; }\n    div.jQBracket .team.na {\n      background-color: #999;\n      color: #CCC; }\n    div.jQBracket .team.win {\n      color: #333; }\n    div.jQBracket .team.win div.score {\n      color: #060; }\n    div.jQBracket .team.lose div.score {\n      color: #900; }\n    div.jQBracket .team.lose {\n      background-color: #DDD;\n      color: #999; }\n    div.jQBracket .team.tie div.score {\n      color: #00F; }\n    div.jQBracket .team.highlightWinner {\n      background-color: #DA0;\n      color: #000; }\n    div.jQBracket .team.highlightLoser {\n      background-color: #CCC;\n      color: #000; }\n    div.jQBracket .team.highlight {\n      background-color: #3C0;\n      color: #000; }\n    div.jQBracket .team.bye {\n      background-color: #999;\n      color: #CCC; }\n  div.jQBracket .teamContainer {\n    z-index: 1;\n    position: relative;\n    float: left; }\n  div.jQBracket .connector {\n    border: 2px solid #666;\n    border-left-style: none;\n    position: absolute;\n    z-index: 1; }\n    div.jQBracket .connector div.connector {\n      border: none;\n      border-bottom: 2px solid #666;\n      height: 0px;\n      position: absolute; }\n    div.jQBracket .connector.highlightWinner,\n    div.jQBracket .connector div.connector.highlightWinner {\n      border-color: #DA0; }\n    div.jQBracket .connector.highlightLoser,\n    div.jQBracket .connector div.connector.highlightLoser {\n      border-color: #CCC; }\n    div.jQBracket .connector.highlight,\n    div.jQBracket .connector div.connector.highlight {\n      border-color: #0C0; }\n  div.jQBracket .np .connector,\n  div.jQBracket .np .connector div.connector {\n    border-color: #999; }\n  div.jQBracket .bubble {\n    height: 22px;\n    line-height: 22px;\n    width: 30px;\n    right: -35px;\n    position: absolute;\n    text-align: center;\n    font-size: 11px; }\n    div.jQBracket .bubble:after {\n      content: \"\";\n      position: absolute;\n      top: 6px;\n      width: 0;\n      height: 0;\n      border-top: 5px solid transparent;\n      border-left: 5px solid transparent;\n      border-right: 5px solid transparent;\n      border-bottom: 5px solid transparent; }\n    div.jQBracket .bubble:after {\n      left: -5px;\n      border-left: 0; }\n  div.jQBracket .win .bubble {\n    background-color: #DA0;\n    color: #960; }\n    div.jQBracket .win .bubble:after {\n      border-right-color: #DA0; }\n    div.jQBracket .win .bubble.third {\n      background-color: #963;\n      color: #D95; }\n      div.jQBracket .win .bubble.third:after {\n        border-right: 6px solid #963; }\n  div.jQBracket .lose .bubble {\n    background-color: #CCC;\n    color: #333; }\n    div.jQBracket .lose .bubble:after {\n      border-right-color: #CCC; }\n    div.jQBracket .lose .bubble.fourth {\n      background-color: #678;\n      color: #CCD; }\n      div.jQBracket .lose .bubble.fourth:after {\n        border-right: 6px solid #678; }\n\ndiv.jQBracket.rl .finals {\n  float: left;\n  left: 0px;\n  clear: left; }\n\ndiv.jQBracket.rl .bracket {\n  float: left;\n  clear: right; }\n\ndiv.jQBracket.rl .loserBracket {\n  float: left;\n  clear: right; }\n\ndiv.jQBracket.rl .round {\n  margin-right: 0;\n  float: right; }\n\ndiv.jQBracket.rl .team {\n  float: right; }\n  div.jQBracket.rl .team div.label {\n    right: 0; }\n  div.jQBracket.rl .team div.score {\n    float: left; }\n\ndiv.jQBracket.rl .teamContainer {\n  float: right; }\n\ndiv.jQBracket.rl .connector {\n  border-left-style: solid;\n  border-right-style: none;\n  border-width: 2px; }\n  div.jQBracket.rl .connector.highlightWinner,\n  div.jQBracket.rl .connector div.connector.highlightWinner {\n    border-color: #DA0; }\n  div.jQBracket.rl .connector.highlightLoser,\n  div.jQBracket.rl .connector div.connector.highlightLoser {\n    border-color: #CCC; }\n  div.jQBracket.rl .connector.highlight,\n  div.jQBracket.rl .connector div.connector.highlight {\n    border-color: #0C0; }\n\ndiv.jQBracket.rl .bubble {\n  left: -35px; }\n  div.jQBracket.rl .bubble.third {\n    background-color: #963;\n    color: #310; }\n  div.jQBracket.rl .bubble.fourth {\n    background-color: #678;\n    color: #CCD; }\n  div.jQBracket.rl .bubble:after {\n    left: auto;\n    right: -5px;\n    border-left: 5px solid transparent;\n    border-right: 0; }\n  div.jQBracket.rl .bubble.third:after {\n    border-right: none;\n    border-left: 6px solid #963; }\n  div.jQBracket.rl .bubble.fourth:after {\n    border-right: none;\n    border-left: 6px solid #678; }\n\ndiv.jQBracket.rl .highlightWinner .bubble:after {\n  border-left-color: #DA0; }\n\ndiv.jQBracket.rl .highlightLoser .bubble:after {\n  border-left-color: #CCC; }\n", ""]);
 
 // exports
 
@@ -40450,7 +40451,7 @@ ClientRequest.prototype._onFinish = function () {
 
 	var headersObj = self._headers
 	var body = null
-	if (opts.method === 'POST' || opts.method === 'PUT' || opts.method === 'PATCH' || opts.method === 'MERGE') {
+	if (opts.method !== 'GET' && opts.method !== 'HEAD') {
 		if (capability.blobConstructor) {
 			body = new global.Blob(self._body.map(function (buffer) {
 				return toArrayBuffer(buffer)
@@ -40463,14 +40464,24 @@ ClientRequest.prototype._onFinish = function () {
 		}
 	}
 
-	if (self._mode === 'fetch') {
-		var headers = Object.keys(headersObj).map(function (name) {
-			return [headersObj[name].name, headersObj[name].value]
-		})
+	// create flattened list of headers
+	var headersList = []
+	Object.keys(headersObj).forEach(function (keyName) {
+		var name = headersObj[keyName].name
+		var value = headersObj[keyName].value
+		if (Array.isArray(value)) {
+			value.forEach(function (v) {
+				headersList.push([name, v])
+			})
+		} else {
+			headersList.push([name, value])
+		}
+	})
 
+	if (self._mode === 'fetch') {
 		global.fetch(self._opts.url, {
 			method: self._opts.method,
-			headers: headers,
+			headers: headersList,
 			body: body || undefined,
 			mode: 'cors',
 			credentials: opts.withCredentials ? 'include' : 'same-origin'
@@ -40508,8 +40519,8 @@ ClientRequest.prototype._onFinish = function () {
 			}
 		}
 
-		Object.keys(headersObj).forEach(function (name) {
-			xhr.setRequestHeader(headersObj[name].name, headersObj[name].value)
+		headersList.forEach(function (header) {
+			xhr.setRequestHeader(header[0], header[1])
 		})
 
 		self._response = null
@@ -40946,8 +40957,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../css-loader/index.js!./jquery.bracket.min.css", function() {
-			var newContent = require("!!../../css-loader/index.js!./jquery.bracket.min.css");
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js?{\"includePaths\":[\"/home/diego/Projects/fixture-robots/sass\"]}!./jquery.bracket.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js?{\"includePaths\":[\"/home/diego/Projects/fixture-robots/sass\"]}!./jquery.bracket.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -40972,8 +40983,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../style-loader/index.js!../../css-loader/index.js!./jquery.bracket.min.css", function() {
-			var newContent = require("!!../../style-loader/index.js!../../css-loader/index.js!./jquery.bracket.min.css");
+		module.hot.accept("!!../node_modules/style-loader/index.js!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js??ref--0-2!./jquery.bracket.scss", function() {
+			var newContent = require("!!../node_modules/style-loader/index.js!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js??ref--0-2!./jquery.bracket.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

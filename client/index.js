@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import 'imports-loader?jQuery=jquery!jquery-bracket'
-import 'jquery.bracket'
+import 'style-loader!../sass/jquery.bracket.scss'
 
 import Lokka from 'lokka';
 import Transport from 'lokka-transport-http';
