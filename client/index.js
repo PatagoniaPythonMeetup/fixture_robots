@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import 'imports-loader?jQuery=jquery!jquery-bracket'
-import 'style-loader!../node_modules/jquery-bracket/dist/jquery.bracket.min.css'
+import 'jquery.bracket'
 
 import Lokka from 'lokka';
 import Transport from 'lokka-transport-http';
@@ -22,18 +22,12 @@ client.query(`
           numero
           robot1 {
             nombre
-            escuela
-            encargado
           }
           robot2 {
             nombre
-            escuela
-            encargado
           }
           ganadas {
             nombre
-            escuela
-            encargado
           }
         }
         promovidos {

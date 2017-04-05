@@ -16,9 +16,21 @@ module.exports = {
         test: /\.js$/,
         loaders: ['babel-loader'],
         include: path.join(__dirname, 'client')
-      },
-      { test: /\.css$/, loader: "style-loader!css-loader" }
-    ]
+      }
+    ],
+    rules: [{
+        test: /\.scss$/,
+        use: [{
+            loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }, {
+            loader: "sass-loader",
+            options: {
+                includePaths: [path.join(__dirname, 'sass')]
+            }
+        }]
+    }]
   },
   resolve: {
     alias: {
