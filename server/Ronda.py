@@ -1,5 +1,7 @@
 from functools import reduce
 
+from .Robot import Robot
+
 class Ronda(object):
     def __init__(self, numero, encuentros, promovidos=None):
         self.numero = numero
@@ -16,8 +18,13 @@ class Ronda(object):
     def ganadores(self):
         return [e.ganador() for e in self.encuentros] + self.promovidos
     
-    def get_encuentro(self, numero):
-        return self.encuentros[numero - 1]
+    def get_encuentro(self, numero_o_robot):
+        if isinstance(numero_o_robot, Robot):
+            encuentros = [encuentro for encuentro in self.encuentros if encuentro.participa(numero_o_robot)]
+            if encuentros:
+                return encuentros.pop()
+        if isinstance(numero_o_robot, int):
+            return self.encuentros[numero - 1]
 
     def gano(self, robot):
         assert robot in self.robots, "El robot ganador no es parte de la ronda"
@@ -27,6 +34,10 @@ class Ronda(object):
     def vuelta(self):
         return max([e.vuelta() for e in self.encuentros])
     
+    def puntaje(self, robot):
+        encuentro = self.get_encuentro(robot)
+        return encuentro.puntaje(robot)[0] if encuentro is not None else 0
+
     def to_dict(self):
         return {
             "numero": self.numero,

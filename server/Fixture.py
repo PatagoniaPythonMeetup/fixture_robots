@@ -121,6 +121,9 @@ class Fixture(object):
     def limpiar_rondas(self):
         self.rondas = []
 
+    def get_ronda(self, numero):
+        return self.rondas[numero - 1]
+
     # Json dumps and loads
     def to_dict(self):
         return {
@@ -151,9 +154,6 @@ class Fixture(object):
             fixture.agregar_ronda(ronda)
         return fixture
 
-    def get_ronda(self, numero):
-        return self.rondas[numero - 1]
-
     def finalizado(self):
         """Un fixture esta finalizado cuando todas las rondas estan finalizadas y la ultima ronda tiene a un solo ganador"""
         tiene_robots = bool(self.robots)
@@ -161,7 +161,11 @@ class Fixture(object):
         ultima_ronda_un_ganador = bool(self.rondas and len(self.rondas[-1].ganadores()) == 1)
         return not tiene_robots or (tiene_robots and rondas_finalizadas and ultima_ronda_un_ganador)
 
+    # Consultas sobre el fixture
     def ganador(self):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         if robots:
             return robots.pop()
+
+    def puntaje(self, robot):
+        return reduce(lambda acumulador, ronda: acumulador + ronda.puntaje(robot), self.rondas, 0)

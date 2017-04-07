@@ -20,16 +20,7 @@ module.exports = {
     ],
     rules: [{
         test: /\.scss$/,
-        use: [{
-            loader: "style-loader"
-        }, {
-            loader: "css-loader"
-        }, {
-            loader: "sass-loader",
-            options: {
-                includePaths: [path.join(__dirname, 'sass')]
-            }
-        }]
+        use: ["style-loader", "css-loader", "sass-loader"]
     }]
   },
   resolve: {

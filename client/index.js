@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import 'imports-loader?jQuery=jquery!jquery-bracket'
-import 'style-loader!../sass/jquery.bracket.scss'
+import './jquery.bracket.scss'
 
 import Lokka from 'lokka';
 import Transport from 'lokka-transport-http';
@@ -15,20 +15,18 @@ client.query(`
         nombre
         escuela
         encargado
+        puntaje
       }
       rondas {
         numero
+        vuelta
         encuentros {
           numero
-          robot1 {
+          vuelta
+          robots {
             nombre
           }
-          robot2 {
-            nombre
-          }
-          ganadas {
-            nombre
-          }
+          resultados
         }
         promovidos {
           nombre

@@ -15,6 +15,9 @@ class Encuentro(object):
         derrotas = len([r for r in self.ganadas if r != robot])
         return victorias, derrotas
 
+    def resultados(self):
+        return self.puntaje(self.robot_1)
+
     def gano(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
         self.ganadas.append(robot)
