@@ -15,7 +15,6 @@ client.query(`
         nombre
         escuela
         encargado
-        puntaje
       }
       rondas {
         numero
@@ -36,22 +35,20 @@ client.query(`
       }
     }
 `).then(result => {
-    console.log(result.robots);
-    console.log(result.rondas);
+    var robots = result.robots;
+    var rondas = result.rondas;
+    var teams = rondas[0].encuentros.map( encuentro => encuentro.robots.map(robot => robot.nombre) );
+    var resultados = rondas[0].encuentros.map( encuentro => encuentro.resultados );
+    window.TEAMS = teams;
+    console.log(resultados);
+    var data = {
+      teams: [ teams[0], teams[1], teams[2] ],
+      results: [[resultados[0], resultados[1], resultados[2]]]
+    };
+    $(function() {
+      $('#bracket.demo').bracket({
+        init: data 
+      });
+    });
 });
 
-var minimalData = {
-    teams : [
-      ["Team 1", "Team 2"],
-      ["Team 3", "Team 4"]
-    ],
-    results : [
-      [[1,2], [3,4]],
-      [[4,6], [2,1]]
-    ]
-  }
- 
-$(function() {
-    $('#bracket.demo').bracket({
-      init: minimalData })
-  })
