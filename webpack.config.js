@@ -24,7 +24,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'static'),
-    publicPath: 'http://127.0.0.1:8080/'
+    publicPath: 'http://127.0.0.1:8080/static/'
   },
   context: resolve(__dirname, 'client'),
   devtool: 'inline-source-map',
@@ -51,7 +51,12 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"]
-    }]
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      }
+    ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
