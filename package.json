@@ -4,7 +4,8 @@
   "description": "Fixture de robots para la Hackathon en UNPJSB",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack && python3 main.py",
+    "dev": "webpack-dev-server --progress",
+    "server": "python3 main.py",
     "test": "python3 tests.py",
     "postinstall": "pip3 install -r requirements.txt"
   },
@@ -23,17 +24,22 @@
     "babel": "^6.23.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.0",
     "imports-loader": "^0.7.1",
     "lokka": "^1.7.0",
     "lokka-transport-http": "^1.6.1",
     "node-sass": "^4.5.2",
+    "react-hot-loader": "^3.0.0-beta.6",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
-    "webpack": "^2.3.3"
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
     "jquery": "^3.2.1",
-    "jquery-bracket": "^0.11.0"
+    "react": "^15.5.4"
   }
 }

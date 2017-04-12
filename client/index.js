@@ -1,54 +1,58 @@
-import $ from 'jquery'
-import 'imports-loader?jQuery=jquery!jquery-bracket'
-import './jquery.bracket.scss'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import Lokka from 'lokka';
-import Transport from 'lokka-transport-http';
+import { AppContainer } from 'react-hot-loader';
+// AppContainer is a necessary wrapper component for HMR
 
-const client = new Lokka({
-  transport: new Transport(`http://${location.host}/fixture`)
-});
+import Main from './components/Main';
 
-client.query(`
-    {
-      robots {
-        nombre
-        escuela
-        encargado
-      }
-      rondas {
-        numero
-        vuelta
-        encuentros {
-          numero
-          vuelta
-          robots {
-            nombre
-          }
-          resultados
-        }
-        promovidos {
-          nombre
-          escuela
-          encargado
-        }
-      }
-    }
-`).then(result => {
-    var robots = result.robots;
-    var rondas = result.rondas;
-    var teams = rondas[0].encuentros.map( encuentro => encuentro.robots.map(robot => robot.nombre) );
-    var resultados = rondas[0].encuentros.map( encuentro => encuentro.resultados );
-    window.TEAMS = teams;
-    console.log(resultados);
-    var data = {
-      teams: [ teams[0], teams[1], teams[2] ],
-      results: [[resultados[0], resultados[1], resultados[2]]]
-    };
-    $(function() {
-      $('#bracket.demo').bracket({
-        init: data 
-      });
-    });
-});
+import reducers from './redux/reducers';
 
+import { createStore, applyMiddleware, compose } from 'redux';
+
+import createSagaMiddleware from 'redux-saga';
+
+import sagas from './redux/sagas';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+  reducers,
+  compose(
+    applyMiddleware(sagaMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+);
+
+let sagaTask = sagaMiddleware.run(sagas);
+
+const render = (Component) => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component store={ store }/>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
+
+render(Main);
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./components/Main', () => {
+    render(Main)
+  });
+
+  module.hot.accept('./redux/reducers', () => {
+    const reducers = require('./redux/reducers').default;
+    return store.replaceReducer(reducers);
+  });
+
+  module.hot.accept('./redux/sagas', () => {
+    const newSagas = require('./redux/sagas').default;
+    sagaTask.cancel()
+    sagaTask.done.then(() => {
+      sagaTask = sagaMiddleware.run(newSagas);
+    })
+  })
+}
