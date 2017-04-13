@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --progress",
-    "start": "webpack --progress && python3 main.py",
+    "start": "webpack -p && python3 main.py",
     "server": "python3 main.py",
     "test": "python3 tests.py",
     "postinstall": "pip3 install -r requirements.txt"
