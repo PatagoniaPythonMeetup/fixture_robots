@@ -5,35 +5,35 @@ class Robot(graphene.ObjectType):
     nombre = graphene.String()
     escuela = graphene.String()
     encargado = graphene.String()
-    score = graphene.Int()
+    score = graphene.List(graphene.Int)
 
-    def resolve_puntaje(self, args, context, info):
+    def resolve_score(self, args, context, info):
         return context["fixture"].score(self)
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()
-    vuelta = graphene.Int()
+    jugadas = graphene.Int()
     robots = graphene.List(Robot)
-    resultados = graphene.List(graphene.Int)
 
-    def resolve_vuelta(self, args, context, info):
-        return self.vuelta()
+    def resolve_jugadas(self, args, context, info):
+        return self.jugadas()
 
     def resolve_robots(self, args, context, info):
         return [self.robot_1, self.robot_2]
-
-    def resolve_resultados(self, args, context, info):
-        return self.resultados()
 
 
 class Ronda(graphene.ObjectType):
     numero = graphene.Int()
     vuelta = graphene.Int()
+    jugadas = graphene.Int()
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
 
     def resolve_vuelta(self, args, context, info):
         return self.vuelta()
+    
+    def resolve_jugadas(self, args, context, info):
+        return self.jugadas()
 
 class Fixture(graphene.ObjectType):
     numero = graphene.Int()

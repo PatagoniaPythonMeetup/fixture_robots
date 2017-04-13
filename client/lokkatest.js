@@ -15,17 +15,18 @@ client.query(`
         nombre
         escuela
         encargado
+        score
       }
       rondas {
         numero
         vuelta
+        jugadas
         encuentros {
           numero
-          vuelta
+          jugadas
           robots {
             nombre
           }
-          resultados
         }
         promovidos {
           nombre
@@ -37,5 +38,6 @@ client.query(`
 `).then(result => {
     var robots = result.robots;
     var rondas = result.rondas;
+    console.log(robots)
 });
 

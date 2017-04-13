@@ -6,18 +6,18 @@ class Encuentro(object):
         self.numero = numero
         self.ganadas = ganadas or []
 
-    def vuelta(self):
+    def jugadas(self):
         return len(self.ganadas)
 
     def score(self, robot):
-        """El score de un robot en un encuentro se obtiene en base a las victorias,
-        derrotas y posibilidades de empate sobre el otro robot del encuentro
+        """El score de un robot en un encuentro se obtiene en base a las victorias y derrotas
         """
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
+        if not self.ganadas:
+            return None, None
         victorias = len([r for r in self.ganadas if r == robot])
         derrotas = len([r for r in self.ganadas if r != robot])
-        empate = 1 if victorias == derrotas else 0
-        return victorias, derrotas, empate
+        return victorias, derrotas
 
     def gano(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"

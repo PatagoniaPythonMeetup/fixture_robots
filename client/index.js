@@ -14,6 +14,8 @@ import createSagaMiddleware from 'redux-saga';
 
 import sagas from './redux/sagas';
 
+import './lokkatest'
+
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
