@@ -167,5 +167,9 @@ class Fixture(object):
         if robots:
             return robots.pop()
 
-    def puntaje(self, robot):
-        return reduce(lambda acumulador, ronda: acumulador + ronda.puntaje(robot), self.rondas, 0)
+    def score(self, robot):
+        """Retorna el *score* de un robot dentro del torneo
+        score es una n-upla de la forma (ganadas, perdidas, empates, jugadas, ranking)
+        """
+        resultados = [ ronda.score(robot) for ronda in self.rondas ]
+        print(score)

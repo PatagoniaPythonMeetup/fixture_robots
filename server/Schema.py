@@ -5,10 +5,10 @@ class Robot(graphene.ObjectType):
     nombre = graphene.String()
     escuela = graphene.String()
     encargado = graphene.String()
-    puntaje = graphene.Int()
+    score = graphene.Int()
 
     def resolve_puntaje(self, args, context, info):
-        return context["fixture"].puntaje(self)
+        return context["fixture"].score(self)
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()

@@ -9,14 +9,15 @@ class Encuentro(object):
     def vuelta(self):
         return len(self.ganadas)
 
-    def puntaje(self, robot):
+    def score(self, robot):
+        """El score de un robot en un encuentro se obtiene en base a las victorias,
+        derrotas y posibilidades de empate sobre el otro robot del encuentro
+        """
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
         victorias = len([r for r in self.ganadas if r == robot])
         derrotas = len([r for r in self.ganadas if r != robot])
-        return victorias, derrotas
-
-    def resultados(self):
-        return self.puntaje(self.robot_1)
+        empate = 1 if victorias == derrotas else 0
+        return victorias, derrotas, empate
 
     def gano(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"

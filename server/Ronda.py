@@ -34,9 +34,10 @@ class Ronda(object):
     def vuelta(self):
         return max([e.vuelta() for e in self.encuentros])
     
-    def puntaje(self, robot):
+    def score(self, robot):
+        """El score de un robot en una ronda es el score del encuentro en donde participo ese robot"""
         encuentro = self.get_encuentro(robot)
-        return encuentro.puntaje(robot)[0] if encuentro is not None else 0
+        return encuentro.puntaje(robot) if encuentro is not None else (0, 0, 0)
 
     def to_dict(self):
         return {
