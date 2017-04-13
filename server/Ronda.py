@@ -26,10 +26,17 @@ class Ronda(object):
         if isinstance(numero_o_robot, int):
             return self.encuentros[numero - 1]
 
-    def gano(self, robot):
+    def gano(self, nronda, nencuentro, nrobot):
+        robot = get_robot_por_nombre(nrobot)
+        ronda = get_ronda(nronda)
+        if ronda is not None:
+            ronda.gano(nencuentro, robot)
+
+    def gano(self, nencuentro, robot):
         assert robot in self.robots, "El robot ganador no es parte de la ronda"
-        encuentro = [ e for e in self.encuentros if e.participa(robot)].pop()
-        encuentro.gano(robot)
+        encuentro = self.get_encuentro(nencuentro)
+        if encuentro is not None:
+            encuentro.gano(robot)
     
     def vuelta(self):
         return max([e.jugadas() for e in self.encuentros])

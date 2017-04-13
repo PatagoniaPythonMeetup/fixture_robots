@@ -122,7 +122,14 @@ class Fixture(object):
         self.rondas = []
 
     def get_ronda(self, numero):
-        return self.rondas[numero - 1]
+        rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
+        if len(rondas) == 1:
+            return rondas.pop()
+
+    def get_robot_por_nombre(self, nombre):
+        robots = [robot for robot in self.robots if robot.nombre == nombre]
+        if len(robots) == 1:
+            return robots.pop()
 
     # Json dumps and loads
     def to_dict(self):
@@ -166,6 +173,12 @@ class Fixture(object):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         if robots:
             return robots.pop()
+
+    def gano(self, nronda, nencuentro, nrobot):
+        robot = self.get_robot_por_nombre(nrobot)
+        ronda = self.get_ronda(nronda)
+        if ronda is not None:
+            ronda.gano(nencuentro, robot)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
