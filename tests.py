@@ -96,7 +96,7 @@ class TestGanadores(unittest.TestCase):
         ronda = fixture.generar_ronda()
         for e in ronda.encuentros:
             ganadores.add(e.robot_1)
-            ronda.gano(e.robot_1)
+            e.gano(e.robot_1)
         self.assertEqual(set(ganadores), set(ronda.ganadores()))
         
     def test_ganador_2_en_ronda_1(self):
@@ -106,7 +106,7 @@ class TestGanadores(unittest.TestCase):
         ronda = fixture.generar_ronda()
         for e in ronda.encuentros:
             ganadores.add(e.robot_2)
-            ronda.gano(e.robot_2)
+            e.gano(e.robot_2)
         self.assertEqual(set(ganadores), set(ronda.ganadores()))
 
     def test_ganador_del_torneo(self):
@@ -118,7 +118,7 @@ class TestGanadores(unittest.TestCase):
             while not ronda.finalizada() or ronda.vuelta() < 5:
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
-                    ronda.gano(robot)
+                    e.gano(robot)
         self.assertEqual(ganador, fixture.ganador())
 
     def test_ganador_impares_del_torneo(self):
@@ -132,7 +132,7 @@ class TestGanadores(unittest.TestCase):
             while not ronda.finalizada() or ronda.vuelta() < 5:
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
-                    ronda.gano(robot)
+                    e.gano(robot)
         self.assertEqual(ganador, fixture.ganador())
 
 if __name__ == '__main__':
