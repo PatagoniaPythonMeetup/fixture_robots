@@ -18,8 +18,8 @@ class Ronda(object):
     def ganadores(self):
         return [e.ganador() for e in self.encuentros] + self.promovidos
     
-    def get_encuentro(self, valor):
-        encuentros = [encuentro for encuentro in self.encuentros if (isinstance(valor, int) and encuentro.numero == valor) or encuentro.participa(valor)]
+    def get_encuentro(self, numero):
+        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
         if encuentros:
             return encuentros.pop()
     
@@ -40,11 +40,6 @@ class Ronda(object):
     
     def jugadas(self):
         return sum([e.jugadas() for e in self.encuentros])
-
-    def score(self, robot):
-        """El score de un robot en una ronda es el score del encuentro en donde participo ese robot"""
-        encuentro = self.get_encuentro(robot)
-        return encuentro.score(robot) if encuentro is not None else (0, 0, 0)
 
     def to_dict(self):
         return {

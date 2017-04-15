@@ -10,8 +10,7 @@ class Encuentro(object):
         return len(self.ganadas)
 
     def score(self, robot):
-        """El score de un robot en un encuentro se obtiene en base a las victorias y derrotas
-        """
+        """El score de un robot en un encuentro se obtiene en base a las victorias y derrotas"""
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
         if not self.ganadas:
             return None, None
