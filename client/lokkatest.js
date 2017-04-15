@@ -58,3 +58,6 @@ ganaRobot(1, 9, "Sony");
 ganaRobot(1, 10, "T-800");
 ganaRobot(1, 10, "T-800");
 ganaRobot(1, 10, "David Swinton");
+
+window.consultar = () =>
+  consultarRobots().then(robots => console.log(robots));
