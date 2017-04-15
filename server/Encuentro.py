@@ -7,6 +7,7 @@ class Encuentro(object):
         self.ganadas = ganadas or []
 
     def jugadas(self):
+        print(self.ganadas)
         return len(self.ganadas)
 
     def score(self, robot):
@@ -34,7 +35,7 @@ class Encuentro(object):
         return hash(self) == hash(other)
         
     def finalizado(self):
-        return self.ganador() != None
+        return self.ganador() is not None
 
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]

@@ -37,21 +37,24 @@ class Ronda(graphene.ObjectType):
     def resolve_jugadas(self, args, context, info):
         return self.jugadas()
 
+    def resolve_finalizada(self, args, context, info):
+        return self.finalizada()
+
 class Fixture(graphene.ObjectType):
     numero = graphene.Int()
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
     finalizado = graphene.Boolean()
 
-class CrearRonda(graphene.Mutation):
+class GenerarRonda(graphene.Mutation):
     ok = graphene.Boolean()
     ronda = graphene.Field(lambda: Ronda)
 
     @staticmethod
     def mutate(root, args, context, info):
-        ronda = context["fixture"].ronda()
+        ronda = context["fixture"].generar_ronda()
         ok = True
-        return CrearRonda(ronda=ronda, ok=ok)
+        return GenerarRonda(ronda=ronda, ok=ok)
 
 class GanaRobot(graphene.Mutation):
     class Input:
@@ -81,7 +84,7 @@ class Query(graphene.ObjectType):
         return context["fixture"].rondas
 
 class Mutations(graphene.ObjectType):
-    crear_ronda = CrearRonda.Field()
+    generar_ronda = GenerarRonda.Field()
     gana_robot = GanaRobot.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
