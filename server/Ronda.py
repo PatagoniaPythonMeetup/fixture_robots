@@ -18,14 +18,11 @@ class Ronda(object):
     def ganadores(self):
         return [e.ganador() for e in self.encuentros] + self.promovidos
     
-    def get_encuentro(self, numero_o_robot):
-        if isinstance(numero_o_robot, Robot):
-            encuentros = [encuentro for encuentro in self.encuentros if encuentro.participa(numero_o_robot)]
-            if encuentros:
-                return encuentros.pop()
-        if isinstance(numero_o_robot, int):
-            return self.encuentros[numero - 1]
-
+    def get_encuentro(self, valor):
+        encuentros = [encuentro for encuentro in self.encuentros if (isinstance(valor, int) and encuentro.numero == valor) or encuentro.participa(valor)]
+        if encuentros:
+            return encuentros.pop()
+    
     def gano(self, nronda, nencuentro, nrobot):
         robot = get_robot_por_nombre(nrobot)
         ronda = get_ronda(nronda)
