@@ -82,12 +82,12 @@ GENERADORES = {
 }
 
 class Fixture(object):
+    _generador = GENERADORES["combinaciones"]
 
     def __init__(self, robots = None):
         self.robots = robots or []
         self.rondas = []
-        self._generador = GENERADORES["combinaciones"]
-
+    
     def inscribir(self, nombre, escuela, responsable):
         robot = Robot(nombre, escuela, responsable)
         self.robots.append(robot)
@@ -113,6 +113,13 @@ class Fixture(object):
     def limpiar_rondas(self):
         self.rondas = []
 
+    def limpiar_robots(self):
+        self.robots = []
+
+    def limpiar(self):
+        self.limpiar_robots()
+        self.limpiar_rondas()
+
     def get_ronda(self, numero):
         rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
         if len(rondas) == 1:
@@ -134,15 +141,11 @@ class Fixture(object):
             "rondas": [ ronda.to_dict() for ronda in self.rondas ]
         }
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, data):
-        fixture = cls()
+    def from_dict(self, data):
+        self.limpiar()
         robots = []
         for robot_data in data["robots"]:
-            robot = fixture.inscribir(*robot_data)
+            robot = self.inscribir(*robot_data)
             robots.append(robot)
         for ronda_data in data["rondas"]:
             encuentros = []
@@ -154,7 +157,15 @@ class Fixture(object):
                 encuentros.append(encuentro)
             promovidos = [robot for robot in robots if robot in [ tuple(p) for p in ronda_data["promovidos"]] ]
             ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos)
-            fixture.agregar_ronda(ronda)
+            self.agregar_ronda(ronda)
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, source):
+        fixture = cls()
+        fixture.from_dict(json.loads(source))
         return fixture
 
     def finalizado(self):
@@ -178,13 +189,13 @@ class Fixture(object):
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
-        score es una n-upla de la forma (jugado, victorias, derrotas, empates, puntos, diferencia)
+        score es una n-upla de la forma (jugado, victorias, derrotas, empates, diferencia, puntos)
         """
         encuentros = reduce(lambda acumulador, ronda: acumulador + ronda.encuentros, self.rondas, [])
         resultados = [encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
-        victorias = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
-        derrotas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
-        empates = len([resultado for resultado in resultados if resultado[0] == resultado[1]])
+        victorias = len([resultado for resultado in resultados if None not in resultado and resultado[0] > resultado[1]])
+        derrotas = len([resultado for resultado in resultados if None not in resultado and resultado[0] < resultado[1]])
+        empates = len([resultado for resultado in resultados if None not in resultado and resultado[0] == resultado[1]])
         puntos = victorias * 3 + empates * 1 + derrotas * 0
         diferencia = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [resultado for resultado in resultados if None not in resultado], 0)
         return (victorias + derrotas + empates, victorias, derrotas, empates, diferencia, puntos)

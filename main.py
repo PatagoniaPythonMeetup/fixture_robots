@@ -4,19 +4,29 @@ from flask_graphql import GraphQLView
 
 from server import Fixture, schema, Encuentro, Ronda
 
-with open("./fixture.json", "r") as f:
-    data = json.loads(f.read())
-    fixture = Fixture.from_json(data)
+FIXTURE = Fixture()
 
 app = Flask(__name__)
 
 app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture', 
     schema=schema, 
-    context={"fixture": fixture},
+    context={"fixture": FIXTURE},
     graphiql=True))
 
 @app.route('/')
 def index(): 
+    return render_template("index.html")
+
+@app.route('/loads')
+def loads():
+    with open("./fixture.json", "r") as f:
+        FIXTURE.from_dict(json.loads(f.read()))
+    return render_template("index.html")
+
+@app.route('/dumps')
+def dumps():
+    with open("./fixture.json", "w") as f:
+        f.write(json.dumps(FIXTURE.to_dict()))
     return render_template("index.html")
 
 def main():
