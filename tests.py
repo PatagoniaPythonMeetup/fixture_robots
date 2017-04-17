@@ -97,6 +97,13 @@ class TestGeneradoresDeRonda(TestBase):
         ronda = fixture.generar_ronda()
         self.assertEqual(set(robots), set(ronda.robots))
 
+    def test_tres_robots(self):
+        robots = self.robots[:3]
+        fixture = Fixture(robots)
+        ronda = fixture.generar_ronda(True)
+        self.assertEqual(set(robots), set(ronda.robots))
+        self.assertEqual(3, len(ronda.encuentros))
+
 class TestGanadores(TestBase):
     def test_ganador_1_en_ronda_1(self):
         robots = self.robots[:]
@@ -156,6 +163,31 @@ class TestTorneo(TestBase):
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                     fixture.gano(rwin)
+                rwin = encuentro.ganador()
+                rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
+                s = encuentro.score(rwin)
+                swin = [s for s in scores if s[0] == rwin].pop()
+                slose = [s for s in scores if s[0] == rlose].pop()
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+        scores = sorted(scores, key=lambda t: t[6], reverse=True)
+        self.assertEqual(scores[0][0], fixture.ganador())
+        for robot in fixture.robots:
+            score = [s for s in scores if s[0] == robot].pop()
+            self.assertEqual(tuple(score[1:]), fixture.score(robot))
+
+    def test_torneo_de_tres(self):
+        robots = self.robots[:3]
+        fixture = Fixture(robots)
+        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        fixture = Fixture(robots)
+        while not fixture.finalizado():
+            ronda = fixture.generar_ronda(True)
+            for encuentro in ronda.encuentros:
+                while not encuentro.finalizado() or encuentro.jugadas() < 5:
+                    rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
+                    rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
+                    fixture.gano(rwin, ronda=ronda.numero, encuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)

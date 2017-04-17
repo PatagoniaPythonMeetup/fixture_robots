@@ -26,9 +26,9 @@ class Ronda(object):
         if encuentros:
             return encuentros.pop()
     
-    def gano(self, robot):
-        encuentros = [encuentro for encuentro in self.encuentros if encuentro.participa(robot)]
-        assert len(encuentros) == 1, "El robot no participa de la ronda"
+    def gano(self, robot, encuentro=None):
+        encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is not None and e.numero == encuentro)]
+        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentros[0].gano(robot)
 
     def vuelta(self):

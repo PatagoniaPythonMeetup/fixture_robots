@@ -60,7 +60,7 @@ def generador_brutus(robots):
             break
     return ronda
 
-def generador_combinaciones(robots, tct=False):
+def generador_combinaciones(robots, tct):
     tuplas = [list(combine) for combine in combinations(robots, 2)]
     ronda = []
     random.shuffle(tuplas)
@@ -69,7 +69,7 @@ def generador_combinaciones(robots, tct=False):
     for _tuplas in [distinta_escuela, misma_escuela]:
         while _tuplas:
             tupla = _tuplas.pop()
-            if all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
+            if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
                 ronda.append(tupla)
             if not tct and len(ronda) == len(robots) // 2:
                 break
@@ -101,10 +101,10 @@ class Fixture(object):
     def agregar_ronda(self, ronda):
         self.rondas.append(ronda)
 
-    def generar_ronda(self):
+    def generar_ronda(self, tct = False):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
-        tuplas = self._generador(robots)
+        tuplas = self._generador(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
         ronda = self.crear_ronda(tuplas, promovidos)
         self.agregar_ronda(ronda)
@@ -181,11 +181,11 @@ class Fixture(object):
         if robots:
             return robots.pop()
 
-    def gano(self, robot):
-        ronda = self.get_ronda_actual()
-        assert ronda is not None, "No hay ronda actual"
+    def gano(self, robot, ronda=None, encuentro=None):
+        ronda = self.get_ronda_actual() if ronda is None else self.get_ronda(ronda)
+        assert ronda is not None, "No hay ronda actual o el numero de ronda no es correcto"
         assert ronda.participa(robot), "El robot no participa de la ronda"
-        ronda.gano(robot)
+        ronda.gano(robot, encuentro=encuentro)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
