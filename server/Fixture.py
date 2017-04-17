@@ -60,7 +60,7 @@ def generador_brutus(robots):
             break
     return ronda
 
-def generador_combinaciones(robots):
+def generador_combinaciones(robots, tct=False):
     tuplas = [list(combine) for combine in combinations(robots, 2)]
     ronda = []
     random.shuffle(tuplas)
@@ -71,7 +71,7 @@ def generador_combinaciones(robots):
             tupla = _tuplas.pop()
             if all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
                 ronda.append(tupla)
-            if len(ronda) == len(robots) // 2:
+            if not tct and len(ronda) == len(robots) // 2:
                 break
     return ronda
 
@@ -82,11 +82,11 @@ GENERADORES = {
 }
 
 class Fixture(object):
-    _generador = GENERADORES["combinaciones"]
 
     def __init__(self, robots = None):
         self.robots = robots or []
         self.rondas = []
+        self._generador = GENERADORES["combinaciones"]
     
     def inscribir(self, nombre, escuela, responsable):
         robot = Robot(nombre, escuela, responsable)
