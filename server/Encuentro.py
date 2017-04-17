@@ -56,7 +56,7 @@ class Encuentro(object):
         }
 
     def __str__(self):
-        return "<%s[%s] vs %s[%s]>" % (self.robot_1.nombre, self.puntaje(self.robot_1), self.robot_2.nombre, self.puntaje(self.robot_2))
+        return "<%s[%s] vs %s[%s]>" % (self.robot_1.nombre, self.score(self.robot_1), self.robot_2.nombre, self.score(self.robot_2))
     
     def __hash__(self):
         return hash(self.robot_1) + hash(self.robot_2) 
