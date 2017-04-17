@@ -1,6 +1,7 @@
 import random
 import json
 from functools import reduce
+from itertools import combinations
 
 from .Robot import Robot
 from .Encuentro import Encuentro
@@ -60,16 +61,7 @@ def generador_brutus(robots):
     return ronda
 
 def generador_combinaciones(robots):
-    def potencia(c):
-        if len(c) == 0:
-            return [[]]
-        r = potencia(c[:-1])
-        return r + [s + [c[-1]] for s in r]
-
-    def combinaciones(rs, n):
-        return [s for s in potencia(rs) if len(s) == n]
-
-    tuplas = combinaciones(robots, 2)
+    tuplas = [list(combine) for combine in combinations(robots, 2)]
     ronda = []
     random.shuffle(tuplas)
     distinta_escuela = [ e for e in tuplas if e[0].escuela != e[1].escuela ]
@@ -186,7 +178,6 @@ class Fixture(object):
         """
         encuentros = reduce(lambda acumulador, ronda: acumulador + ronda.encuentros, self.rondas, [])
         resultados = [ encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
-        print(robot, resultados)
         ganadas = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
         perdidas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
         empates = len([resultado for resultado in resultados if resultado[0] == resultado[1]])

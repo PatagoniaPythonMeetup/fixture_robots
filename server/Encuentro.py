@@ -7,7 +7,6 @@ class Encuentro(object):
         self.ganadas = ganadas or []
 
     def jugadas(self):
-        print(self.ganadas)
         return len(self.ganadas)
 
     def score(self, robot):

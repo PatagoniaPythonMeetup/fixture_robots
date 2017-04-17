@@ -13,7 +13,6 @@ class Ronda(object):
         return reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], self.encuentros, self.promovidos)
 
     def finalizada(self):
-        print([e.finalizado() for e in self.encuentros])
         return all([e.finalizado() for e in self.encuentros])
 
     def ganadores(self):
