@@ -123,6 +123,10 @@ class Fixture(object):
         if len(robots) == 1:
             return robots.pop()
 
+    def get_ronda_actual(self):
+        if self.rondas:
+            return self.rondas[-1]
+
     # Json dumps and loads
     def to_dict(self):
         return {
@@ -166,11 +170,11 @@ class Fixture(object):
         if robots:
             return robots.pop()
 
-    def gano(self, nronda, nencuentro, nrobot):
-        robot = self.get_robot_por_nombre(nrobot)
-        ronda = self.get_ronda(nronda)
-        if ronda is not None:
-            ronda.gano(nencuentro, robot)
+    def gano(self, robot):
+        ronda = self.get_ronda_actual()
+        assert ronda is not None, "No hay ronda actual"
+        assert ronda.participa(robot), "El robot no participa de la ronda"
+        ronda.gano(robot)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo

@@ -19,7 +19,7 @@ class Encuentro(object):
         return victorias, derrotas
 
     def gano(self, robot):
-        assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
+        assert robot is self.robot_1 or robot is self.robot_2, "El robot no es parte del encuentro"
         self.ganadas.append(robot)
 
     def es_valido(self):

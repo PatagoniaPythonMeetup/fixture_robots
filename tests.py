@@ -155,7 +155,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado() or encuentro.jugadas() < 5:
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(ronda.numero, encuentro.numero, rwin.nombre)
+                    fixture.gano(rwin)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)

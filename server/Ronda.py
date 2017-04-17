@@ -12,6 +12,9 @@ class Ronda(object):
     def robots(self):
         return reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], self.encuentros, self.promovidos)
 
+    def participa(self, robot):
+        return robot in self.promovidos or any([e.participa(robot) for e in self.encuentros])
+
     def finalizada(self):
         return all([e.finalizado() for e in self.encuentros])
 
@@ -23,18 +26,11 @@ class Ronda(object):
         if encuentros:
             return encuentros.pop()
     
-    def gano(self, nronda, nencuentro, nrobot):
-        robot = get_robot_por_nombre(nrobot)
-        ronda = get_ronda(nronda)
-        if ronda is not None:
-            ronda.gano(nencuentro, robot)
+    def gano(self, robot):
+        encuentros = [encuentro for encuentro in self.encuentros if encuentro.participa(robot)]
+        assert len(encuentros) == 1, "El robot no participa de la ronda"
+        encuentros[0].gano(robot)
 
-    def gano(self, nencuentro, robot):
-        assert robot in self.robots, "El robot ganador no es parte de la ronda"
-        encuentro = self.get_encuentro(nencuentro)
-        if encuentro is not None:
-            encuentro.gano(robot)
-    
     def vuelta(self):
         return max([e.jugadas() for e in self.encuentros])
     
