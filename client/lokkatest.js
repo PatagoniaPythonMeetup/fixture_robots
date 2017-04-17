@@ -23,7 +23,7 @@ let consultarRobots = () =>
 
 let ganaRobot = (ronda, encuentro, robot) =>
   client.mutate(`{
-    success: ganaRobot(ronda: ${ronda}, encuentro: ${encuentro}, robot: "${robot}") {
+    success: ganaRobot(nombre: "${robot}", ronda: ${ronda}, encuentro: ${encuentro}) {
         ok
     }
   }`).then(result => result.success);

@@ -59,14 +59,18 @@ class GenerarRonda(graphene.Mutation):
 class GanaRobot(graphene.Mutation):
     class Input:
         nombre = graphene.String()
+        ronda = graphene.Int()
+        encuentro = graphene.Int()
     
     ok = graphene.Boolean()
     
     @staticmethod
     def mutate(root, args, context, info):
         nombre = args.get('nombre')
+        ronda = args.get('ronda')
+        encuentro = args.get('encuentro')
         robot = context["fixture"].get_robot_por_nombre(nombre)
-        context["fixture"].gano(robot)
+        context["fixture"].gano(robot, ronda=ronda, encuentro=encuentro)
         ok = True
         return GanaRobot(ok=ok)
 
