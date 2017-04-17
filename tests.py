@@ -144,5 +144,16 @@ class TestGanadores(TestBase):
                     e.gano(robot)
         self.assertEqual(ganador, fixture.ganador())
 
+class TestTorneo(TestBase):
+    def test_ganador_1_en_ronda_1(self):
+        robots = self.robots[:]
+        ganadores = set()
+        fixture = Fixture(robots)
+        ronda = fixture.generar_ronda()
+        for e in ronda.encuentros:
+            ganadores.add(e.robot_1)
+            e.gano(e.robot_1)
+        self.assertEqual(set(ganadores), set(ronda.ganadores()))
+
 if __name__ == '__main__':
     unittest.main()

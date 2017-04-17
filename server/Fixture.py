@@ -174,13 +174,13 @@ class Fixture(object):
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
-        score es una n-upla de la forma (ganadas, perdidas, empates, puntos, ratio)
+        score es una n-upla de la forma (jugado, victorias, derrotas, empates, puntos, diferencia)
         """
         encuentros = reduce(lambda acumulador, ronda: acumulador + ronda.encuentros, self.rondas, [])
-        resultados = [ encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
-        ganadas = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
-        perdidas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
+        resultados = [encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
+        victorias = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
+        derrotas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
         empates = len([resultado for resultado in resultados if resultado[0] == resultado[1]])
-        puntos = ganadas * 3 + empates * 1 + perdidas * 0
-        ratio = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [ resultado for resultado in resultados if None not in resultado ], 0)
-        return (ganadas, perdidas, empates, puntos, ratio)
+        puntos = victorias * 3 + empates * 1 + derrotas * 0
+        diferencia = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [resultado for resultado in resultados if None not in resultado], 0)
+        return (victorias + derrotas + empates, victorias, derrotas, empates, diferencia, puntos)
