@@ -93,20 +93,20 @@ class Fixture(object):
         self.robots.append(robot)
         return robot
 
-    def crear_ronda(self, tuplas, promovidos):
+    def crear_ronda(self, tuplas, promovidos, tct):
         encuentros = [Encuentro(*t, numero = i + 1) for i, t in enumerate(tuplas)]
-        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos))
+        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos), tct)
         return ronda
 
     def agregar_ronda(self, ronda):
         self.rondas.append(ronda)
 
-    def generar_ronda(self, tct = False):
+    def generar_ronda(self, tct=False):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         tuplas = self._generador(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
-        ronda = self.crear_ronda(tuplas, promovidos)
+        ronda = self.crear_ronda(tuplas, promovidos, tct=tct)
         self.agregar_ronda(ronda)
         return ronda
 
@@ -156,7 +156,7 @@ class Fixture(object):
                 encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas = ganadas)
                 encuentros.append(encuentro)
             promovidos = [robot for robot in robots if robot in [ tuple(p) for p in ronda_data["promovidos"]] ]
-            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos)
+            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos, ronda_data["tct"])
             self.agregar_ronda(ronda)
 
     def to_json(self):
@@ -191,11 +191,6 @@ class Fixture(object):
         """Retorna el *score* de un robot dentro del torneo
         score es una n-upla de la forma (jugado, victorias, derrotas, empates, diferencia, puntos)
         """
-        encuentros = reduce(lambda acumulador, ronda: acumulador + ronda.encuentros, self.rondas, [])
-        resultados = [encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
-        victorias = len([resultado for resultado in resultados if None not in resultado and resultado[0] > resultado[1]])
-        derrotas = len([resultado for resultado in resultados if None not in resultado and resultado[0] < resultado[1]])
-        empates = len([resultado for resultado in resultados if None not in resultado and resultado[0] == resultado[1]])
-        puntos = victorias * 3 + empates * 1 + derrotas * 0
-        diferencia = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [resultado for resultado in resultados if None not in resultado], 0)
-        return (victorias + derrotas + empates, victorias, derrotas, empates, diferencia, puntos)
+        scores = [ronda.score(robot) for ronda in self.rondas]
+        return reduce(lambda acumulador, score: tuple([ a + b for a, b in zip(acumulador, score)]), scores, (0, 0, 0, 0, 0, 0))
+        

@@ -3,10 +3,11 @@ from functools import reduce
 from .Robot import Robot
 
 class Ronda(object):
-    def __init__(self, numero, encuentros, promovidos=None):
+    def __init__(self, numero, encuentros, promovidos=None, tct=False):
         self.numero = numero
         self.encuentros = encuentros
         self.promovidos = promovidos or []
+        self.tct = tct
 
     @property
     def robots(self):
@@ -37,9 +38,22 @@ class Ronda(object):
     def jugadas(self):
         return sum([e.jugadas() for e in self.encuentros])
 
+    def score(self, robot):
+        """Retorna el *score* de un robot dentro de la ronda
+        score es una n-upla de la forma (jugado, victorias, derrotas, empates, diferencia, puntos)
+        """
+        resultados = [encuentro.score(robot) for encuentro in self.encuentros if encuentro.participa(robot)]
+        victorias = len([resultado for resultado in resultados if None not in resultado and resultado[0] > resultado[1]])
+        derrotas = len([resultado for resultado in resultados if None not in resultado and resultado[0] < resultado[1]])
+        empates = len([resultado for resultado in resultados if None not in resultado and resultado[0] == resultado[1]])
+        puntos = victorias * 3 + empates * 1 + derrotas * 0
+        diferencia = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [resultado for resultado in resultados if None not in resultado], 0)
+        return (victorias + derrotas + empates, victorias, derrotas, empates, diferencia, puntos)
+
     def to_dict(self):
         return {
             "numero": self.numero,
             "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
-            "promovidos": self.promovidos
+            "promovidos": self.promovidos,
+            "tct": self.tct
         }
