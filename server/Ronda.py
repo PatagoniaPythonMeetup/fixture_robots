@@ -28,6 +28,11 @@ class Ronda(object):
         else:
             return [e.ganador() for e in self.encuentros] + self.promovidos
 
+    def ganador(self):
+        ganadores = self.ganadores()
+        if len(ganadores) == 1:
+            return ganadores.pop()
+
     def get_encuentro(self, numero):
         encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
         if encuentros:
