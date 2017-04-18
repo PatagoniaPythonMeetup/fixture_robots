@@ -134,6 +134,10 @@ class Fixture(object):
         if self.rondas:
             return self.rondas[-1]
 
+    def robots_en_juego(self):
+        ronda = self.get_ronda_actual()
+        return self.robots if not ronda else ronda.robots
+
     # Json dumps and loads
     def to_dict(self):
         return {
