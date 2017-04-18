@@ -11,7 +11,7 @@ class Ronda(object):
 
     @property
     def robots(self):
-        return reduce(lambda a, e: a + [e.robot_1] + [e.robot_2], self.encuentros, self.promovidos)
+        return list(reduce(lambda a, e: a.union([e.robot_1, e.robot_2]), self.encuentros, set(self.promovidos)))
 
     def participa(self, robot):
         return robot in self.promovidos or any([e.participa(robot) for e in self.encuentros])
@@ -20,15 +20,21 @@ class Ronda(object):
         return all([e.finalizado() for e in self.encuentros])
 
     def ganadores(self):
-        return [e.ganador() for e in self.encuentros] + self.promovidos
-    
+        if self.tct:
+            scores = [(r,) + self.score(r) for r in self.robots]
+            scores = sorted(scores, key=lambda s: s[6], reverse=True)
+            #TODO: Mejorar como se obtiene este ganador de un tct
+            return [scores[0][0]]
+        else:
+            return [e.ganador() for e in self.encuentros] + self.promovidos
+
     def get_encuentro(self, numero):
         encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
         if encuentros:
             return encuentros.pop()
     
     def gano(self, robot, encuentro=None):
-        encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is not None and e.numero == encuentro)]
+        encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is None or (encuentro is not None and e.numero == encuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentros[0].gano(robot)
 

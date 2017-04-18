@@ -156,7 +156,7 @@ class Fixture(object):
                 encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas = ganadas)
                 encuentros.append(encuentro)
             promovidos = [robot for robot in robots if robot in [ tuple(p) for p in ronda_data["promovidos"]] ]
-            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos, ronda_data["tct"])
+            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos, tct = ronda_data.pop("tct", False))
             self.agregar_ronda(ronda)
 
     def to_json(self):
