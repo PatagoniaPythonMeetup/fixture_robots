@@ -2,6 +2,7 @@ import React from 'react';
 
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
+import PosicionesPage from './PosicionesPage';
 import App from './App';
 
 import {
@@ -12,6 +13,7 @@ const routes = (
   <App>
     <Route path="/" component={FirstPage}/>
     <Route path="/second" component={SecondPage}/>
+    <Route path="/posiciones" component={PosicionesPage}/>
   </App>
 );
 

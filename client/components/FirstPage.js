@@ -6,7 +6,7 @@ class FirstPage extends Component {
   render() {
     return (<div className={styles.firstPage}>
       <h2>Test first page</h2>
-      <Link to="/second">Go to second</Link>
+      <Link to="/posiciones">Go to second</Link>
     </div>);
   }
 }
