@@ -193,8 +193,8 @@ class Fixture(object):
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
-        score es una n-upla de la forma (jugado, victorias, derrotas, empates, diferencia, puntos)
+        score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
         """
         scores = [ronda.score(robot) for ronda in self.rondas]
-        return reduce(lambda acumulador, score: tuple([ a + b for a, b in zip(acumulador, score)]), scores, (0, 0, 0, 0, 0, 0))
+        return reduce(lambda acumulador, score: tuple([ a + b for a, b in zip(acumulador, score)]), scores, (0, 0, 0, 0, 0, 0, 0, 0))
         

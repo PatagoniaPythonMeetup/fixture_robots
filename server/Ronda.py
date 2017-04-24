@@ -51,15 +51,17 @@ class Ronda(object):
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro de la ronda
-        score es una n-upla de la forma (jugado, victorias, derrotas, empates, diferencia, puntos)
+        score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
         """
         resultados = [encuentro.score(robot) for encuentro in self.encuentros if encuentro.participa(robot)]
-        victorias = len([resultado for resultado in resultados if None not in resultado and resultado[0] > resultado[1]])
-        derrotas = len([resultado for resultado in resultados if None not in resultado and resultado[0] < resultado[1]])
-        empates = len([resultado for resultado in resultados if None not in resultado and resultado[0] == resultado[1]])
-        puntos = victorias * 3 + empates * 1 + derrotas * 0
-        diferencia = reduce(lambda acumulador, resultado: acumulador + resultado[0] - resultado[1], [resultado for resultado in resultados if None not in resultado], 0)
-        return (victorias + derrotas + empates, victorias, derrotas, empates, diferencia, puntos)
+        resultados = [resultado for resultado in resultados if None not in resultado ]
+        triunfos = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
+        derrotas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
+        empates = len([resultado for resultado in resultados if resultado[0] == resultado[1]])
+        puntos = triunfos * 3 + empates * 1 + derrotas * 0
+        a_favor = reduce(lambda acumulador, resultado: acumulador + resultado[0], resultados, 0)
+        en_contra = reduce(lambda acumulador, resultado: acumulador + resultado[1], resultados, 0)
+        return (triunfos + derrotas + empates, triunfos, empates, derrotas, a_favor, en_contra, a_favor - en_contra, puntos)
 
     def to_dict(self):
         return {
