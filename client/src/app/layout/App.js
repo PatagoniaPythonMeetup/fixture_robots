@@ -7,18 +7,20 @@ import {
 
 import TabBarContainer from "features/tabs/TabBarContainer";
 import Robots from "features/robots/Robots";
+import Rondas from "features/rondas/Rondas";
 
 import './App.css';
 
 const Fixture = () => <div>Fixture</div>;
-const Rondas = () => <div>Rondas</div>;
+const Encuentro = () => <div>Encuentro</div>;
 
 class App extends Component {
   render() {
     const tabs = [
       {name: "fixture", label: "Fixture", component: Fixture},
       {name: "robots", label: "Robots", component: Robots},
-      {name: "rondas", label: "Rondas", component: Rondas}
+      {name: "rondas", label: "Rondas", component: Rondas},
+      {name: "encuentro", label: "Encuentro", component: Encuentro}
     ];
     return (
       <div className="App">
