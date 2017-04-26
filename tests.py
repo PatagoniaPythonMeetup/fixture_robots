@@ -154,7 +154,8 @@ class TestGanadores(TestBase):
 class TestTorneo(TestBase):
     def test_torneo_de_ocho(self):
         robots = self.robots[:8]
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        # (robot, jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         while not fixture.finalizado():
             ronda = fixture.generar_ronda()
@@ -168,9 +169,9 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
-        scores = sorted(scores, key=lambda t: t[6], reverse=True)
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
+        scores = sorted(scores, key=lambda t: t[8], reverse=True)
         self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -179,7 +180,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_tres_tct(self):
         robots = self.robots[:3]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -194,12 +195,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -208,7 +209,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_cinco_tct(self):
         robots = self.robots[:5]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -223,12 +224,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -237,7 +238,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_doce_con_tct_en_tres(self):
         robots = self.robots[:12]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -253,12 +254,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -267,7 +268,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_veintiuno_con_tct_en_cinco(self):
         robots = self.robots[:21]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -283,12 +284,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -297,7 +298,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_cuarenta_y_tres_con_tct_en_tres(self):
         robots = self.robots[:43]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -313,12 +314,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
@@ -327,7 +328,7 @@ class TestTorneo(TestBase):
     def test_torneo_de_cuarenta_y_cuatro_con_tct_en_once(self):
         robots = self.robots[:44]
         fixture = Fixture(robots)
-        scores = [[robot, 0, 0, 0, 0, 0, 0] for robot in robots ]
+        scores = [[robot, 0, 0, 0, 0, 0, 0, 0, 0] for robot in robots ]
         fixture = Fixture(robots)
         ronda = None
         while not fixture.finalizado():
@@ -343,12 +344,12 @@ class TestTorneo(TestBase):
                 s = encuentro.score(rwin)
                 swin = [s for s in scores if s[0] == rwin].pop()
                 slose = [s for s in scores if s[0] == rlose].pop()
-                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0] - s[1], swin[6] + 3]
-                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3] + 1, slose[4], slose[5] + s[1] - s[0], slose[6]]
+                scores[scores.index(swin)] = [swin[0], swin[1] + 1, swin[2] + 1, swin[3], swin[4], swin[5] + s[0], swin[6] + s[1], swin[7] + s[0] - s[1], swin[8] + 3]
+                scores[scores.index(slose)] = [slose[0], slose[1] + 1, slose[2], slose[3], slose[4] + 1, slose[5] + s[1], slose[6] + s[0], slose[7] + s[1] - s[0], slose[8]]
         if ronda is not None and ronda.tct:
             self.assertEqual(ronda.ganador(), fixture.ganador())
         else:
-            scores = sorted(scores, key=lambda t: t[6], reverse=True)
+            scores = sorted(scores, key=lambda t: t[8], reverse=True)
             self.assertEqual(scores[0][0], fixture.ganador())
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
