@@ -6,11 +6,11 @@ import {
 } from "semantic-ui-react";
 
 import TabBarContainer from "features/tabs/TabBarContainer";
+import Robots from "features/robots/Robots";
 
 import './App.css';
 
 const Fixture = () => <div>Fixture</div>;
-const Robots = () => <div>Robots</div>;
 const Rondas = () => <div>Rondas</div>;
 
 class App extends Component {
@@ -23,8 +23,8 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <Header inverted as="h1">Campeonato de Robótica y Hackathon</Header>
+          <img src={logo} className="App-logo" alt="logo" />
         </div>
         <Container>
           <TabBarContainer tabs={tabs} size="massive" />
