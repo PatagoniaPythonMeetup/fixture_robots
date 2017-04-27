@@ -1,11 +1,16 @@
 import graphene
 from graphene import resolve_only_args
 
+
 class Robot(graphene.ObjectType):
+    key = graphene.String()
     nombre = graphene.String()
     escuela = graphene.String()
     encargado = graphene.String()
     score = graphene.List(graphene.Int)
+
+    def resolve_key(self, args, context, info):
+        return abs(hash(self)) % 10000
 
     def resolve_score(self, args, context, info):
         return context["fixture"].score(self)
@@ -15,12 +20,19 @@ class Encuentro(graphene.ObjectType):
     jugadas = graphene.Int()
     robots = graphene.List(Robot)
     finalizado = graphene.Boolean()
+    puntos = graphene.List(graphene.Int)
 
     def resolve_jugadas(self, args, context, info):
         return self.jugadas()
 
     def resolve_robots(self, args, context, info):
         return [self.robot_1, self.robot_2]
+
+    def resolve_finalizado(self, args, context, info):
+        return self.finalizado()
+
+    def resolve_puntos(self, args, context, info):
+        return self.score(self.robot_1)
 
 
 class Ronda(graphene.ObjectType):

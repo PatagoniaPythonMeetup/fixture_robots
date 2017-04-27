@@ -1,5 +1,6 @@
 
 class Encuentro(object):
+    MINIMO_JUGADAS = 3
     def __init__(self, robot_1, robot_2, numero=None, ganadas = None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
@@ -34,7 +35,10 @@ class Encuentro(object):
         return hash(self) == hash(other)
         
     def finalizado(self):
-        return self.ganador() is not None
+        jugadas = self.jugadas()
+        ganador = self.ganador()
+        score = self.score(self.robot_1)
+        return (jugadas >= self.MINIMO_JUGADAS and ganador is not None) or (ganador is not None and abs(score[0] - score[1]) > 1)
 
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]
