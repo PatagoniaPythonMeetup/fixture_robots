@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  Table,
-  Header,
-  Image,
+  Table
 } from "semantic-ui-react";
 
 const EncuentroRow = ({encuentro={}}) => {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import {
-  Segment,
+  Container,
   Header,
 } from "semantic-ui-react";
 
@@ -185,10 +185,10 @@ export default class Robots extends Component {
   render() {
     const {robots} = this.state;
     return (
-      <Segment>
+      <Container>
         <Header as="h3">Robots</Header>
         <RobotsList robots={robots}/>
-      </Segment>
+      </Container>
       );
   }
 }

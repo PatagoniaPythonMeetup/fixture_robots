@@ -8,11 +8,11 @@ import {
 import TabBarContainer from "features/tabs/TabBarContainer";
 import Robots from "features/robots/Robots";
 import Rondas from "features/rondas/Rondas";
+import Encuentros from "features/encuentros/Encuentros"
 
 import './App.css';
 
 const Fixture = () => <div>Fixture</div>;
-const Encuentro = () => <div>Encuentro</div>;
 
 class App extends Component {
   render() {
@@ -20,7 +20,7 @@ class App extends Component {
       {name: "fixture", label: "Fixture", component: Fixture},
       {name: "robots", label: "Robots", component: Robots},
       {name: "rondas", label: "Rondas", component: Rondas},
-      {name: "encuentro", label: "Encuentro", component: Encuentro}
+      {name: "encuentros", label: "Encuentros", component: Encuentros}
     ];
     return (
       <div className="App">

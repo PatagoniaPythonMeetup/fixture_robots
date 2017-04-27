@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import {
-  Segment,
+  Container,
   Header,
 } from "semantic-ui-react";
 
@@ -13,7 +13,7 @@ export default class Rondas extends Component {
   state = {
     rondas
   }
-  
+
   render() {
     const {rondas} = this.state;
 
@@ -22,10 +22,10 @@ export default class Rondas extends Component {
     ));
 
     return (
-      <Segment>
+      <Container>
         <Header as="h3">Rondas</Header>
         {rondaRows}
-      </Segment>
+      </Container>
       );
   }
 }
