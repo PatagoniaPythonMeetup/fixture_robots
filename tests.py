@@ -3,6 +3,18 @@ import random
 
 from server import Robot, Fixture
 
+class TestRobots(unittest.TestCase):
+    def test_robots_iguales(self):
+        r1 = Robot("Ultron", "Los Avengers", "Nick Fury")
+        r2 = Robot("Wall-e", "Pixar", "Sr. Disney")
+        r3 = Robot("Ultron", "Los Avengers", "Nick Fury")
+        self.assertTrue(not r1 is r2)
+        self.assertTrue(not r1 == r2)
+        self.assertTrue(r1 is r1)
+        self.assertTrue(r1 == r1)
+        self.assertTrue(not r1 is r3)
+        self.assertTrue(r1 == r3)
+
 class TestBase(unittest.TestCase):
     def setUp(self):
         self.robots = [
@@ -52,7 +64,6 @@ class TestBase(unittest.TestCase):
             Robot("Bender II", "Futurama", "Philip J. Fry")
         ]
         random.shuffle(self.robots)
-
 
 class TestGeneradoresDeRonda(TestBase):
     def test_sin_robots(self):
