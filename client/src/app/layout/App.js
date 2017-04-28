@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
-import {
-  Header,
-  Container
-} from "semantic-ui-react";
+import {Header, Container} from "semantic-ui-react";
+import Relay from 'react-relay';
 
 import TabBarContainer from "features/tabs/TabBarContainer";
 import Robots from "features/robots/Robots";
@@ -14,7 +12,7 @@ import './App.css';
 
 const Fixture = () => <div>Fixture</div>;
 
-class App extends Component {
+class App extends React.Component {
   render() {
     const tabs = [
       {name: "fixture", label: "Fixture", component: Fixture},
@@ -36,4 +34,15 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Relay.createContainer(App, {
+  fragments: {
+    robots: () => Relay.QL`fragment on Robot {
+        key
+        nombre
+        escuela
+        encargado
+        score
+      }
+    `,
+  }
+});

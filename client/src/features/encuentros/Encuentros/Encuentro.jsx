@@ -1,15 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
 
-import {
-  Image,
-  Icon,
-  Card,
-  Grid
-} from "semantic-ui-react";
+import {Image,Icon,Card,Grid} from "semantic-ui-react";
 
 const Encuentro = ({encuentro={}}) => {
   const {
-    
+    key = '',
   } = encuentro;
 
   return (

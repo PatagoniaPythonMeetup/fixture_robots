@@ -3,14 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-plugin-react-relay": "^0.10.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-relay": "^0.10.0",
     "react-toggle-display": "^2.2.0",
     "semantic-ui-css": "^2.2.10",
     "semantic-ui-react": "^0.68.2"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
+  },
+  "graphql": {
+    "request": {
+      "url": "http://localhost:5000/fixture"
+    }
   },
   "scripts": {
     "start": "react-scripts start",

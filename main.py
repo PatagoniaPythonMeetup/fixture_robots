@@ -1,12 +1,14 @@
 import json
 from flask import Flask, render_template
 from flask_graphql import GraphQLView
+from flask_cors import CORS
 
 from server import Fixture, schema, Encuentro, Ronda
 
 FIXTURE = Fixture()
 
 app = Flask(__name__)
+CORS(app)
 
 app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture', 
     schema=schema, 
