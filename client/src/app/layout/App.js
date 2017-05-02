@@ -4,6 +4,7 @@ import {Header, Container} from "semantic-ui-react";
 import Relay from 'react-relay';
 
 import TabBarContainer from "features/tabs/TabBarContainer";
+import Robot from "features/robots/Robot";
 import Robots from "features/robots/Robots";
 import Rondas from "features/rondas/Rondas";
 import Encuentros from "features/encuentros/Encuentros"
@@ -20,6 +21,7 @@ class App extends React.Component {
       {name: "rondas", label: "Rondas", component: Rondas},
       {name: "encuentros", label: "Encuentros", component: Encuentros}
     ];
+    console.log("render");
     return (
       <div className="App">
         <div className="App-header">
@@ -36,13 +38,11 @@ class App extends React.Component {
 
 export default Relay.createContainer(App, {
   fragments: {
-    robots: () => Relay.QL`fragment on Robot {
-        key
-        nombre
-        escuela
-        encargado
-        score
+    fixture: () => Relay.QL`fragment on Fixture {
+      robots {
+        ${Robot.getFragment('robot')},
       }
+    }
     `,
   }
 });

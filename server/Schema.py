@@ -86,7 +86,7 @@ class GanaRobot(graphene.Mutation):
         ok = True
         return GanaRobot(ok=ok)
 
-class Query(graphene.ObjectType):
+class Fixture(graphene.ObjectType):
     robots = graphene.List(Robot)
     rondas = graphene.List(Ronda)
 
@@ -95,6 +95,12 @@ class Query(graphene.ObjectType):
 
     def resolve_rondas(self, args, context, info):
         return context["fixture"].rondas
+
+class Query(graphene.ObjectType):
+    fixture = graphene.Field(Fixture)
+
+    def resolve_fixture(self, args, context, info):
+        return context["fixture"]
 
 class Mutations(graphene.ObjectType):
     generar_ronda = GenerarRonda.Field()

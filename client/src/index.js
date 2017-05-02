@@ -13,10 +13,9 @@ Relay.injectNetworkLayer(
 );
 
 ReactDOM.render(
-  <Relay.Renderer
-    environment={Relay.Store}
-    Container={App}
-    queryConfig={new AppRoute()}
+  <Relay.RootContainer
+    Component={App}
+    route={new AppRoute()}
   />,
   document.getElementById('root')
 );

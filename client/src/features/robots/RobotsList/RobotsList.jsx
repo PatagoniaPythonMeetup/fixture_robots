@@ -9,7 +9,7 @@ export class RobotsList extends Component {
     const {robots = []} = this.props;
 
     const robotRows = robots.map(robot => (
-      <RobotsListRow robot={robot}/>
+      <RobotsListRow key={robot.key} robot={robot}/>
     ));
 
     return (

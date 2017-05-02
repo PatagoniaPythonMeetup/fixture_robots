@@ -4,11 +4,11 @@ import {Image,Icon,Card,Grid} from "semantic-ui-react";
 
 const Encuentro = ({encuentro={}}) => {
   const {
-    key = '',
+    numero = '',
   } = encuentro;
 
   return (
-    <Grid columns='equal'>
+    <Grid key={numero} columns='equal'>
       <Grid.Row>
         <Grid.Column>
           <Card>
