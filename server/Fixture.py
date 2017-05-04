@@ -172,6 +172,7 @@ class Fixture(object):
         fixture.from_dict(json.loads(source))
         return fixture
 
+    #TODO: Creo que estaria bueno tener un estado de cada cosa, iniciado, finalizado, en curso o que se yo
     def finalizado(self):
         """Un fixture esta finalizado cuando todas las rondas estan finalizadas y la ultima ronda tiene a un solo ganador"""
         tiene_robots = bool(self.robots)
@@ -182,7 +183,7 @@ class Fixture(object):
     # Consultas sobre el fixture
     def ganador(self):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
-        if robots:
+        if len(robots) == 1:
             return robots.pop()
 
     def gano(self, robot, ronda=None, encuentro=None):

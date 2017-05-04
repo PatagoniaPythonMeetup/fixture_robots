@@ -89,12 +89,20 @@ class GanaRobot(graphene.Mutation):
 class Fixture(graphene.ObjectType):
     robots = graphene.List(Robot)
     rondas = graphene.List(Ronda)
+    ganador = graphene.Field(Robot)
+    finalizado = graphene.Boolean()
 
     def resolve_robots(self, args, context, info):
         return context["fixture"].robots
 
     def resolve_rondas(self, args, context, info):
         return context["fixture"].rondas
+
+    def resolve_ganador(self, args, context, info):
+        return context["fixture"].ganador()
+    
+    def resolve_finalizado(self, args, context, info):
+        return context["fixture"].finalizado()
 
 class Query(graphene.ObjectType):
     fixture = graphene.Field(Fixture)
