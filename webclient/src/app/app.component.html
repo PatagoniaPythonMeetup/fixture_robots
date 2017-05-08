@@ -1,4 +1,6 @@
 <h1>
   {{title}}
 </h1>
-<robot-card></robot-card>
+<div class="ui four cards">
+  <robot-card [robot]="robot" *ngFor="let robot of robots$ | async"></robot-card>
+</div>
