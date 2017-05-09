@@ -126,8 +126,14 @@ class Fixture(object):
             return rondas.pop()
     
     def get_ronda_actual(self):
-        if self.rondas:
+        if self.rondas and not self.finalizado():
             return self.rondas[-1]
+
+    # Encuentros
+    def get_encuentros_actuales(self):
+        ronda = self.get_ronda_actual()
+        if ronda is not None:
+            return ronda.get_encuentros_actuales()
 
     # Limpiar
     def limpiar_rondas(self):
@@ -151,7 +157,7 @@ class Fixture(object):
         self.limpiar()
         robots = []
         for robot_data in data["robots"]:
-            robot = self.inscribir(*robot_data)
+            robot = self.inscribir_robot(*robot_data)
             robots.append(robot)
         for ronda_data in data["rondas"]:
             encuentros = []

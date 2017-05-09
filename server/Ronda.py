@@ -35,7 +35,7 @@ class Ronda(object):
         if encuentros:
             return encuentros.pop()
 
-    def get_encuentro_actual(self):
+    def get_encuentros_actuales(self):
         encuentros = [encuentro for encuentro in self.encuentros if not encuentro.finalizado()]
         if encuentros:
             return encuentros[:self.NUMERO_DE_ARENAS]

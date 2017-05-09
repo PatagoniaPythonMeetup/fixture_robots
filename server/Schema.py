@@ -42,6 +42,7 @@ class Ronda(graphene.ObjectType):
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
     finalizada = graphene.Boolean()
+    tct = graphene.Boolean()
 
     def resolve_vuelta(self, args, context, info):
         return self.vuelta()
@@ -89,8 +90,11 @@ class GanaRobot(graphene.Mutation):
 class Fixture(graphene.ObjectType):
     robots = graphene.List(Robot)
     rondas = graphene.List(Ronda)
+    ronda_actual = graphene.Field(Ronda)
+    encuentros_actuales = graphene.List(Encuentro)
     ganador = graphene.Field(Robot)
     finalizado = graphene.Boolean()
+    iniciado = graphene.Boolean()
 
     def resolve_robots(self, args, context, info):
         return context["fixture"].robots
@@ -98,11 +102,20 @@ class Fixture(graphene.ObjectType):
     def resolve_rondas(self, args, context, info):
         return context["fixture"].rondas
 
+    def resolve_ronda_actual(self, args, context, info):
+        return context["fixture"].get_ronda_actual()
+
+    def resolve_encuentros_actuales(self, args, context, info):
+        return context["fixture"].get_encuentros_actuales()
+
     def resolve_ganador(self, args, context, info):
         return context["fixture"].ganador()
     
     def resolve_finalizado(self, args, context, info):
         return context["fixture"].finalizado()
+
+    def resolve_iniciado(self, args, context, info):
+        return context["fixture"].iniciado()
 
 class Query(graphene.ObjectType):
     fixture = graphene.Field(Fixture)
