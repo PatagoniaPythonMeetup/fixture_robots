@@ -98,6 +98,11 @@ class Fixture(object):
         if len(robots) == 1:
             return robots.pop()
 
+    def get_robot_por_key(self, key):
+        robots = [robot for robot in self.robots if robot.key == key]
+        if len(robots) == 1:
+            return robots.pop()
+
     def robots_en_juego(self):
         ronda = self.get_ronda_actual()
         return self.robots if not ronda else ronda.robots

@@ -9,9 +9,6 @@ class Robot(graphene.ObjectType):
     encargado = graphene.String()
     score = graphene.List(graphene.Int)
 
-    def resolve_key(self, args, context, info):
-        return abs(hash(self)) % 10000
-
     def resolve_score(self, args, context, info):
         return context["fixture"].score(self)
 
@@ -60,18 +57,22 @@ class Fixture(graphene.ObjectType):
     finalizado = graphene.Boolean()
 
 class GenerarRonda(graphene.Mutation):
+    class Input:
+        tct = graphene.Boolean()
+
     ok = graphene.Boolean()
     ronda = graphene.Field(lambda: Ronda)
 
     @staticmethod
     def mutate(root, args, context, info):
-        ronda = context["fixture"].generar_ronda()
+        tct = args.get('tct')
+        ronda = context["fixture"].generar_ronda(tct)
         ok = True
         return GenerarRonda(ronda=ronda, ok=ok)
 
 class GanaRobot(graphene.Mutation):
     class Input:
-        nombre = graphene.String()
+        key = graphene.String()
         ronda = graphene.Int()
         encuentro = graphene.Int()
     
@@ -79,10 +80,10 @@ class GanaRobot(graphene.Mutation):
     
     @staticmethod
     def mutate(root, args, context, info):
-        nombre = args.get('nombre')
+        key = args.get('key')
         ronda = args.get('ronda')
         encuentro = args.get('encuentro')
-        robot = context["fixture"].get_robot_por_nombre(nombre)
+        robot = context["fixture"].get_robot_por_key(key)
         context["fixture"].gano(robot, ronda=ronda, encuentro=encuentro)
         ok = True
         return GanaRobot(ok=ok)

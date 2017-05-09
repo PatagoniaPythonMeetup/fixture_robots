@@ -1,3 +1,7 @@
 from collections import namedtuple
 
-Robot = namedtuple("Robot", "nombre escuela encargado")
+class Robot(namedtuple("Robot", "nombre escuela encargado")):
+    __slots__ = ()
+    @property
+    def key(self):
+        return abs(hash(self)) % 10000
