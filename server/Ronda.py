@@ -66,7 +66,9 @@ class Ronda(object):
     def gano(self, robot, encuentro=None):
         encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is None or (encuentro is not None and e.numero == encuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
-        encuentros[0].gano(robot)
+        encuentro = encuentros[0]
+        encuentro.gano(robot)
+        return encuentro
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro de la ronda

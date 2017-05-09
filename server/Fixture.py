@@ -99,6 +99,7 @@ class Fixture(object):
             return robots.pop()
 
     def get_robot_por_key(self, key):
+        print([robot.key for robot in self.robots])
         robots = [robot for robot in self.robots if robot.key == key]
         if len(robots) == 1:
             return robots.pop()
@@ -119,6 +120,7 @@ class Fixture(object):
     def generar_ronda(self, tct=False):
         assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
+        assert robots, "No hay robots para participar en una nueva ronda"
         tuplas = self._generador(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
         ronda = self.crear_ronda(tuplas, promovidos, tct=tct)
@@ -209,7 +211,7 @@ class Fixture(object):
         ronda = self.get_ronda_actual() if ronda is None else self.get_ronda(ronda)
         assert ronda is not None, "No hay ronda actual o el numero de ronda no es correcto"
         assert ronda.participa(robot), "El robot no participa de la ronda"
-        ronda.gano(robot, encuentro=encuentro)
+        return ronda.gano(robot, encuentro=encuentro)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo

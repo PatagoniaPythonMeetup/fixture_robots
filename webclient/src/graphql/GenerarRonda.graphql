@@ -1,0 +1,14 @@
+mutation generarRonda(
+  $tct: Boolean! = false 
+) {
+  generarRonda(tct: $tct) {
+    ok
+    ronda {
+      numero
+      vuelta
+      jugadas
+      finalizada
+      tct
+    }
+  }
+}
