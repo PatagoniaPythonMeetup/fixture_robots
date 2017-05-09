@@ -3,6 +3,7 @@ from functools import reduce
 from .Robot import Robot
 
 class Ronda(object):
+    NUMERO_DE_ARENAS = 2
     def __init__(self, numero, encuentros, promovidos=None, tct=False):
         self.numero = numero
         self.encuentros = encuentros
@@ -13,11 +14,10 @@ class Ronda(object):
     def robots(self):
         return list(reduce(lambda a, e: a.union([e.robot_1, e.robot_2]), self.encuentros, set(self.promovidos)))
 
-    def participa(self, robot):
-        return robot in self.promovidos or any([e.participa(robot) for e in self.encuentros])
-
-    def finalizada(self):
-        return all([e.finalizado() for e in self.encuentros])
+    def get_encuentro(self, numero):
+        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
+        if encuentros:
+            return encuentros.pop()
 
     def ganadores(self):
         if self.tct:
@@ -32,22 +32,34 @@ class Ronda(object):
         ganadores = self.ganadores()
         if len(ganadores) == 1:
             return ganadores.pop()
-
-    def get_encuentro(self, numero):
-        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
-        if encuentros:
-            return encuentros.pop()
     
-    def gano(self, robot, encuentro=None):
-        encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is None or (encuentro is not None and e.numero == encuentro))]
-        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
-        encuentros[0].gano(robot)
-
     def vuelta(self):
         return max([e.jugadas() for e in self.encuentros])
     
     def jugadas(self):
         return sum([e.jugadas() for e in self.encuentros])
+
+    # Json dumps and loads
+    def to_dict(self):
+        return {
+            "numero": self.numero,
+            "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
+            "promovidos": self.promovidos,
+            "tct": self.tct
+        }
+
+    # Estados
+    def finalizada(self):
+        return all([e.finalizado() for e in self.encuentros])
+
+    # Trabajando sobre la ronda
+    def participa(self, robot):
+        return robot in self.promovidos or any([e.participa(robot) for e in self.encuentros])
+
+    def gano(self, robot, encuentro=None):
+        encuentros = [e for e in self.encuentros if e.participa(robot) and (encuentro is None or (encuentro is not None and e.numero == encuentro))]
+        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
+        encuentros[0].gano(robot)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro de la ronda
@@ -62,11 +74,3 @@ class Ronda(object):
         a_favor = reduce(lambda acumulador, resultado: acumulador + resultado[0], resultados, 0)
         en_contra = reduce(lambda acumulador, resultado: acumulador + resultado[1], resultados, 0)
         return (triunfos + derrotas + empates, triunfos, empates, derrotas, a_favor, en_contra, a_favor - en_contra, puntos)
-
-    def to_dict(self):
-        return {
-            "numero": self.numero,
-            "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
-            "promovidos": self.promovidos,
-            "tct": self.tct
-        }

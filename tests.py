@@ -68,8 +68,20 @@ class TestBase(unittest.TestCase):
 class TestGeneradoresDeRonda(TestBase):
     def test_sin_robots(self):
         fixture = Fixture([])
+        self.assertEqual(fixture.iniciado(), False)
         self.assertEqual(fixture.finalizado(), True)
         
+    def test_con_robots(self):
+        fixture = Fixture(self.robots)
+        self.assertEqual(fixture.iniciado(), False)
+        self.assertEqual(fixture.finalizado(), False)
+    
+    def test_con_robots_y_ronda(self):
+        fixture = Fixture(self.robots)
+        ronda = fixture.generar_ronda()
+        self.assertEqual(fixture.iniciado(), True)
+        self.assertEqual(fixture.finalizado(), False)
+    
     def test_un_robot(self):
         robots = self.robots[:]
         robot = random.choice(robots)

@@ -82,17 +82,27 @@ GENERADORES = {
 }
 
 class Fixture(object):
-
     def __init__(self, robots = None):
         self.robots = robots or []
         self.rondas = []
         self._generador = GENERADORES["combinaciones"]
     
-    def inscribir(self, nombre, escuela, responsable):
+    # Robots
+    def inscribir_robot(self, nombre, escuela, responsable):
         robot = Robot(nombre, escuela, responsable)
         self.robots.append(robot)
         return robot
 
+    def get_robot_por_nombre(self, nombre):
+        robots = [robot for robot in self.robots if robot.nombre == nombre]
+        if len(robots) == 1:
+            return robots.pop()
+
+    def robots_en_juego(self):
+        ronda = self.get_ronda_actual()
+        return self.robots if not ronda else ronda.robots
+    
+    # Rondas
     def crear_ronda(self, tuplas, promovidos, tct):
         encuentros = [Encuentro(*t, numero = i + 1) for i, t in enumerate(tuplas)]
         ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos), tct)
@@ -110,6 +120,16 @@ class Fixture(object):
         self.agregar_ronda(ronda)
         return ronda
 
+    def get_ronda(self, numero):
+        rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
+        if len(rondas) == 1:
+            return rondas.pop()
+    
+    def get_ronda_actual(self):
+        if self.rondas:
+            return self.rondas[-1]
+
+    # Limpiar
     def limpiar_rondas(self):
         self.rondas = []
 
@@ -119,24 +139,6 @@ class Fixture(object):
     def limpiar(self):
         self.limpiar_robots()
         self.limpiar_rondas()
-
-    def get_ronda(self, numero):
-        rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
-        if len(rondas) == 1:
-            return rondas.pop()
-
-    def get_robot_por_nombre(self, nombre):
-        robots = [robot for robot in self.robots if robot.nombre == nombre]
-        if len(robots) == 1:
-            return robots.pop()
-
-    def get_ronda_actual(self):
-        if self.rondas:
-            return self.rondas[-1]
-
-    def robots_en_juego(self):
-        ronda = self.get_ronda_actual()
-        return self.robots if not ronda else ronda.robots
 
     # Json dumps and loads
     def to_dict(self):
@@ -172,19 +174,25 @@ class Fixture(object):
         fixture.from_dict(json.loads(source))
         return fixture
 
-    #TODO: Creo que estaria bueno tener un estado de cada cosa, iniciado, finalizado, en curso o que se yo
-    def finalizado(self):
-        """Un fixture esta finalizado cuando todas las rondas estan finalizadas y la ultima ronda tiene a un solo ganador"""
+    # Estados
+    def iniciado(self):
         tiene_robots = bool(self.robots)
-        rondas_finalizadas = bool(self.rondas and all([r.finalizada() for r in self.rondas]))
-        ultima_ronda_un_ganador = bool(self.rondas and len(self.rondas[-1].ganadores()) == 1)
-        return not tiene_robots or (tiene_robots and rondas_finalizadas and ultima_ronda_un_ganador)
+        tiene_rondas = bool(self.rondas)
+        tiene_ganador = bool(self.ganador())
+        return tiene_robots and tiene_rondas and not tiene_ganador
 
-    # Consultas sobre el fixture
+    def finalizado(self):
+        tiene_robots = bool(self.robots)
+        tiene_rondas = bool(self.rondas)
+        tiene_ganador = bool(self.ganador())
+        return (tiene_robots and tiene_rondas and tiene_ganador) or (not tiene_robots)
+
+    # Trabajando sobre el fixture
     def ganador(self):
-        robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
-        if len(robots) == 1:
-            return robots.pop()
+        if self.rondas:
+            robots = self.rondas[-1].ganadores()
+            if len(robots) == 1:
+                return robots.pop()
 
     def gano(self, robot, ronda=None, encuentro=None):
         ronda = self.get_ronda_actual() if ronda is None else self.get_ronda(ronda)
