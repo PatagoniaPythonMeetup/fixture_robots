@@ -10,14 +10,10 @@ class Ronda(object):
         self.promovidos = promovidos or []
         self.tct = tct
 
+    # Robots
     @property
     def robots(self):
         return list(reduce(lambda a, e: a.union([e.robot_1, e.robot_2]), self.encuentros, set(self.promovidos)))
-
-    def get_encuentro(self, numero):
-        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
-        if encuentros:
-            return encuentros.pop()
 
     def ganadores(self):
         if self.tct:
@@ -32,7 +28,18 @@ class Ronda(object):
         ganadores = self.ganadores()
         if len(ganadores) == 1:
             return ganadores.pop()
-    
+
+    # Encuentros
+    def get_encuentro(self, numero):
+        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
+        if encuentros:
+            return encuentros.pop()
+
+    def get_encuentro_actual(self):
+        encuentros = [encuentro for encuentro in self.encuentros if not encuentro.finalizado()]
+        if encuentros:
+            return encuentros[:self.NUMERO_DE_ARENAS]
+
     def vuelta(self):
         return max([e.jugadas() for e in self.encuentros])
     
