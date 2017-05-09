@@ -209,10 +209,7 @@ class Fixture(object):
                 return robots.pop()
 
     def gano(self, robot, nronda=None, nencuentro=None):
-        #print(self.get_ronda_actual(), len(self.rondas), self.finalizado(), bool(self.robots), bool(self.rondas), self.rondas[-1].ganadores())
         ronda = self.get_ronda_actual() if nronda is None else self.get_ronda(nronda)
-        if ronda is None:
-            sys.exit()
         assert ronda is not None, "No hay ronda actual o el numero de ronda no es correcto"
         assert ronda.participa(robot), "El robot no participa de la ronda"
         return ronda.gano(robot, nencuentro=nencuentro)
