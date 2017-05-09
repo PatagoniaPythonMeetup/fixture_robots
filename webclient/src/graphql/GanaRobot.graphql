@@ -1,0 +1,16 @@
+mutation ganaRobot(
+  $key: String!
+  $ronda: Int
+  $encuentro: Int
+) {
+  generarRonda(key: $key, ronda: $ronda, encuentro: $encuentro) {
+    ok
+    mensaje
+    encuentro {
+      numero
+      jugadas
+      finalizado
+      puntos
+    }
+  }
+}

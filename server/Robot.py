@@ -4,4 +4,6 @@ class Robot(namedtuple("Robot", "nombre escuela encargado")):
     __slots__ = ()
     @property
     def key(self):
-        return str(abs(hash(self.nombre)) % 10000)
+        k = self.nombre + self.escuela + self.encargado
+        print(k)
+        return hash(k)

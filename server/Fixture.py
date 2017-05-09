@@ -1,5 +1,6 @@
 import random
 import json
+import sys
 from functools import reduce
 from itertools import combinations
 
@@ -99,7 +100,6 @@ class Fixture(object):
             return robots.pop()
 
     def get_robot_por_key(self, key):
-        print([robot.key for robot in self.robots])
         robots = [robot for robot in self.robots if robot.key == key]
         if len(robots) == 1:
             return robots.pop()
@@ -198,7 +198,8 @@ class Fixture(object):
         tiene_robots = bool(self.robots)
         tiene_rondas = bool(self.rondas)
         tiene_ganador = bool(self.ganador())
-        return (tiene_robots and tiene_rondas and tiene_ganador) or (not tiene_robots)
+        rondas_finalizadas = all([ronda.finalizada() for ronda in self.rondas])
+        return (tiene_robots and tiene_rondas and rondas_finalizadas and tiene_ganador) or (not tiene_robots)
 
     # Trabajando sobre el fixture
     def ganador(self):
@@ -207,11 +208,14 @@ class Fixture(object):
             if len(robots) == 1:
                 return robots.pop()
 
-    def gano(self, robot, ronda=None, encuentro=None):
-        ronda = self.get_ronda_actual() if ronda is None else self.get_ronda(ronda)
+    def gano(self, robot, nronda=None, nencuentro=None):
+        #print(self.get_ronda_actual(), len(self.rondas), self.finalizado(), bool(self.robots), bool(self.rondas), self.rondas[-1].ganadores())
+        ronda = self.get_ronda_actual() if nronda is None else self.get_ronda(nronda)
+        if ronda is None:
+            sys.exit()
         assert ronda is not None, "No hay ronda actual o el numero de ronda no es correcto"
         assert ronda.participa(robot), "El robot no participa de la ronda"
-        return ronda.gano(robot, encuentro=encuentro)
+        return ronda.gano(robot, nencuentro=nencuentro)
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo

@@ -35,10 +35,10 @@ class Encuentro(object):
         return hash(self) == hash(other)
         
     def finalizado(self):
-        jugadas = self.jugadas()
-        ganador = self.ganador()
+        numero_jugadas = self.jugadas()
+        tiene_ganador = bool(self.ganador())
         score = self.score(self.robot_1)
-        return (jugadas >= self.MINIMO_JUGADAS and ganador is not None) or (ganador is not None and abs(score[0] - score[1]) > 1)
+        return (numero_jugadas >= self.MINIMO_JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
 
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]

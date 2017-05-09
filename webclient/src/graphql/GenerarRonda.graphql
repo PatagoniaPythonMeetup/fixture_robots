@@ -1,8 +1,9 @@
 mutation generarRonda(
-  $tct: Boolean! = false 
+  $tct: Boolean!
 ) {
   generarRonda(tct: $tct) {
     ok
+    mensaje
     ronda {
       numero
       vuelta

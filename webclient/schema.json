@@ -459,6 +459,16 @@
               "description": null,
               "args": [
                 {
+                  "name": "encuentro",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "key",
                   "description": null,
                   "type": {
@@ -470,16 +480,6 @@
                 },
                 {
                   "name": "ronda",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "encuentro",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -521,6 +521,18 @@
               "deprecationReason": null
             },
             {
+              "name": "mensaje",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "ronda",
               "description": null,
               "args": [],
@@ -550,6 +562,30 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "mensaje",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "encuentro",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Encuentro",
                 "ofType": null
               },
               "isDeprecated": false,
