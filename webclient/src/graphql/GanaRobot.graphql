@@ -3,7 +3,7 @@ mutation ganaRobot(
   $ronda: Int
   $encuentro: Int
 ) {
-  generarRonda(key: $key, ronda: $ronda, encuentro: $encuentro) {
+  ganaRobot(key: $key, ronda: $ronda, encuentro: $encuentro) {
     ok
     mensaje
     encuentro {
