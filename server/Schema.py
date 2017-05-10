@@ -7,6 +7,7 @@ class Robot(graphene.ObjectType):
     nombre = graphene.String()
     escuela = graphene.String()
     encargado = graphene.String()
+    escudo = graphene.String()
     score = graphene.List(graphene.Int)
 
     def resolve_score(self, args, context, info):
