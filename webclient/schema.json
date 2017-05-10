@@ -471,16 +471,6 @@
               "description": null,
               "args": [
                 {
-                  "name": "encuentro",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "key",
                   "description": null,
                   "type": {
@@ -492,6 +482,16 @@
                 },
                 {
                   "name": "ronda",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "encuentro",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

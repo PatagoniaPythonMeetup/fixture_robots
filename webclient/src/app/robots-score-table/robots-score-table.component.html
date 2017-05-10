@@ -1,0 +1,33 @@
+<table class="ui very basic collapsing celled table">
+  <thead>
+    <tr>
+      <th>Robot</th>
+      <th>Jugados</th>
+      <th>Triunfos</th>
+      <th>Empates</th>
+      <th>Derrotas</th>
+      <th>A Favor</th>
+      <th>En Contra</th>
+      <th>Diferencia</th>
+      <th>Puntos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let robot of robotsScore$ | async">
+      <td>
+        <h4 class="ui image header">
+          <img src="/assets/escudos/{{robot.escudo}}" class="ui mini rounded image">
+            <div class="content">{{robot.nombre}} <div class="sub header">{{robot.escuela}}</div></div>
+        </h4>
+      </td>
+      <td>{{robot.score[0]}}</td>
+      <td>{{robot.score[1]}}</td>
+      <td>{{robot.score[2]}}</td>
+      <td>{{robot.score[3]}}</td>
+      <td>{{robot.score[4]}}</td>
+      <td>{{robot.score[5]}}</td>
+      <td>{{robot.score[6]}}</td>
+      <td>{{robot.score[7]}}</td>
+    </tr>
+  </tbody>
+</table>

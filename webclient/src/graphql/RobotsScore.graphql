@@ -1,11 +1,11 @@
-query Robots {
+query RobotsScore {
   fixture {
     robots {
       key
       nombre
-      escuela
-      encargado
       escudo
+      escuela
+      score
     }
   }
 }

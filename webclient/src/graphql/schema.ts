@@ -62,6 +62,17 @@ export interface RobotsQuery {
       escuela: string | null,
       encargado: string | null,
       escudo: string | null,
+    } > | null,
+  } | null;
+}
+
+export interface RobotsScoreQuery {
+  fixture: {
+    robots: Array< {
+      key: string | null,
+      nombre: string | null,
+      escudo: string | null,
+      escuela: string | null,
       score: Array< number | null > | null,
     } > | null,
   } | null;

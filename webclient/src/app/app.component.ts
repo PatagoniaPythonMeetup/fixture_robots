@@ -16,6 +16,6 @@ export class AppComponent {
 
   constructor(private fixture: FixtureService) {
     this.encuentrosActuales$ = this.fixture.encuentrosActuales();
-    this.robots$ = this.fixture.getRobots();
+    this.robots$ = this.fixture.robots();
   }
 }

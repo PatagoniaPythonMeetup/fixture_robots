@@ -6,16 +6,17 @@ import { DocumentNode } from 'graphql';
 
 import 'rxjs/add/operator/map';
 
-import { RobotsQuery, EncuentrosActualesQuery } from '../graphql/schema';
+import { EncuentrosActualesQuery, RobotsQuery, RobotsScoreQuery } from '../graphql/schema';
 const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robots.graphql');
 const EncuentrosActualesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/EncuentrosActuales.graphql');
+const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotsScore.graphql');
 
 @Injectable()
 export class FixtureService {
 
   constructor(private apollo: Apollo) { }
 
-  getRobots() {
+  robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
       .map(result => result.data.fixture.robots) as Observable<any>;
   }
@@ -23,6 +24,11 @@ export class FixtureService {
   encuentrosActuales() {
     return this.apollo.watchQuery<EncuentrosActualesQuery>({ query: EncuentrosActualesQueryNode})
       .map(result => result.data.fixture.encuentrosActuales) as Observable<any>;
+  }
+
+  robotsScore() {
+    return this.apollo.watchQuery<RobotsScoreQuery>({ query: RobotsScoreQueryNode})
+      .map(result => result.data.fixture.robots) as Observable<any>;
   }
 
 }

@@ -10,12 +10,14 @@ import { RobotCardComponent } from './robot-card/robot-card.component';
 
 import { getClient } from './apollo-client';
 import { EncuentroCardComponent } from './encuentro-card/encuentro-card.component';
+import { RobotsScoreTableComponent } from './robots-score-table/robots-score-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RobotCardComponent,
-    EncuentroCardComponent
+    EncuentroCardComponent,
+    RobotsScoreTableComponent
   ],
   imports: [
     BrowserModule,
