@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./encuentro-card.component.css']
 })
 export class EncuentroCardComponent implements OnInit {
-  @Input() encuentro = {}
+  @Input() encuentro: any = {}
 
   constructor() { }
 
