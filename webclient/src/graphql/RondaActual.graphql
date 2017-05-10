@@ -1,0 +1,20 @@
+query RondaActual {
+  fixture {
+    rondaActual {
+      numero
+      vuelta
+      jugadas
+      finalizada
+      tct
+      encuentros {
+        numero
+        robots {
+          key
+          nombre
+          escudo
+        }
+        puntos
+      }
+    }
+  }
+}

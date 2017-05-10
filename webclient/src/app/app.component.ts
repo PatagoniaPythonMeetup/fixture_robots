@@ -9,11 +9,13 @@ import { Component } from '@angular/core';
   providers: [FixtureService]
 })
 export class AppComponent {
-  title = 'app works!';
+  title = 'Competencia Robótica';
+  
   robots$: Observable<any>;
+  encuentrosActuales$: Observable<any>;
 
   constructor(private fixture: FixtureService) {
+    this.encuentrosActuales$ = this.fixture.encuentrosActuales();
     this.robots$ = this.fixture.getRobots();
-    this.robots$.subscribe(robots => console.log(robots));
   }
 }

@@ -5,6 +5,7 @@ query Robots {
       nombre
       escuela
       encargado
+      escudo
       score
     }
   }

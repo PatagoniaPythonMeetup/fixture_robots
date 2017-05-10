@@ -1,6 +1,11 @@
-<h1>
-  {{title}}
-</h1>
+<div class="ui inverted segment">
+  <h2 class="ui center aligned inverted header">
+    {{title}}
+  </h2>
+</div>
+
+<encuentro-card [encuentro]="encuentro" *ngFor="let encuentro of encuentrosActuales$ | async"></encuentro-card>
+
 <div class="ui four cards">
   <robot-card [robot]="robot" *ngFor="let robot of robots$ | async"></robot-card>
 </div>

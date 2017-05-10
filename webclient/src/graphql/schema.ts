@@ -1,6 +1,22 @@
 //  This file was automatically generated and should not be edited.
 /* tslint:disable */
 
+export interface EncuentrosActualesQuery {
+  fixture: {
+    encuentrosActuales: Array< {
+      numero: number | null,
+      jugadas: number | null,
+      finalizado: boolean | null,
+      robots: Array< {
+        key: string | null,
+        nombre: string | null,
+        escudo: string | null,
+      } > | null,
+      puntos: Array< number | null > | null,
+    } > | null,
+  } | null;
+}
+
 export interface GanaRobotMutationVariables {
   key: string;
   ronda: number | null;
@@ -45,8 +61,30 @@ export interface RobotsQuery {
       nombre: string | null,
       escuela: string | null,
       encargado: string | null,
+      escudo: string | null,
       score: Array< number | null > | null,
     } > | null,
+  } | null;
+}
+
+export interface RondaActualQuery {
+  fixture: {
+    rondaActual: {
+      numero: number | null,
+      vuelta: number | null,
+      jugadas: number | null,
+      finalizada: boolean | null,
+      tct: boolean | null,
+      encuentros: Array< {
+        numero: number | null,
+        robots: Array< {
+          key: string | null,
+          nombre: string | null,
+          escudo: string | null,
+        } > | null,
+        puntos: Array< number | null > | null,
+      } > | null,
+    } | null,
   } | null;
 }
 /* tslint:enable */

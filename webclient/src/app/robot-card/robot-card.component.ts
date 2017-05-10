@@ -17,11 +17,9 @@ interface IRobot {
 })
 export class RobotCardComponent implements OnInit {
   @Input() robot: IRobot = <IRobot>{}
-  constructor() { 
-    this.robot.score = [3,3]
-  }
 
-  ngOnInit() {
-  }
+  constructor() {}
+
+  ngOnInit() {}
 
 }

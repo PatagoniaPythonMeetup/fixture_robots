@@ -9,11 +9,13 @@ import { AppComponent } from './app.component';
 import { RobotCardComponent } from './robot-card/robot-card.component';
 
 import { getClient } from './apollo-client';
+import { EncuentroCardComponent } from './encuentro-card/encuentro-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RobotCardComponent
+    RobotCardComponent,
+    EncuentroCardComponent
   ],
   imports: [
     BrowserModule,
