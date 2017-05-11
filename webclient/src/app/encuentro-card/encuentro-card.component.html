@@ -1,20 +1,31 @@
-<div class="ui statistics">
-  <div class="green statistic">
-    <div class="value">
-      <img src="/assets/escudos/{{encuentro.robots[0].escudo}}" class="ui circular inline image">
-      {{encuentro.puntos[0] || 0}}
-    </div>
-    <div class="label">
-      {{encuentro.robots[0].nombre}}
+<div class="ui equal width grid">
+  <div class="column">
+    <img class="ui small image" src="/assets/escudos/{{encuentro.robots[0].escudo}}">
+  </div>
+  <div class="column">
+    <div class="ui red huge statistic">
+      <div class="label">
+        {{encuentro.robots[1].nombre}}
+      </div>
+      <div class="value">
+        {{encuentro.puntos[0] || 0}}
+      </div>
     </div>
   </div>
-  <div class="red statistic">
-    <div class="value">
-      <img src="/assets/escudos/{{encuentro.robots[1].escudo}}" class="ui circular inline image">
-      {{encuentro.puntos[1] || 0}}
-    </div>
-    <div class="label">
-      {{encuentro.robots[1].nombre}}
+  <div class="column">
+    <img class="ui small image" src="/assets/versus.png">
+  </div>
+  <div class="column">
+    <img class="ui small image" src="/assets/escudos/{{encuentro.robots[1].escudo}}">
+  </div>
+  <div class="column">
+    <div class="ui green huge statistic">
+      <div class="label">
+        {{encuentro.robots[1].nombre}}
+      </div>
+      <div class="value">
+        {{encuentro.puntos[0] || 0}}
+      </div>
     </div>
   </div>
 </div>

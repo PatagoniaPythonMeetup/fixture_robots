@@ -1,0 +1,19 @@
+query Rondas {
+  fixture {
+    rondas {
+      numero
+      finalizada
+      tct
+      encuentros {
+        numero
+        finalizado
+        robots {
+          key
+          nombre
+          escudo
+        } 
+        puntos
+      }
+    }
+  }
+}

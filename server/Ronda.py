@@ -3,7 +3,7 @@ from functools import reduce
 from .Robot import Robot
 
 class Ronda(object):
-    NUMERO_DE_ARENAS = 2
+    NUMERO_DE_ARENAS = 3
     def __init__(self, numero, encuentros, promovidos=None, tct=False):
         self.numero = numero
         self.encuentros = encuentros

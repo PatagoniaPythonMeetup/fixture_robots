@@ -98,4 +98,24 @@ export interface RondaActualQuery {
     } | null,
   } | null;
 }
+
+export interface RondasQuery {
+  fixture: {
+    rondas: Array< {
+      numero: number | null,
+      finalizada: boolean | null,
+      tct: boolean | null,
+      encuentros: Array< {
+        numero: number | null,
+        finalizado: boolean | null,
+        robots: Array< {
+          key: string | null,
+          nombre: string | null,
+          escudo: string | null,
+        } > | null,
+        puntos: Array< number | null > | null,
+      } > | null,
+    } > | null,
+  } | null;
+}
 /* tslint:enable */

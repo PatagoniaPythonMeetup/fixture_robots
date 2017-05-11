@@ -481,7 +481,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "ronda",
+                  "name": "encuentro",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -491,7 +491,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "encuentro",
+                  "name": "ronda",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
