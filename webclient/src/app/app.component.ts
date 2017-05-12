@@ -10,10 +10,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   robots$: Observable<any>;
-  encuentrosActuales$: Observable<any>;
 
   constructor(private fixture: FixtureService) {
-    this.encuentrosActuales$ = this.fixture.encuentrosActuales();
     this.robots$ = this.fixture.robots();
   }
 }

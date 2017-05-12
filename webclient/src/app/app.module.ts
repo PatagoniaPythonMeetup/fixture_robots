@@ -14,6 +14,7 @@ import { RobotsScoreTableComponent } from './robots-score-table/robots-score-tab
 import { MenuComponent } from './layout/menu/menu.component';
 import { MainComponent } from './layout/main/main.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { EncuentrosActualesComponent } from './encuentros-actuales/encuentros-actuales.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FooterComponent } from './layout/footer/footer.component';
     RobotsScoreTableComponent,
     MenuComponent,
     MainComponent,
-    FooterComponent
+    FooterComponent,
+    EncuentrosActualesComponent
   ],
   imports: [
     BrowserModule,

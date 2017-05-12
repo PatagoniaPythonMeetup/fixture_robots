@@ -1,0 +1,6 @@
+<div class="ui stackable inverted divided grid">
+  <div class="eight wide column" *ngFor="let encuentro of encuentrosActuales$ | async">
+    <h4 class="ui inverted header">Encuentro {{encuentro.numero}}</h4>
+    <encuentro-card [encuentro]="encuentro" ></encuentro-card>
+  </div>
+</div>
