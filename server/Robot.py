@@ -12,4 +12,4 @@ class Robot(namedtuple("Robot", "nombre escuela encargado")):
     
     @property
     def escudo(self):
-        return random.choice(["escudo1.png", "escudo2.png", "escudo3.png"])
+        return random.choice(["e{0:02d}.png".format(numero) for numero in range(1, 23)])
