@@ -11,13 +11,19 @@ import { RobotCardComponent } from './robot-card/robot-card.component';
 import { getClient } from './apollo-client';
 import { EncuentroCardComponent } from './encuentro-card/encuentro-card.component';
 import { RobotsScoreTableComponent } from './robots-score-table/robots-score-table.component';
+import { MenuComponent } from './layout/menu/menu.component';
+import { MainComponent } from './layout/main/main.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RobotCardComponent,
     EncuentroCardComponent,
-    RobotsScoreTableComponent
+    RobotsScoreTableComponent,
+    MenuComponent,
+    MainComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

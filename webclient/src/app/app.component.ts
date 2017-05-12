@@ -9,8 +9,6 @@ import { Component } from '@angular/core';
   providers: [FixtureService]
 })
 export class AppComponent {
-  title = 'Competencia Robótica';
-  
   robots$: Observable<any>;
   encuentrosActuales$: Observable<any>;
 
