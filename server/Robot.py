@@ -2,6 +2,8 @@ from collections import namedtuple
 import hashlib
 import random
 
+IMGS = ["e{0:02d}.png".format(numero) for numero in range(1, 23)]
+
 class Robot(namedtuple("Robot", "nombre escuela encargado")):
     __slots__ = ()
     
@@ -12,4 +14,4 @@ class Robot(namedtuple("Robot", "nombre escuela encargado")):
     
     @property
     def escudo(self):
-        return random.choice(["e{0:02d}.png".format(numero) for numero in range(1, 23)])
+        return random.choice(IMGS)
