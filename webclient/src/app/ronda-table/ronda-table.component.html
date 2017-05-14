@@ -1,0 +1,29 @@
+<table class="ui very striped basic celled small table">
+  <thead>
+    <tr>
+      <th class="center aligned six wide">Local</th>
+      <th class="center aligned two wide">&nbsp;</th>
+      <th class="center aligned two wide">&nbsp;</th>
+      <th class="center aligned six wide">Visitante</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let encuentro of ronda.encuentros">
+      <td class="right aligned">
+        <h4 class="ui image header">
+          <img/>
+          <div class="content">{{encuentro.robots[0].nombre}}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+          <img src="/assets/images/escudos/{{encuentro.robots[0].escudo}}" class="ui large image">
+        </h4>
+      </td>
+      <td class="center aligned"><h1>{{encuentro.puntos[0] || 0}}</h1></td>
+      <td class="center aligned"><h1>{{encuentro.puntos[1] || 0}}</h1></td>
+      <td class="left aligned">
+        <h4 class="ui image header">
+          <img src="/assets/images/escudos/{{encuentro.robots[1].escudo}}" class="ui large image">
+          <div class="content">{{encuentro.robots[1].nombre}}</div>
+        </h4>
+      </td>
+    </tr>
+  </tbody>
+</table>

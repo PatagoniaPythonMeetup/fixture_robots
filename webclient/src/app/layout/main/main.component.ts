@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Rx';
+import { FixtureService } from '../../fixture.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  rondas$: Observable<any>
 
-  constructor() { }
+  constructor(private fixture: FixtureService) { 
+    this.rondas$ = this.fixture.rondas()
+  }
 
   ngOnInit() {
   }

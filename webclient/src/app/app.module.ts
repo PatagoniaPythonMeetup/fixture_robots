@@ -15,6 +15,7 @@ import { MenuComponent } from './layout/menu/menu.component';
 import { MainComponent } from './layout/main/main.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { EncuentrosActualesComponent } from './encuentros-actuales/encuentros-actuales.component';
+import { RondaTableComponent } from './ronda-table/ronda-table.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EncuentrosActualesComponent } from './encuentros-actuales/encuentros-ac
     MenuComponent,
     MainComponent,
     FooterComponent,
-    EncuentrosActualesComponent
+    EncuentrosActualesComponent,
+    RondaTableComponent
   ],
   imports: [
     BrowserModule,
