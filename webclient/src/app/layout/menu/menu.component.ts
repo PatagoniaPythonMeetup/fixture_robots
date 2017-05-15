@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { RondasQuery } from '../../../graphql/schema';
 import { ApolloQueryObservable } from 'apollo-angular/build/src';
 import { FixtureService } from '../../fixture.service';
@@ -13,19 +14,21 @@ export class MenuComponent implements OnInit, AfterViewInit {
   title = 'Rob Fixture';
   activo: String;
 
-  constructor(private fixture: FixtureService) { }
+  constructor(
+    private router: Router,
+    private fixture: FixtureService
+  ) { }
 
   ngOnInit() {
     this.rondas$ = this.fixture.rondas();
   }
 
   public ngAfterViewInit() {
-    this.activar('robots');
+    this.activar('/robots');
   }
 
-  activar(item, ronda = null) {
-    this.activo = item;
-    console.log(item, ronda)
+  activar(name, ronda = null) {
+    this.router.navigate([name]);
   }
 
   generarRonda() {
