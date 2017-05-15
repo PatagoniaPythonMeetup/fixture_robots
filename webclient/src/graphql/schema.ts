@@ -79,7 +79,7 @@ export interface RobotsScoreQuery {
 }
 
 export interface RondaQueryVariables {
-  ronda: number;
+  numero: number;
 }
 
 export interface RondaQuery {

@@ -12,7 +12,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 export class MenuComponent implements OnInit, AfterViewInit {
   rondas$: ApolloQueryObservable<any>;
   title = 'Rob Fixture';
-  activo: String;
 
   constructor(
     private router: Router,
@@ -24,11 +23,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.activar('/robots');
-  }
-
-  activar(name, ronda = null) {
-    this.router.navigate([name]);
   }
 
   generarRonda() {

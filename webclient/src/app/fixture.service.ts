@@ -12,13 +12,16 @@ import {
     RondaActualQuery,
     RondasQuery,
     GenerarRondaMutation,
-    GanaRobotMutation
+    GanaRobotMutation,
+    RondaQuery
 } from '../graphql/schema';
 const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robots.graphql');
-const EncuentrosActualesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/EncuentrosActuales.graphql');
+const RondaQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Ronda.graphql');
 const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotsScore.graphql');
+const EncuentrosActualesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/EncuentrosActuales.graphql');
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const RondaActualQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RondaActual.graphql');
+
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const GanaRobotMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GanaRobot.graphql');
 
@@ -30,6 +33,14 @@ export class FixtureService {
   robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
       .map(result => result.data.fixture.robots);
+  }
+
+  ronda(numero: Number) {
+    return this.apollo.watchQuery<RondaQuery>({ 
+      query: RondaQueryNode,
+      variables: { numero }
+    })
+      .map(result => result.data.fixture.ronda as any) as ApolloQueryObservable<any>;
   }
 
   rondas() {

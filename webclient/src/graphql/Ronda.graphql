@@ -1,6 +1,6 @@
-query Ronda($ronda: Int!) {
+query Ronda($numero: Int!) {
   fixture {
-    ronda(numero: $ronda) {
+    ronda(numero: $numero) {
       numero
       finalizada
       tct
