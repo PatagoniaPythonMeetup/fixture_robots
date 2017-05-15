@@ -18,6 +18,10 @@ export class MenuComponent implements OnInit {
     this.rondas$ = this.fixture.rondas();
   }
 
+  activar(item, ronda) {
+    console.log(item, ronda)
+  }
+
   generarRonda() {
     this.fixture.generarRonda(false)
       .subscribe(ronda => {
