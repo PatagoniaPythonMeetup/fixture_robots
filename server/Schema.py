@@ -98,6 +98,7 @@ class GanaRobot(graphene.Mutation):
 
 class Fixture(graphene.ObjectType):
     robots = graphene.List(Robot)
+    ronda = graphene.Field(Ronda, numero=graphene.Argument(graphene.Int))
     rondas = graphene.List(Ronda)
     ronda_actual = graphene.Field(Ronda)
     encuentros_actuales = graphene.List(Encuentro)
@@ -107,6 +108,10 @@ class Fixture(graphene.ObjectType):
 
     def resolve_robots(self, args, context, info):
         return context["fixture"].robots
+
+    def resolve_ronda(self, args, context, info):
+        numero = args['numero']
+        return context["fixture"].get_ronda(numero)
 
     def resolve_rondas(self, args, context, info):
         return context["fixture"].rondas
