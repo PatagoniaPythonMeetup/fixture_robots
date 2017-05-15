@@ -11,13 +11,17 @@ import {
     RobotsQuery,
     RobotsScoreQuery,
     RondaActualQuery,
-    RondasQuery
+    RondasQuery,
+    GenerarRondaMutation,
+    GanaRobotMutation
 } from '../graphql/schema';
 const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robots.graphql');
 const EncuentrosActualesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/EncuentrosActuales.graphql');
 const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotsScore.graphql');
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const RondaActualQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RondaActual.graphql');
+const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
+const GanaRobotMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GanaRobot.graphql');
 
 @Injectable()
 export class FixtureService {
@@ -49,4 +53,21 @@ export class FixtureService {
       .map(result => result.data.fixture.robots) as Observable<any>;
   }
 
+  generarRonda(tct: Boolean) {
+    // Llamando a la mutacion generar ronda
+    return this.apollo.mutate<GenerarRondaMutation>({
+        mutation: GenerarRondaMutationNode,
+        variables: { tct },
+      })
+      .map(({data}) => data.generarRonda.ronda );
+  }
+
+  ganaRonda(key: String, ronda: Number = null, encuentro: Number = null) {
+    // Llamando a la mutacion generar ronda
+    return this.apollo.mutate<GanaRobotMutation>({
+        mutation: GanaRobotMutationNode,
+        variables: { key },
+      })
+      .map(({data}) => data.ganaRobot.encuentro );
+  }
 }
