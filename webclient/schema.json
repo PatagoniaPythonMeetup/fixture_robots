@@ -54,6 +54,29 @@
               "deprecationReason": null
             },
             {
+              "name": "ronda",
+              "description": null,
+              "args": [
+                {
+                  "name": "numero",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Ronda",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "rondas",
               "description": null,
               "args": [],
@@ -481,7 +504,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "encuentro",
+                  "name": "ronda",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -491,7 +514,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "ronda",
+                  "name": "encuentro",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
