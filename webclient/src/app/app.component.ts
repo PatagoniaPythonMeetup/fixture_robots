@@ -9,9 +9,8 @@ import { Component } from '@angular/core';
   providers: [FixtureService]
 })
 export class AppComponent {
-  robots$: Observable<any>;
-
+  
   constructor(private fixture: FixtureService) {
-    this.robots$ = this.fixture.robots();
+
   }
 }

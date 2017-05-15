@@ -1,3 +1,6 @@
+import { RondasQuery } from '../../../graphql/schema';
+import { ApolloQueryObservable } from 'apollo-angular/build/src';
+import { FixtureService } from '../../fixture.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,11 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+  rondas$: ApolloQueryObservable<any>;
   title = 'Rob Fixture';
-
-  constructor() { }
+  
+  constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
+    this.rondas$ = this.fixture.rondas();
   }
 
+  generarRonda() {
+    this.fixture.generarRonda(false)
+      .subscribe(ronda => {
+        this.rondas$.refetch();
+      })
+  }
 }

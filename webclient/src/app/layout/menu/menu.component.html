@@ -4,10 +4,8 @@
       <img class="logo" src="/assets/images/unpsjb.png">
       &nbsp;&nbsp;{{title}}
     </a>
-    <a href="#" class="item active">Scores</a>
-    <a href="#" class="item">Ronda 1</a>
-    <a href="#" class="item">Ronda 2</a>
-    <a href="#" class="item">Ronda 3</a>
-    <a href="#" class="item">Nueva Ronda</a>
+    <a href="#" class="item active">Robots</a>
+    <a *ngFor="let ronda of rondas$ | async" href="#" class="item">Ronda {{ronda.numero}}</a>
+    <a href="#" class="item" (click)="generarRonda()" >Nueva Ronda</a>
   </div>
 </div>

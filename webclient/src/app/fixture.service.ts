@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs/Rx';
-import { IfObservable } from 'rxjs/observable/IfObservable';
+import { ApolloQueryObservable } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import { Apollo } from "apollo-angular";
 import { DocumentNode } from 'graphql';
@@ -30,27 +29,27 @@ export class FixtureService {
 
   robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
-      .map(result => result.data.fixture.robots) as Observable<any>;
+      .map(result => result.data.fixture.robots);
   }
 
   rondas() {
     return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode})
-      .map(result => result.data.fixture.rondas) as Observable<any>;
+      .map(result => result.data.fixture.rondas as any) as ApolloQueryObservable<any>;
   }
 
   rondaActual() {
     return this.apollo.watchQuery<RondaActualQuery>({ query: RondaActualQueryNode})
-      .map(result => result.data.fixture.rondaActual) as Observable<any>;
+      .map(result => result.data.fixture.rondaActual);
   }
 
   encuentrosActuales() {
     return this.apollo.watchQuery<EncuentrosActualesQuery>({ query: EncuentrosActualesQueryNode})
-      .map(result => result.data.fixture.encuentrosActuales) as Observable<any>;
+      .map(result => result.data.fixture.encuentrosActuales);
   }
 
   robotsScore() {
     return this.apollo.watchQuery<RobotsScoreQuery>({ query: RobotsScoreQueryNode})
-      .map(result => result.data.fixture.robots) as Observable<any>;
+      .map(result => result.data.fixture.robots);
   }
 
   generarRonda(tct: Boolean) {

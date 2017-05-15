@@ -11,10 +11,10 @@ export class MainComponent implements OnInit {
   rondas$: Observable<any>
 
   constructor(private fixture: FixtureService) { 
-    this.rondas$ = this.fixture.rondas()
   }
 
   ngOnInit() {
+    this.rondas$ = this.fixture.rondas()
   }
 
 }

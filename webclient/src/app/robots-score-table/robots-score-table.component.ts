@@ -11,10 +11,10 @@ export class RobotsScoreTableComponent implements OnInit {
   robotsScore$: Observable<any>;
   
   constructor(private fixture: FixtureService) {
-    this.robotsScore$ = this.fixture.robotsScore();
   }
 
   ngOnInit() {
+    this.robotsScore$ = this.fixture.robotsScore();
   }
 
 }
