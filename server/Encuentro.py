@@ -7,9 +7,6 @@ class Encuentro(object):
         self.numero = numero
         self.ganadas = ganadas or []
 
-    def jugadas(self):
-        return len(self.ganadas)
-
     def score(self, robot):
         """El score de un robot en un encuentro se obtiene en base a las victorias y derrotas"""
         assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
@@ -33,12 +30,25 @@ class Encuentro(object):
     def __eq__(self, other):
         """Un encuentro es igual a otro si tiene los mismos robots"""
         return hash(self) == hash(other)
-        
+    
+    # Estados
+    def iniciado(self):
+        return not self.finalizado()
+
     def finalizado(self):
         numero_jugadas = self.jugadas()
         tiene_ganador = bool(self.ganador())
         score = self.score(self.robot_1)
         return (numero_jugadas >= self.MINIMO_JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
+    
+    def compitiendo(self):
+        return not ronda.finalizado()
+
+    def vuelta(self):
+        return len(self.ganadas)
+
+    def jugadas(self):
+        return len(self.ganadas)
 
     def ganador(self):
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]

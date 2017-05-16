@@ -40,12 +40,6 @@ class Ronda(object):
         if encuentros:
             return encuentros[:self.NUMERO_DE_ARENAS]
 
-    def vuelta(self):
-        return max([e.jugadas() for e in self.encuentros])
-    
-    def jugadas(self):
-        return sum([e.jugadas() for e in self.encuentros])
-
     # Json dumps and loads
     def to_dict(self):
         return {
@@ -56,8 +50,20 @@ class Ronda(object):
         }
 
     # Estados
-    def finalizada(self):
+    def iniciado(self):
+        return not self.finalizado()
+
+    def finalizado(self):
         return all([e.finalizado() for e in self.encuentros])
+    
+    def compitiendo(self):
+        return not ronda.finalizado()
+
+    def vuelta(self):
+        return max([e.jugadas() for e in self.encuentros])
+    
+    def jugadas(self):
+        return sum([e.jugadas() for e in self.encuentros])
 
     # Trabajando sobre la ronda
     def participa(self, robot):

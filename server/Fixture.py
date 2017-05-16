@@ -135,7 +135,7 @@ class Fixture(object):
         self.rondas.append(ronda)
 
     def generar_ronda(self, tct=False):
-        assert not self.rondas or self.rondas[-1].finalizada(), "No se finalizo la ultima ronda"
+        assert not self.rondas or self.rondas[-1].finalizado(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
         tuplas = self._generador(robots, tct)
@@ -213,14 +213,22 @@ class Fixture(object):
         iniciado = self.iniciado()
         finalizado = self.finalizado()
         ronda = self.get_ronda_actual()
-        return iniciado and not finalizado and not ronda.finalizada()
+        return iniciado and not finalizado and not ronda.finalizado()
 
     def finalizado(self):
         tiene_robots = bool(self.robots)
         tiene_rondas = bool(self.rondas)
         tiene_ganador = bool(self.ganador())
-        rondas_finalizadas = all([ronda.finalizada() for ronda in self.rondas])
+        rondas_finalizadas = all([ronda.finalizado() for ronda in self.rondas])
         return (tiene_robots and tiene_rondas and rondas_finalizadas and tiene_ganador) or (not tiene_robots)
+
+    def vuelta(self):
+        encuentros = self.get_encuentros()
+        return max([e.jugadas() for e in encuentros]) if encuentros else 0
+    
+    def jugadas(self):
+        encuentros = self.get_encuentros()
+        return sum([e.jugadas() for e in encuentros]) if encuentros else 0
 
     # Trabajando sobre el fixture
     def ganador(self):
