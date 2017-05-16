@@ -1,4 +1,7 @@
+import { FixtureService } from '../fixture.service';
 import { Component, OnInit, Input } from '@angular/core';
+
+declare let $: any;
 
 @Component({
   selector: 'encuentro-card',
@@ -8,7 +11,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class EncuentroCardComponent implements OnInit {
   @Input() encuentro: any = {}
 
-  constructor() { }
+  constructor(private fixture: FixtureService) { }
+
+  gano(event, key) {
+    $(event.target).transition('jiggle')
+    this.fixture.ganaRobot(key)
+      .subscribe(encuentro => this.encuentro = Object.assign({}, this.encuentro, encuentro))
+  }
 
   ngOnInit() {
   }

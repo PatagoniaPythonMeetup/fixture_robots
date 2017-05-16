@@ -150,8 +150,8 @@ class GanaRobot(graphene.Mutation):
         encuentro = args.get('encuentro')
         try:
             robot = fixture.get_robot_por_key(key)
-            encuentro = fixture.gano(robot, ronda=ronda, encuentro=encuentro, estado = fixture)
-            return GanaRobot(ok = True, mensaje = "Robot declarado ganador", encuentro = encuentro)
+            encuentro = fixture.gano(robot, nronda=ronda, nencuentro=encuentro)
+            return GanaRobot(ok = True, mensaje = "Robot declarado ganador", encuentro = encuentro, estado = fixture)
         except Exception as ex:
             return GanaRobot(ok = False, mensaje = str(ex), estado = fixture)
 

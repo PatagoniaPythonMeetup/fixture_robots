@@ -91,7 +91,7 @@ export class FixtureService {
     return obs$.map(({data}) => data.generarRonda.ronda );
   }
 
-  ganaRonda(key: String, ronda: Number = null, encuentro: Number = null) {
+  ganaRobot(key: String, ronda: Number = null, encuentro: Number = null) {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GanaRobotMutation>({
       mutation: GanaRobotMutationNode,
