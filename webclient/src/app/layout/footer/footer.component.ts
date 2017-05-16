@@ -11,7 +11,6 @@ export class FooterComponent implements OnInit, DoCheck {
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
-    
   }
 
   ngDoCheck(): void {

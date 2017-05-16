@@ -404,6 +404,6 @@ class TestTorneo(TestBase):
         for robot in fixture.robots:
             score = [s for s in scores if s[0] == robot].pop()
             self.assertEqual(tuple(score[1:]), fixture.score(robot))
-
+        
 if __name__ == '__main__':
     unittest.main()

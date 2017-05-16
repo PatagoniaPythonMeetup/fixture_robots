@@ -109,8 +109,8 @@ class Fixture(object):
         return self.robots if not ronda else ronda.robots
     
     # Rondas
-    def crear_ronda(self, tuplas, promovidos, tct):
-        encuentros = [Encuentro(*t, numero = i + 1) for i, t in enumerate(tuplas)]
+    def crear_ronda(self, tuplas, promovidos, tct, base):
+        encuentros = [Encuentro(*t, numero = i) for i, t in enumerate(tuplas, base)]
         ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos), tct)
         return ronda
 
@@ -123,7 +123,8 @@ class Fixture(object):
         assert robots, "No hay robots para participar en una nueva ronda"
         tuplas = self._generador(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
-        ronda = self.crear_ronda(tuplas, promovidos, tct=tct)
+        base = reduce(lambda a, ronda: a + len(ronda.encuentros), self.rondas, 1)
+        ronda = self.crear_ronda(tuplas, promovidos, tct=tct, base=base)
         self.agregar_ronda(ronda)
         return ronda
 
@@ -137,6 +138,14 @@ class Fixture(object):
             return self.rondas[-1]
 
     # Encuentros
+    def get_encuentros(self):
+        return reduce(lambda a, ronda: a + ronda.encuentros, self.rondas, [])
+    
+    def get_encuentro(self, numero):
+        encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
+        if len(encuentros) == 1:
+            return encuentros.pop()
+    
     def get_encuentros_actuales(self):
         ronda = self.get_ronda_actual()
         if ronda is not None:
