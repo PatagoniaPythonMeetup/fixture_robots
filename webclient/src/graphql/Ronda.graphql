@@ -2,11 +2,9 @@ query Ronda($numero: Int!) {
   fixture {
     ronda(numero: $numero) {
       numero
-      finalizada
       tct
       encuentros {
         numero
-        finalizado
         robots {
           key
           nombre

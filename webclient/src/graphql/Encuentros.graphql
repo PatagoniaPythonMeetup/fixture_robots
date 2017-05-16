@@ -2,8 +2,6 @@ query Encuentros {
   fixture {
     encuentros {
       numero
-      jugadas
-      finalizado
     }
   }
 }

@@ -2,8 +2,6 @@ query EncuentrosActuales {
   fixture {
     encuentrosActuales {
       numero
-      jugadas
-      finalizado
       robots {
         key
         nombre

@@ -2,9 +2,6 @@ query RondaActual {
   fixture {
     rondaActual {
       numero
-      vuelta
-      jugadas
-      finalizada
       tct
       encuentros {
         numero

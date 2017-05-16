@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
   providers: [FixtureService]
 })
 export class AppComponent {
-  
   constructor(private fixture: FixtureService) {
-
+    
   }
+
 }

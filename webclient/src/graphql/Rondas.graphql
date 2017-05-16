@@ -2,7 +2,6 @@ query Rondas {
   fixture {
     rondas {
       numero
-      finalizada
       tct
     }
   }

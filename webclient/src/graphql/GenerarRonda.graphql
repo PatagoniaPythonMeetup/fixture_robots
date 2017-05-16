@@ -6,10 +6,14 @@ mutation generarRonda(
     mensaje
     ronda {
       numero
+      tct
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
       vuelta
       jugadas
-      finalizada
-      tct
     }
   }
 }

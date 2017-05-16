@@ -6,15 +6,13 @@ import { Component, OnInit, AfterViewChecked, AfterViewInit, AfterContentChecked
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
-export class FooterComponent implements OnInit, DoCheck {
-  enCurso: Boolean = false
-  constructor(private fixture: FixtureService) { }
-
-  ngOnInit() {
+export class FooterComponent implements OnInit {
+  compitiendo: Boolean = false
+  constructor(private fixture: FixtureService) {
+    this.fixture.estado.subscribe(estado => this.compitiendo = estado.compitiendo);
   }
 
-  ngDoCheck(): void {
-    console.log("ngDoCheck");
+  ngOnInit() {
   }
   
 }

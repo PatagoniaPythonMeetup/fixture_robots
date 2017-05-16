@@ -195,36 +195,12 @@
               "deprecationReason": null
             },
             {
-              "name": "iniciado",
+              "name": "estado",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "compitiendo",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "finalizado",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
+                "kind": "OBJECT",
+                "name": "Estado",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -361,18 +337,6 @@
               "deprecationReason": null
             },
             {
-              "name": "jugadas",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "robots",
               "description": null,
               "args": [],
@@ -389,12 +353,12 @@
               "deprecationReason": null
             },
             {
-              "name": "finalizado",
+              "name": "estado",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
+                "kind": "OBJECT",
+                "name": "Estado",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -423,27 +387,41 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "Boolean",
-          "description": "The `Boolean` scalar type represents `true` or `false`.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
-          "name": "Ronda",
+          "name": "Estado",
           "description": null,
           "fields": [
             {
-              "name": "numero",
+              "name": "iniciado",
               "description": null,
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "compitiendo",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "finalizado",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -463,6 +441,39 @@
             },
             {
               "name": "jugadas",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Boolean",
+          "description": "The `Boolean` scalar type represents `true` or `false`.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Ronda",
+          "description": null,
+          "fields": [
+            {
+              "name": "numero",
               "description": null,
               "args": [],
               "type": {
@@ -506,7 +517,7 @@
               "deprecationReason": null
             },
             {
-              "name": "finalizada",
+              "name": "tct",
               "description": null,
               "args": [],
               "type": {
@@ -518,12 +529,12 @@
               "deprecationReason": null
             },
             {
-              "name": "tct",
+              "name": "estado",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
+                "kind": "OBJECT",
+                "name": "Estado",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -568,11 +579,11 @@
               "description": null,
               "args": [
                 {
-                  "name": "ronda",
+                  "name": "key",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -588,11 +599,11 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "key",
+                  "name": "ronda",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -652,6 +663,18 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "estado",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Estado",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -695,6 +718,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "Encuentro",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "estado",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Estado",
                 "ofType": null
               },
               "isDeprecated": false,

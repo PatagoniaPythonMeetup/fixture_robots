@@ -8,9 +8,14 @@ mutation ganaRobot(
     mensaje
     encuentro {
       numero
-      jugadas
-      finalizado
       puntos
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      vuelta
+      jugadas
     }
   }
 }

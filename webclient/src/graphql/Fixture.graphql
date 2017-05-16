@@ -1,7 +1,11 @@
 query Fixture {
   fixture {
-    iniciado
-    compitiendo
-    finalizado
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      vuelta
+      jugadas
+    }
   }
 }
