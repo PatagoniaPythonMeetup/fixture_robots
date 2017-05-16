@@ -97,39 +97,58 @@ class GanaRobot(graphene.Mutation):
             return GanaRobot(ok = False, mensaje = str(ex))
 
 class Fixture(graphene.ObjectType):
+    robot = graphene.Field(Robot, key=graphene.Argument(graphene.String))
     robots = graphene.List(Robot)
+    encuentro = graphene.Field(Encuentro, numero=graphene.Argument(graphene.Int))
+    encuentros = graphene.List(Encuentro)
+    encuentros_actuales = graphene.List(Encuentro)
     ronda = graphene.Field(Ronda, numero=graphene.Argument(graphene.Int))
     rondas = graphene.List(Ronda)
     ronda_actual = graphene.Field(Ronda)
-    encuentros_actuales = graphene.List(Encuentro)
     ganador = graphene.Field(Robot)
-    finalizado = graphene.Boolean()
     iniciado = graphene.Boolean()
+    compitiendo = graphene.Boolean()
+    finalizado = graphene.Boolean()
+
+    def resolve_robot(self, args, context, info):
+        key = args['key']
+        return context["fixture"].get_robot_por_key(key)
 
     def resolve_robots(self, args, context, info):
-        return context["fixture"].robots
+        return context["fixture"].get_robots()
+
+    def resolve_encuentro(self, args, context, info):
+        numero = args['numero']
+        return context["fixture"].get_encuentro(numero)
+
+    def resolve_encuentros(self, args, context, info):
+        return context["fixture"].get_encuentros()
+
+    def resolve_encuentros_actuales(self, args, context, info):
+        return context["fixture"].get_encuentros_actuales()
 
     def resolve_ronda(self, args, context, info):
         numero = args['numero']
         return context["fixture"].get_ronda(numero)
 
     def resolve_rondas(self, args, context, info):
-        return context["fixture"].rondas
+        return context["fixture"].get_rondas()
 
     def resolve_ronda_actual(self, args, context, info):
         return context["fixture"].get_ronda_actual()
-
-    def resolve_encuentros_actuales(self, args, context, info):
-        return context["fixture"].get_encuentros_actuales()
-
+    
     def resolve_ganador(self, args, context, info):
         return context["fixture"].ganador()
+    
+    def resolve_iniciado(self, args, context, info):
+        return context["fixture"].iniciado()
+
+    def resolve_compitiendo(self, args, context, info):
+        return context["fixture"].compitiendo()
     
     def resolve_finalizado(self, args, context, info):
         return context["fixture"].finalizado()
 
-    def resolve_iniciado(self, args, context, info):
-        return context["fixture"].iniciado()
 
 class Query(graphene.ObjectType):
     fixture = graphene.Field(Fixture)

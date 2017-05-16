@@ -104,10 +104,27 @@ class Fixture(object):
         if len(robots) == 1:
             return robots.pop()
 
+    def get_robots(self):
+        return self.robots[:]
+
     def robots_en_juego(self):
         ronda = self.get_ronda_actual()
         return self.robots if not ronda else ronda.robots
+
+    # Encuentros
+    def get_encuentros(self):
+        return reduce(lambda a, ronda: a + ronda.encuentros, self.rondas, [])
     
+    def get_encuentro(self, numero):
+        encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
+        if len(encuentros) == 1:
+            return encuentros.pop()
+    
+    def get_encuentros_actuales(self):
+        ronda = self.get_ronda_actual()
+        if ronda is not None:
+            return ronda.get_encuentros_actuales()
+
     # Rondas
     def crear_ronda(self, tuplas, promovidos, tct, base):
         encuentros = [Encuentro(*t, numero = i) for i, t in enumerate(tuplas, base)]
@@ -132,24 +149,13 @@ class Fixture(object):
         rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
         if len(rondas) == 1:
             return rondas.pop()
-    
+
+    def get_rondas(self):
+        return self.rondas[:]
+
     def get_ronda_actual(self):
         if self.rondas and not self.finalizado():
             return self.rondas[-1]
-
-    # Encuentros
-    def get_encuentros(self):
-        return reduce(lambda a, ronda: a + ronda.encuentros, self.rondas, [])
-    
-    def get_encuentro(self, numero):
-        encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
-        if len(encuentros) == 1:
-            return encuentros.pop()
-    
-    def get_encuentros_actuales(self):
-        ronda = self.get_ronda_actual()
-        if ronda is not None:
-            return ronda.get_encuentros_actuales()
 
     # Limpiar
     def limpiar_rondas(self):
@@ -202,6 +208,12 @@ class Fixture(object):
         tiene_rondas = bool(self.rondas)
         tiene_ganador = bool(self.ganador())
         return tiene_robots and tiene_rondas and not tiene_ganador
+
+    def compitiendo(self):
+        iniciado = self.iniciado()
+        finalizado = self.finalizado()
+        ronda = self.get_ronda_actual()
+        return iniciado and not finalizado and not ronda.finalizada()
 
     def finalizado(self):
         tiene_robots = bool(self.robots)

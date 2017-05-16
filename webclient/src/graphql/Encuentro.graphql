@@ -1,0 +1,15 @@
+query Encuentro($numero: Int!) {
+  fixture {
+    encuentro(numero: $numero) {
+      numero
+      jugadas
+      finalizado
+      robots {
+        key
+        nombre
+        escudo
+      } 
+      puntos
+    }
+  }
+}

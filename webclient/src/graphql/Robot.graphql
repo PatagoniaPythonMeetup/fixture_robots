@@ -1,0 +1,11 @@
+query Robot($key: String) {
+  fixture {
+    robot(key: $key) {
+      key
+      nombre
+      escuela
+      encargado
+      escudo
+    }
+  }
+}
