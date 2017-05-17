@@ -1,9 +1,10 @@
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { FixtureService } from '../fixture.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/switchMap';
+import { ApolloQueryObservable } from "apollo-angular/build/src";
 
 @Component({
   selector: 'ronda-table',
@@ -11,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./ronda-table.component.css']
 })
 export class RondaTableComponent implements OnInit {
-  ronda: any = {encuentros: []}
+  ronda: any
 
   constructor(
     private route: ActivatedRoute,
@@ -22,8 +23,7 @@ export class RondaTableComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((params: Params) => this.fixture.ronda(+params['numero']))
-      .subscribe((ronda) => this.ronda = ronda);
+      .switchMap(params => this.fixture.ronda(+params['numero']))
+      .subscribe(ronda => this.ronda = ronda);
   }
-
 }

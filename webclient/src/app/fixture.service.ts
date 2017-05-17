@@ -46,20 +46,23 @@ export class FixtureService {
   estado: EventEmitter<any> = new EventEmitter()
   _estado: Estado = ESTADO_INICIAL
 
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo) {
+    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+      .subscribe(({data}) => this.actualizarEstado(data.fixture.estado));
+  }
   
   getEstado() {
     return this._estado;
   }
 
-  actualizarEstado() {
-    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .subscribe(({data}) => this.estado.emit((this._estado = data.fixture.estado)));
+  actualizarEstado(estado) {
+    this._estado = estado;
+    this.estado.emit(this._estado);
   }
 
   robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
-      .map(result => result.data.fixture.robots);
+      .map(({data}) => data.fixture.robots);
   }
 
   robot(key: String) {
@@ -67,7 +70,7 @@ export class FixtureService {
       query: RobotQueryNode,
       variables: { key }
     })
-      .map(result => result.data.fixture.robot as any) as ApolloQueryObservable<any>;
+      .map(({data}) => data.fixture.robot as any) as ApolloQueryObservable<any>;
   }
 
   ronda(numero: Number) {
@@ -75,27 +78,27 @@ export class FixtureService {
       query: RondaQueryNode,
       variables: { numero }
     })
-      .map(result => result.data.fixture.ronda as any) as ApolloQueryObservable<any>;
+      .map(({data}) => data.fixture.ronda as any) as ApolloQueryObservable<any>;
   }
 
   rondas() {
     return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode})
-      .map(result => result.data.fixture.rondas as any) as ApolloQueryObservable<any>;
+      .map(({data}) => data.fixture.rondas as any) as ApolloQueryObservable<any>;
   }
 
   rondaActual() {
     return this.apollo.watchQuery<RondaActualQuery>({ query: RondaActualQueryNode})
-      .map(result => result.data.fixture.rondaActual);
+      .map(({data}) => data.fixture.rondaActual);
   }
 
   encuentrosActuales() {
     return this.apollo.watchQuery<EncuentrosActualesQuery>({ query: EncuentrosActualesQueryNode})
-      .map(result => result.data.fixture.encuentrosActuales);
+      .map(({data}) => data.fixture.encuentrosActuales);
   }
 
   robotsScore() {
     return this.apollo.watchQuery<RobotsScoreQuery>({ query: RobotsScoreQueryNode})
-      .map(result => result.data.fixture.robots);
+      .map(({data}) => data.fixture.robots);
   }
 
   generarRonda(tct: Boolean) {
@@ -104,7 +107,7 @@ export class FixtureService {
       mutation: GenerarRondaMutationNode,
       variables: { tct },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado));
+    obs$.subscribe(({data}) => this.actualizarEstado(data.generarRonda.estado));
     return obs$.map(({data}) => data.generarRonda.ronda );
   }
 
@@ -114,7 +117,7 @@ export class FixtureService {
       mutation: GanaRobotMutationNode,
       variables: { key },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.ganaRobot.estado));
+    obs$.subscribe(({data}) => this.actualizarEstado(data.ganaRobot.estado));
     return obs$.map(({data}) => data.ganaRobot.encuentro );
   }
 }
