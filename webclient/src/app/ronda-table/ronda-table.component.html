@@ -16,8 +16,12 @@
           <img src="/assets/images/escudos/{{encuentro.robots[0].escudo}}" class="ui large image">
         </h4>
       </td>
-      <td class="center aligned"><h1>{{encuentro.puntos[0] || 0}}</h1></td>
-      <td class="center aligned"><h1>{{encuentro.puntos[1] || 0}}</h1></td>
+      <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] > encuentro.puntos[1], 'negative': encuentro.puntos[0] < encuentro.puntos[1]}">
+        <h1>{{encuentro.puntos[0] || 0}}</h1>
+      </td>
+      <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] < encuentro.puntos[1], 'negative': encuentro.puntos[0] > encuentro.puntos[1]}">
+        <h1>{{encuentro.puntos[1] || 0}}</h1>
+      </td>
       <td class="left aligned">
         <h4 class="ui image header">
           <img src="/assets/images/escudos/{{encuentro.robots[1].escudo}}" class="ui large image">
@@ -27,3 +31,10 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="ronda.promovidos.length > 0">
+  <h2>Promovidos</h2>
+  <h4 class="ui image header" *ngFor="let robot of ronda.promovidos">
+    <img src="/assets/images/escudos/{{robot.escudo}}" class="ui large image">
+    <div class="content">{{robot.nombre}}</div>
+  </h4>
+</div>

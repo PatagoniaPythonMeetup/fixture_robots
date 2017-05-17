@@ -157,6 +157,11 @@ export interface RondaQuery {
         } > | null,
         puntos: Array< number | null > | null,
       } > | null,
+      promovidos: Array< {
+        key: string | null,
+        nombre: string | null,
+        escudo: string | null,
+      } > | null,
     } | null,
   } | null;
 }

@@ -7,9 +7,9 @@ import { Component, OnInit, AfterViewChecked, AfterViewInit, AfterContentChecked
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  compitiendo: Boolean = false
+  estado: any = {compitiendo: false}
   constructor(private fixture: FixtureService) {
-    this.fixture.estado.subscribe(estado => this.compitiendo = estado.compitiendo);
+    this.fixture.estado.subscribe(estado => this.estado = estado);
   }
 
   ngOnInit() {

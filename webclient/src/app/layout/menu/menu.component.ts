@@ -9,20 +9,19 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit, AfterViewInit {
+export class MenuComponent implements OnInit {
   rondas$: ApolloQueryObservable<any>;
   title = 'Rob Fixture';
-
+  estado: any = {compitiendo: false, finalizado: false}
   constructor(
     private router: Router,
     private fixture: FixtureService
-  ) { }
+  ) {
+    this.fixture.estado.subscribe(estado => this.estado = estado);
+  }
 
   ngOnInit() {
     this.rondas$ = this.fixture.rondas();
-  }
-
-  public ngAfterViewInit() {
   }
 
   generarRonda() {

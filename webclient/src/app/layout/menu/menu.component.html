@@ -6,6 +6,6 @@
     </a>
     <a class="item" routerLink="/robots" routerLinkActive="active">Robots</a>
     <a *ngFor="let ronda of rondas$ | async" class="item" [routerLink]="['/ronda', ronda.numero]" routerLinkActive="active">Ronda {{ronda.numero}}</a>
-    <a class="item" (click)="generarRonda()" ><div class="ui primary button">Nueva Ronda</div></a>
+    <a class="item" (click)="generarRonda()" *ngIf="!estado.finalizado && !estado.compitiendo" ><div class="ui primary button">Nueva Ronda</div></a>
   </div>
 </div>

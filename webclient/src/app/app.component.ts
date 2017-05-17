@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { FixtureService } from './fixture.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
   providers: [FixtureService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private fixture: FixtureService) {
     
   }
 
+  ngOnInit(): void {
+    this.fixture.actualizarEstado()
+  }
+  
 }

@@ -36,8 +36,8 @@ export class FixtureService {
   constructor(private apollo: Apollo) { }
   
   actualizarEstado() {
-    return this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .subscribe(result => this.estado.emit(this.estado));
+    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+      .subscribe(({data}) => this.estado.emit(data.fixture.estado));
   }
 
   robots() {

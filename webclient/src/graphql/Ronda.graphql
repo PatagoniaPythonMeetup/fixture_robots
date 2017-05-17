@@ -12,6 +12,11 @@ query Ronda($numero: Int!) {
         } 
         puntos
       }
+      promovidos {
+        key
+        nombre
+        escudo
+      }
     }
   }
 }
