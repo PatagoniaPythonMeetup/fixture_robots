@@ -6,6 +6,8 @@ query Fixture {
       finalizado
       vuelta
       jugadas
+      encuentros
+      ronda
     }
   }
 }

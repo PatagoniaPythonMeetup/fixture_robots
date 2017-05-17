@@ -7,6 +7,8 @@ class Estado(graphene.ObjectType):
     finalizado = graphene.Boolean()
     vuelta = graphene.Int()
     jugadas = graphene.Int()
+    encuentros = graphene.List(graphene.Int)
+    ronda = graphene.Int()
 
     def resolve_iniciado(self, args, context, info):
         return self.iniciado()
@@ -22,8 +24,15 @@ class Estado(graphene.ObjectType):
 
     def resolve_jugadas(self, args, context, info):
         return self.jugadas()
+    
+    def resolve_encuentros(self, args, context, info):
+        encuentros = self.get_encuentros_actuales()
+        return [e.numero for e in encuentros]
 
-
+    def resolve_ronda(self, args, context, info):
+        ronda = self.get_ronda_actual()
+        return ronda.numero if ronda is not None else 0
+    
 class Robot(graphene.ObjectType):
     key = graphene.String()
     nombre = graphene.String()
@@ -65,10 +74,8 @@ class Fixture(graphene.ObjectType):
     robots = graphene.List(Robot)
     encuentro = graphene.Field(Encuentro, numero=graphene.Argument(graphene.Int))
     encuentros = graphene.List(Encuentro)
-    encuentros_actuales = graphene.List(Encuentro)
     ronda = graphene.Field(Ronda, numero=graphene.Argument(graphene.Int))
     rondas = graphene.List(Ronda)
-    ronda_actual = graphene.Field(Ronda)
     ganador = graphene.Field(Robot)
     estado = graphene.Field(Estado)
 
@@ -86,9 +93,6 @@ class Fixture(graphene.ObjectType):
     def resolve_encuentros(self, args, context, info):
         return self.get_encuentros()
 
-    def resolve_encuentros_actuales(self, args, context, info):
-        return self.get_encuentros_actuales()
-
     def resolve_ronda(self, args, context, info):
         numero = args['numero']
         return self.get_ronda(numero)
@@ -96,9 +100,6 @@ class Fixture(graphene.ObjectType):
     def resolve_rondas(self, args, context, info):
         return self.get_rondas()
 
-    def resolve_ronda_actual(self, args, context, info):
-        return self.get_ronda_actual()
-    
     def resolve_ganador(self, args, context, info):
         return self.ganador()
     

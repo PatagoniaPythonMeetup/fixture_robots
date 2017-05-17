@@ -9,6 +9,9 @@ mutation ganaRobot(
     encuentro {
       numero
       puntos
+      estado {
+        finalizado
+      }
     }
     estado {
       iniciado
@@ -16,6 +19,8 @@ mutation ganaRobot(
       finalizado
       vuelta
       jugadas
+      encuentros
+      ronda
     }
   }
 }

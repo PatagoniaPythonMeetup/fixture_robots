@@ -17,8 +17,7 @@ export class MenuComponent implements OnInit {
   constructor(private router: Router, private fixture: FixtureService) { }
 
   ngOnInit() {
-    this.estado = this.fixture.getEstado();
-    this.fixture.estado.subscribe(estado => this.estado = estado);
+    this.fixture.getEstado().subscribe(estado => this.estado = estado);
     this.rondas$ = this.fixture.rondas();
   }
 

@@ -27,20 +27,6 @@ export interface EncuentrosQuery {
   } | null;
 }
 
-export interface EncuentrosActualesQuery {
-  fixture: {
-    encuentrosActuales: Array< {
-      numero: number | null,
-      robots: Array< {
-        key: string | null,
-        nombre: string | null,
-        escudo: string | null,
-      } > | null,
-      puntos: Array< number | null > | null,
-    } > | null,
-  } | null;
-}
-
 export interface FixtureQuery {
   fixture: {
     estado: {
@@ -49,6 +35,8 @@ export interface FixtureQuery {
       finalizado: boolean | null,
       vuelta: number | null,
       jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
     } | null,
   } | null;
 }
@@ -66,6 +54,9 @@ export interface GanaRobotMutation {
     encuentro: {
       numero: number | null,
       puntos: Array< number | null > | null,
+      estado: {
+        finalizado: boolean | null,
+      } | null,
     } | null,
     estado: {
       iniciado: boolean | null,
@@ -73,6 +64,8 @@ export interface GanaRobotMutation {
       finalizado: boolean | null,
       vuelta: number | null,
       jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
     } | null,
   } | null;
 }
@@ -95,6 +88,8 @@ export interface GenerarRondaMutation {
       finalizado: boolean | null,
       vuelta: number | null,
       jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
     } | null,
   } | null;
 }
@@ -161,24 +156,6 @@ export interface RondaQuery {
         key: string | null,
         nombre: string | null,
         escudo: string | null,
-      } > | null,
-    } | null,
-  } | null;
-}
-
-export interface RondaActualQuery {
-  fixture: {
-    rondaActual: {
-      numero: number | null,
-      tct: boolean | null,
-      encuentros: Array< {
-        numero: number | null,
-        robots: Array< {
-          key: string | null,
-          nombre: string | null,
-          escudo: string | null,
-        } > | null,
-        puntos: Array< number | null > | null,
       } > | null,
     } | null,
   } | null;

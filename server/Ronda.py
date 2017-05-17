@@ -26,7 +26,7 @@ class Ronda(object):
 
     def ganador(self):
         ganadores = self.ganadores()
-        if len(ganadores) == 1:
+        if self.finalizado() and len(ganadores) == 1:
             return ganadores.pop()
 
     # Encuentros
@@ -37,8 +37,7 @@ class Ronda(object):
 
     def get_encuentros_actuales(self):
         encuentros = [encuentro for encuentro in self.encuentros if not encuentro.finalizado()]
-        if encuentros:
-            return encuentros[:self.TRACKS_EN_PARALELO]
+        return encuentros[:self.TRACKS_EN_PARALELO]
 
     # Json dumps and loads
     def to_dict(self):

@@ -122,8 +122,7 @@ class Fixture(object):
     
     def get_encuentros_actuales(self):
         ronda = self.get_ronda_actual()
-        if ronda is not None:
-            return ronda.get_encuentros_actuales()
+        return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
     def crear_ronda(self, tuplas, promovidos, tct, base):

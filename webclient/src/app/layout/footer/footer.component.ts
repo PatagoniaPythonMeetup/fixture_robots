@@ -12,8 +12,7 @@ export class FooterComponent implements OnInit {
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
-    this.estado = this.fixture.getEstado();
-    this.fixture.estado.subscribe(estado => this.estado = estado);
+    this.fixture.getEstado().subscribe(estado => this.estado = estado);
   }
   
 }

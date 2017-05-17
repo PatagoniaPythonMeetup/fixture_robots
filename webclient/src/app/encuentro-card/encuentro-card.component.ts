@@ -1,5 +1,5 @@
 import { FixtureService } from '../fixture.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 declare let $: any;
 
@@ -10,13 +10,17 @@ declare let $: any;
 })
 export class EncuentroCardComponent implements OnInit {
   @Input() encuentro: any = {}
+  @Output() finalizado = new EventEmitter<Boolean>(); 
 
   constructor(private fixture: FixtureService) { }
 
   gano(event, key) {
     $(event.target).transition('jiggle')
     this.fixture.ganaRobot(key)
-      .subscribe(encuentro => this.encuentro = Object.assign({}, this.encuentro, encuentro))
+      .subscribe((encuentro: any) => {
+        this.encuentro = Object.assign({}, this.encuentro, encuentro)
+        this.finalizado.emit(encuentro.estado.finalizado)
+      })
   }
 
   ngOnInit() {

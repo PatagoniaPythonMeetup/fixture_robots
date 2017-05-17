@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { ApolloQueryObservable } from 'apollo-angular';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Apollo } from "apollo-angular";
@@ -6,11 +7,10 @@ import { DocumentNode } from 'graphql';
 import 'rxjs/add/operator/map';
 
 import {
-    EncuentrosActualesQuery,
     RobotsQuery,
     RobotsScoreQuery,
-    RondaActualQuery,
     RondasQuery,
+    EncuentroQuery,
     GenerarRondaMutation,
     GanaRobotMutation,
     RobotQuery,
@@ -22,9 +22,8 @@ const RobotQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robo
 const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robots.graphql');
 const RondaQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Ronda.graphql');
 const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotsScore.graphql');
-const EncuentrosActualesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/EncuentrosActuales.graphql');
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
-const RondaActualQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RondaActual.graphql');
+const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
 
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const GanaRobotMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GanaRobot.graphql');
@@ -35,29 +34,23 @@ export interface Estado {
   finalizado: Boolean
   vuelta: Number
   jugadas: Number
+  encuentros: Array<Number>
+  ronda: Number
 }
 
 let ESTADO_INICIAL: Estado = {
-  iniciado: false, compitiendo: false, finalizado: false, vuelta: 0, jugadas: 0
+  iniciado: false, compitiendo: false, finalizado: false, vuelta: 0, jugadas: 0, encuentros: [], ronda: 0
 }
 
 @Injectable()
 export class FixtureService {
-  estado: EventEmitter<any> = new EventEmitter()
-  _estado: Estado = ESTADO_INICIAL
-
+  
   constructor(private apollo: Apollo) {
-    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .subscribe(({data}) => this.actualizarEstado(data.fixture.estado));
   }
   
   getEstado() {
-    return this._estado;
-  }
-
-  actualizarEstado(estado) {
-    this._estado = estado;
-    this.estado.emit(this._estado);
+    return this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+      .map(({data}) => data.fixture.estado)
   }
 
   robots() {
@@ -86,14 +79,12 @@ export class FixtureService {
       .map(({data}) => data.fixture.rondas as any) as ApolloQueryObservable<any>;
   }
 
-  rondaActual() {
-    return this.apollo.watchQuery<RondaActualQuery>({ query: RondaActualQueryNode})
-      .map(({data}) => data.fixture.rondaActual);
-  }
-
-  encuentrosActuales() {
-    return this.apollo.watchQuery<EncuentrosActualesQuery>({ query: EncuentrosActualesQueryNode})
-      .map(({data}) => data.fixture.encuentrosActuales);
+  encuentro(numero: Number) {
+    return this.apollo.watchQuery<EncuentroQuery>({ 
+      query: EncuentroQueryNode,
+      variables: { numero }
+    })
+      .map(({data}) => data.fixture.encuentro as any) as ApolloQueryObservable<any>;
   }
 
   robotsScore() {
@@ -103,21 +94,19 @@ export class FixtureService {
 
   generarRonda(tct: Boolean) {
     // Llamando a la mutacion generar ronda
-    let obs$ = this.apollo.mutate<GenerarRondaMutation>({
+    return this.apollo.mutate<GenerarRondaMutation>({
       mutation: GenerarRondaMutationNode,
       variables: { tct },
     })
-    obs$.subscribe(({data}) => this.actualizarEstado(data.generarRonda.estado));
-    return obs$.map(({data}) => data.generarRonda.ronda );
+    .map(({data}) => data.generarRonda.ronda);
   }
 
   ganaRobot(key: String, ronda: Number = null, encuentro: Number = null) {
     // Llamando a la mutacion generar ronda
-    let obs$ = this.apollo.mutate<GanaRobotMutation>({
+    return this.apollo.mutate<GanaRobotMutation>({
       mutation: GanaRobotMutationNode,
       variables: { key },
     })
-    obs$.subscribe(({data}) => this.actualizarEstado(data.ganaRobot.estado));
-    return obs$.map(({data}) => data.ganaRobot.encuentro );
+    .map(({data}) => data.ganaRobot.encuentro );
   }
 }

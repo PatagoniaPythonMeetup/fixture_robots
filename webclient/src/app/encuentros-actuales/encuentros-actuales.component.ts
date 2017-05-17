@@ -1,7 +1,9 @@
-import { Observable } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
 
-import { FixtureService } from '../fixture.service';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/switchMap';
+
+import { FixtureService, Estado } from '../fixture.service';
 
 @Component({
   selector: 'encuentros-actuales',
@@ -9,13 +11,27 @@ import { FixtureService } from '../fixture.service';
   styleUrls: ['./encuentros-actuales.component.css']
 })
 export class EncuentrosActualesComponent implements OnInit {
-  encuentrosActuales$: Observable<any>
-  TRACKS_EN_PARALELO: Number = 2
+  TRACKS_EN_PARALELO: Number = 1
+  encuentros: Array<any> = []
   
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
-    this.encuentrosActuales$ = this.fixture.encuentrosActuales();
+    this.fixture.getEstado().subscribe(estado => this.cargarEstado(estado));
   }
 
+  finalizado(fin, encuentro) {
+    if (fin) {
+      this.encuentros = this.encuentros.filter(e => e.numero !== encuentro.numero)
+      this.fixture.getEstado().subscribe(estado => this.cargarEstado(estado))
+    }
+  }
+
+  cargarEstado(estado: Estado) {
+    if (estado.compitiendo) {
+      Observable.from(estado.encuentros)
+        .switchMap(e => this.fixture.encuentro(e))
+        .subscribe(e => this.encuentros = [...this.encuentros, e])
+    }
+  }
 }
