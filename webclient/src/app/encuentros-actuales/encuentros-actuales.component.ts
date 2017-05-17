@@ -9,13 +9,13 @@ import { FixtureService } from '../fixture.service';
   styleUrls: ['./encuentros-actuales.component.css']
 })
 export class EncuentrosActualesComponent implements OnInit {
-  encuentrosActuales$: Observable<any>;
+  encuentrosActuales$: Observable<any>
+  TRACKS_EN_PARALELO: Number = 2
   
-  constructor(private fixture: FixtureService) {
-    this.encuentrosActuales$ = this.fixture.encuentrosActuales();
-  }
+  constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
+    this.encuentrosActuales$ = this.fixture.encuentrosActuales();
   }
 
 }

@@ -1,4 +1,4 @@
-import { FixtureService } from '../../fixture.service';
+import { FixtureService, Estado } from '../../fixture.service';
 import { Component, OnInit, AfterViewChecked, AfterViewInit, AfterContentChecked, DoCheck } from '@angular/core';
 
 @Component({
@@ -7,12 +7,13 @@ import { Component, OnInit, AfterViewChecked, AfterViewInit, AfterContentChecked
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  estado: any = {compitiendo: false}
-  constructor(private fixture: FixtureService) {
-    this.fixture.estado.subscribe(estado => this.estado = estado);
-  }
+  estado: Estado
+
+  constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
+    this.estado = this.fixture.getEstado();
+    this.fixture.estado.subscribe(estado => this.estado = estado);
   }
   
 }

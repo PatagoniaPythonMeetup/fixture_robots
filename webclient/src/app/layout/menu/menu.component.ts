@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { RondasQuery } from '../../../graphql/schema';
 import { ApolloQueryObservable } from 'apollo-angular/build/src';
-import { FixtureService } from '../../fixture.service';
+import { FixtureService, Estado } from '../../fixture.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
@@ -12,15 +12,13 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 export class MenuComponent implements OnInit {
   rondas$: ApolloQueryObservable<any>;
   title = 'Rob Fixture';
-  estado: any = {compitiendo: false, finalizado: false}
-  constructor(
-    private router: Router,
-    private fixture: FixtureService
-  ) {
-    this.fixture.estado.subscribe(estado => this.estado = estado);
-  }
+  estado: Estado;
+
+  constructor(private router: Router, private fixture: FixtureService) { }
 
   ngOnInit() {
+    this.estado = this.fixture.getEstado();
+    this.fixture.estado.subscribe(estado => this.estado = estado);
     this.rondas$ = this.fixture.rondas();
   }
 

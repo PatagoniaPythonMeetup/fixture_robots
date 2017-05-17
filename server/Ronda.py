@@ -3,7 +3,7 @@ from functools import reduce
 from .Robot import Robot
 
 class Ronda(object):
-    NUMERO_DE_ARENAS = 2
+    TRACKS_EN_PARALELO = 1
     def __init__(self, numero, encuentros, promovidos=None, tct=False):
         self.numero = numero
         self.encuentros = encuentros
@@ -38,7 +38,7 @@ class Ronda(object):
     def get_encuentros_actuales(self):
         encuentros = [encuentro for encuentro in self.encuentros if not encuentro.finalizado()]
         if encuentros:
-            return encuentros[:self.NUMERO_DE_ARENAS]
+            return encuentros[:self.TRACKS_EN_PARALELO]
 
     # Json dumps and loads
     def to_dict(self):

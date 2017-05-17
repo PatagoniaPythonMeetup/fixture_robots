@@ -29,15 +29,32 @@ const RondaActualQueryNode: DocumentNode = require('graphql-tag/loader!../graphq
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const GanaRobotMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GanaRobot.graphql');
 
+export interface Estado {
+  iniciado: Boolean
+  compitiendo: Boolean
+  finalizado: Boolean
+  vuelta: Number
+  jugadas: Number
+}
+
+let ESTADO_INICIAL: Estado = {
+  iniciado: false, compitiendo: false, finalizado: false, vuelta: 0, jugadas: 0
+}
+
 @Injectable()
 export class FixtureService {
   estado: EventEmitter<any> = new EventEmitter()
+  _estado: Estado = ESTADO_INICIAL
 
   constructor(private apollo: Apollo) { }
   
+  getEstado() {
+    return this._estado;
+  }
+
   actualizarEstado() {
     this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .subscribe(({data}) => this.estado.emit(data.fixture.estado));
+      .subscribe(({data}) => this.estado.emit((this._estado = data.fixture.estado)));
   }
 
   robots() {
