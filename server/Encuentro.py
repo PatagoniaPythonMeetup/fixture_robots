@@ -42,7 +42,7 @@ class Encuentro(object):
         return (numero_jugadas >= self.MINIMO_JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
     
     def compitiendo(self):
-        return not ronda.finalizado()
+        return not self.finalizado()
 
     def vuelta(self):
         return len(self.ganadas)

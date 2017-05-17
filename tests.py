@@ -12,6 +12,8 @@ class TestEncuentros(unittest.TestCase):
         r1 = "robot 1"
         r2 = "robot 2"
         e1 = Encuentro(r1, r2)
+        self.assertEqual(e1.iniciado(), True)
+        self.assertEqual(e1.compitiendo(), True)
         self.assertEqual(e1.finalizado(), False)
         e1.gano(r1)
         self.assertEqual(e1.finalizado(), False)
@@ -181,7 +183,7 @@ class TestGanadores(TestBase):
         fixture = Fixture(robots)
         while not fixture.finalizado():
             ronda = fixture.generar_ronda()
-            while not ronda.finalizada():
+            while not ronda.finalizado():
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
                     e.gano(robot)
@@ -195,13 +197,40 @@ class TestGanadores(TestBase):
         fixture = Fixture(robots)
         while not fixture.finalizado():
             ronda = fixture.generar_ronda()
-            while not ronda.finalizada():
+            while not ronda.finalizado():
                 for e in ronda.encuentros:
                     robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
                     e.gano(robot)
         self.assertEqual(ganador, fixture.ganador())
 
 class TestTorneo(TestBase):
+    def test_estados(self):
+        robots = self.robots[:16]
+        fixture = Fixture(robots)
+        self.assertEqual(fixture.iniciado(), False)
+        self.assertEqual(fixture.finalizado(), False)
+        self.assertEqual(fixture.compitiendo(), False)
+        while not fixture.finalizado():
+            ronda = fixture.generar_ronda()
+            self.assertEqual(ronda.iniciado(), True)
+            self.assertEqual(ronda.compitiendo(), True)
+            self.assertEqual(fixture.iniciado(), True)
+            self.assertEqual(fixture.compitiendo(), True)
+            for encuentro in ronda.encuentros:
+                self.assertEqual(encuentro.iniciado(), True)
+                self.assertEqual(encuentro.compitiendo(), True)
+                while not encuentro.finalizado():
+                    rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
+                    fixture.gano(rwin)
+                self.assertEqual(encuentro.iniciado(), False)
+                self.assertEqual(encuentro.compitiendo(), False)
+                self.assertEqual(encuentro.finalizado(), True)
+            self.assertEqual(ronda.iniciado(), False)
+            self.assertEqual(ronda.compitiendo(), False)
+            self.assertEqual(fixture.compitiendo(), False)
+        self.assertEqual(fixture.finalizado(), True)
+        self.assertEqual(fixture.compitiendo(), False)
+    
     def test_torneo_de_ocho(self):
         robots = self.robots[:8]
         # (robot, jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)

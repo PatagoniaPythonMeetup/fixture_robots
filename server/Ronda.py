@@ -57,7 +57,7 @@ class Ronda(object):
         return all([e.finalizado() for e in self.encuentros])
     
     def compitiendo(self):
-        return not ronda.finalizado()
+        return not self.finalizado()
 
     def vuelta(self):
         return max([e.jugadas() for e in self.encuentros])
