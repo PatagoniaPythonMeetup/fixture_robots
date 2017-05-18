@@ -1,6 +1,0 @@
-<div class="ui column centered inverted grid" [ngClass]="{'two': TRACKS_EN_PARALELO == 2, 'one': TRACKS_EN_PARALELO == 1}" >
-  <div class="column" *ngFor="let encuentro of encuentros">
-    <h4 class="ui inverted header">Encuentro {{encuentro.numero}}</h4>
-    <encuentro-card [encuentro]="encuentro" (finalizado)="finalizado($event, encuentro)" ></encuentro-card>
-  </div>
-</div>

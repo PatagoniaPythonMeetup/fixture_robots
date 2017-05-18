@@ -1,11 +1,14 @@
 <div class="ui inverted vertical footer segment">
   <div class="ui center aligned container">
-    <encuentros-actuales *ngIf="estado && estado.compitiendo; else noCompitiendoBlock"></encuentros-actuales>
-    <ng-template #noCompitiendoBlock>
-      <img src="assets/images/unpsjb.png" class="ui centered mini image">
-        <div class="ui horizontal inverted small divided link list">
-          <a class="item" href="http://www.dit.ing.unp.edu.ar/">Universidad Nacional de la Patagonia San Juan Bosco - Departamento de Informática - Trelew</a>
+    <div class="ui column centered inverted grid" [ngClass]="{'two': TRACKS_EN_PARALELO == 2, 'one': TRACKS_EN_PARALELO == 1}" >
+      <div class="column" *ngFor="let encuentro of encuentros">
+        <h4 class="ui inverted header">Encuentro {{encuentro.numero}}</h4>
+        <encuentro-card [encuentro]="encuentro" (finalizado)="finalizado($event, encuentro)" ></encuentro-card>
       </div>
-    </ng-template>
+    </div>
+    <img src="assets/images/unpsjb.png" class="ui centered mini image">
+      <div class="ui horizontal inverted small divided link list">
+        <a class="item" href="http://www.dit.ing.unp.edu.ar/">Universidad Nacional de la Patagonia San Juan Bosco - Departamento de Informática - Trelew</a>
+    </div>
   </div>
 </div>

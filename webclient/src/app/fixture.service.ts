@@ -44,15 +44,13 @@ let ESTADO_INICIAL: Estado = {
 
 @Injectable()
 export class FixtureService {
-  
-  constructor(private apollo: Apollo) {
-  }
-  
-  getEstado() {
-    return this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .map(({data}) => data.fixture.estado)
-  }
+  estado: EventEmitter<Estado> = new EventEmitter<Estado>()
 
+  constructor(private apollo: Apollo) {
+    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+      .subscribe(({data}) => this.estado.emit(data.fixture.estado))
+  }
+  
   robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
       .map(({data}) => data.fixture.robots);
@@ -94,19 +92,21 @@ export class FixtureService {
 
   generarRonda(tct: Boolean) {
     // Llamando a la mutacion generar ronda
-    return this.apollo.mutate<GenerarRondaMutation>({
+    let obs$ = this.apollo.mutate<GenerarRondaMutation>({
       mutation: GenerarRondaMutationNode,
       variables: { tct },
     })
-    .map(({data}) => data.generarRonda.ronda);
+    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
+    return obs$.map(({data}) => data.generarRonda.ronda);
   }
 
   ganaRobot(key: String, ronda: Number = null, encuentro: Number = null) {
     // Llamando a la mutacion generar ronda
-    return this.apollo.mutate<GanaRobotMutation>({
+    let obs$ = this.apollo.mutate<GanaRobotMutation>({
       mutation: GanaRobotMutationNode,
       variables: { key },
     })
-    .map(({data}) => data.ganaRobot.encuentro );
+    obs$.subscribe(({data}) => this.estado.emit(data.ganaRobot.estado))
+    return obs$.map(({data}) => data.ganaRobot.encuentro );
   }
 }

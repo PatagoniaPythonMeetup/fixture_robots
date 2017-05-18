@@ -15,7 +15,6 @@ import { RobotsScoreTableComponent } from './robots-score-table/robots-score-tab
 import { MenuComponent } from './layout/menu/menu.component';
 import { MainComponent } from './layout/main/main.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { EncuentrosActualesComponent } from './encuentros-actuales/encuentros-actuales.component';
 import { RondaTableComponent } from './ronda-table/ronda-table.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -28,7 +27,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     MenuComponent,
     MainComponent,
     FooterComponent,
-    EncuentrosActualesComponent,
     RondaTableComponent,
     PageNotFoundComponent
   ],

@@ -10,8 +10,7 @@ declare let $: any;
 })
 export class EncuentroCardComponent implements OnInit {
   @Input() encuentro: any = {}
-  @Output() finalizado = new EventEmitter<Boolean>(); 
-
+  
   constructor(private fixture: FixtureService) { }
 
   gano(event, key) {
@@ -19,7 +18,6 @@ export class EncuentroCardComponent implements OnInit {
     this.fixture.ganaRobot(key)
       .subscribe((encuentro: any) => {
         this.encuentro = Object.assign({}, this.encuentro, encuentro)
-        this.finalizado.emit(encuentro.estado.finalizado)
       })
   }
 
