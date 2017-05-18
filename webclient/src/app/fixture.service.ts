@@ -90,21 +90,20 @@ export class FixtureService {
       .map(({data}) => data.fixture.robots);
   }
 
-  generarRonda(tct: Boolean) {
+  generarRonda() {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GenerarRondaMutation>({
-      mutation: GenerarRondaMutationNode,
-      variables: { tct },
+      mutation: GenerarRondaMutationNode
     })
     obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
     return obs$.map(({data}) => data.generarRonda.ronda);
   }
 
-  ganaRobot(key: String, ronda: Number = null, encuentro: Number = null) {
+  ganaRobot(key: String, encuentro: Number = null) {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GanaRobotMutation>({
       mutation: GanaRobotMutationNode,
-      variables: { key },
+      variables: { key, encuentro },
     })
     obs$.subscribe(({data}) => this.estado.emit(data.ganaRobot.estado))
     return obs$.map(({data}) => data.ganaRobot.encuentro );

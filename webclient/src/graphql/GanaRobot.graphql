@@ -1,9 +1,8 @@
 mutation ganaRobot(
   $key: String!
-  $ronda: Int
   $encuentro: Int
 ) {
-  ganaRobot(key: $key, ronda: $ronda, encuentro: $encuentro) {
+  ganaRobot(key: $key, encuentro: $encuentro) {
     ok
     mensaje
     encuentro {

@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
   }
 
   generarRonda() {
-    this.fixture.generarRonda(false)
+    this.fixture.generarRonda()
       .subscribe(ronda => {
         this.rondas$.refetch();
       })

@@ -43,7 +43,6 @@ export interface FixtureQuery {
 
 export interface GanaRobotMutationVariables {
   key: string;
-  ronda: number | null;
   encuentro: number | null;
 }
 
@@ -68,10 +67,6 @@ export interface GanaRobotMutation {
       ronda: number | null,
     } | null,
   } | null;
-}
-
-export interface GenerarRondaMutationVariables {
-  tct: boolean;
 }
 
 export interface GenerarRondaMutation {

@@ -1,7 +1,5 @@
-mutation generarRonda(
-  $tct: Boolean!
-) {
-  generarRonda(tct: $tct) {
+mutation generarRonda {
+  generarRonda {
     ok
     mensaje
     ronda {

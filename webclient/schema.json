@@ -554,18 +554,7 @@
             {
               "name": "generarRonda",
               "description": null,
-              "args": [
-                {
-                  "name": "tct",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
+              "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "GenerarRonda",
@@ -590,16 +579,6 @@
                 },
                 {
                   "name": "encuentro",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "ronda",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

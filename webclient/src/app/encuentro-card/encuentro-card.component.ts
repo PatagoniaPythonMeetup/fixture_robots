@@ -15,7 +15,7 @@ export class EncuentroCardComponent implements OnInit {
 
   gano(event, key) {
     $(event.target).transition('jiggle')
-    this.fixture.ganaRobot(key)
+    this.fixture.ganaRobot(key, this.encuentro.numero)
       .subscribe((encuentro: any) => {
         this.encuentro = Object.assign({}, this.encuentro, encuentro)
       })

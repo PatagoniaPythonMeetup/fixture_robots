@@ -133,11 +133,12 @@ class Fixture(object):
     def agregar_ronda(self, ronda):
         self.rondas.append(ronda)
 
-    def generar_ronda(self, tct=False):
+    def generar_ronda(self, tct=None):
         assert not self.rondas or self.rondas[-1].finalizado(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
-        tuplas = self._generador(robots, tct)
+        # TODO: Mejorar como se determina si es todos contra todos
+        tuplas = self._generador(robots, tct is None and len(robots) in [5, 3] or tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
         base = reduce(lambda a, ronda: a + len(ronda.encuentros), self.rondas, 1)
         ronda = self.crear_ronda(tuplas, promovidos, tct=tct, base=base)
@@ -234,11 +235,12 @@ class Fixture(object):
             if len(robots) == 1:
                 return robots.pop()
 
-    def gano(self, robot, nronda=None, nencuentro=None):
-        ronda = self.get_ronda_actual() if nronda is None else self.get_ronda(nronda)
-        assert ronda is not None, "No hay ronda actual o el numero de ronda no es correcto"
-        assert ronda.participa(robot), "El robot no participa de la ronda"
-        return ronda.gano(robot, nencuentro=nencuentro)
+    def gano(self, robot, nencuentro=None):
+        encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
+        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
+        encuentro = encuentros[0]
+        encuentro.gano(robot)
+        return encuentro
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del torneo
