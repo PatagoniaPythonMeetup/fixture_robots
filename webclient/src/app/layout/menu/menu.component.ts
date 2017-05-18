@@ -12,7 +12,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
   rondas$: ApolloQueryObservable<any>;
-  title = 'Rob Fixture';
+  title = 'RoboFixture';
   estado: Estado
 
   constructor(private router: Router, private fixture: FixtureService) {

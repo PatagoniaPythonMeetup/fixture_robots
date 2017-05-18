@@ -23,10 +23,17 @@ export class FooterComponent implements OnInit {
   cargarEstado(estado: Estado) {
     this.estado = estado
     if (estado.compitiendo) {
-      estado.encuentros.forEach(e => this.fixture.encuentro(e)
-        .subscribe(e => this.encuentros = [e])
-      )  
-    }
+      let encuentros = this.encuentros.map(e => e.numero)
+      estado.encuentros.forEach((numero, index) => {
+        if (encuentros.length === 0 || encuentros.indexOf(numero) == -1) {
+          this.fixture.encuentro(estado.encuentros[index])
+            .subscribe((e: any) => {
+              encuentros[index] = e
+              this.encuentros = encuentros
+            })
+        }
+      })
+    } else { this.encuentros = [] }
   }
 
 }

@@ -209,10 +209,8 @@ class Fixture(object):
         return tiene_robots and tiene_rondas and not tiene_ganador
 
     def compitiendo(self):
-        iniciado = self.iniciado()
-        finalizado = self.finalizado()
         ronda = self.get_ronda_actual()
-        return iniciado and not finalizado and not ronda.finalizado()
+        return ronda is not None and ronda.compitiendo()
 
     def finalizado(self):
         tiene_robots = bool(self.robots)
