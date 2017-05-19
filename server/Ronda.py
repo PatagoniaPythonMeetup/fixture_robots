@@ -18,8 +18,8 @@ class Ronda(object):
     def ganadores(self):
         if self.tct:
             scores = [(r,) + self.score(r) for r in self.robots]
-            scores = sorted(scores, key=lambda s: s[6], reverse=True)
-            #TODO: Mejorar como se obtiene este ganador de un tct
+            scores = sorted(scores, key=lambda s: s[8], reverse=True)
+            # El mejor puntuado es el ganador de esta ronda de todos contra todos
             return [scores[0][0]]
         else:
             return [e.ganador() for e in self.encuentros] + self.promovidos
