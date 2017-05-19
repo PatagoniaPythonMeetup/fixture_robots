@@ -13,14 +13,14 @@ export class FooterComponent implements OnInit {
   estado: Estado
 
   constructor(private fixture: FixtureService) { 
-    this.fixture.estado.subscribe(estado => this.cargarEstado(estado))
+    this.fixture.estado.subscribe(estado => this.setEstado(estado))
   }
 
   ngOnInit() {
     
   }
 
-  cargarEstado(estado: Estado) {
+  setEstado(estado: Estado) {
     this.estado = estado
     if (estado.compitiendo) {
       let encuentros = this.encuentros.map(e => e.numero)

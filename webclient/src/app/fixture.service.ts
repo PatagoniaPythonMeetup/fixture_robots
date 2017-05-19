@@ -47,10 +47,15 @@ export class FixtureService {
   estado: EventEmitter<Estado> = new EventEmitter<Estado>()
 
   constructor(private apollo: Apollo) {
-    this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .subscribe(({data}) => this.estado.emit(data.fixture.estado))
   }
   
+  getEstado() {
+    let obs$ = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+      .map(({data}) => data.fixture.estado)
+    obs$.subscribe(estado => this.estado.emit(estado))
+    return obs$
+  }
+
   robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
       .map(({data}) => data.fixture.robots);
@@ -69,7 +74,7 @@ export class FixtureService {
       query: RondaQueryNode,
       variables: { numero }
     })
-      .map(({data}) => data.fixture.ronda as any) as ApolloQueryObservable<any>;
+      .map(({data}) => data.fixture.ronda);
   }
 
   rondas() {

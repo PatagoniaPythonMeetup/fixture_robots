@@ -8,13 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./robots-score-table.component.css']
 })
 export class RobotsScoreTableComponent implements OnInit {
-  robotsScore$: Observable<any>;
+  robotsScore$: any
+  robots: any
   
   constructor(private fixture: FixtureService) {
+    this.robotsScore$ = this.fixture.robotsScore()
+    this.robotsScore$.subscribe(robots => {
+      let r = robots.slice();
+      r.sort((a, b) => b.score[7] - a.score[7]);
+      this.robots = r;
+    })
   }
 
   ngOnInit() {
-    this.robotsScore$ = this.fixture.robotsScore();
+    this.robotsScore$.refetch();
   }
 
 }
