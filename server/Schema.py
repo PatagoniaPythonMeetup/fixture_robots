@@ -42,7 +42,9 @@ class Robot(graphene.ObjectType):
     score = graphene.List(graphene.Int)
 
     def resolve_score(self, args, context, info):
-        return context["fixture"].score(self)
+        fixture = context["fixture"]
+        robot = fixture.get_robot_por_key(self.key)
+        return fixture.score(robot)
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()

@@ -79,7 +79,8 @@ class Ronda(object):
         """Retorna el *score* de un robot dentro de la ronda
         score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
         """
-        resultados = [encuentro.score(robot) for encuentro in self.encuentros if encuentro.participa(robot)]
+        encuentros = [encuentro for encuentro in self.encuentros if encuentro.finalizado()]
+        resultados = [encuentro.score(robot) for encuentro in encuentros if encuentro.participa(robot)]
         resultados = [resultado for resultado in resultados if None not in resultado ]
         triunfos = len([resultado for resultado in resultados if resultado[0] > resultado[1]])
         derrotas = len([resultado for resultado in resultados if resultado[0] < resultado[1]])
