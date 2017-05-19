@@ -10,9 +10,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let encuentro of ronda.encuentros">
+      <td *ngIf="estado && estado.encuentros.indexOf(encuentro.numero) != -1;else noEnCursoBlock">
+        <div class="ui ribbon label green"><h3># {{encuentro.numero}}</h3></div>
+      </td>
+      <ng-template #noEnCursoBlock>
       <td class="left aligned">
         <h3># {{encuentro.numero}}</h3>
       </td>
+      </ng-template>
       <td class="right aligned">
         <h4 class="ui image header">
           <img/>

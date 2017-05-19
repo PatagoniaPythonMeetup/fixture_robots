@@ -12,7 +12,7 @@ import { ApolloQueryObservable } from "apollo-angular/build/src";
   templateUrl: './ronda-table.component.html',
   styleUrls: ['./ronda-table.component.css']
 })
-export class RondaTableComponent{
+export class RondaTableComponent {
   rondaQuery$: any;
   ronda: any
   estado: Estado

@@ -4,7 +4,7 @@ import random
 import itertools
 
 NUMEROS = itertools.count()
-IMAGENES = 23
+IMAGENES = 22
 
 class Robot(namedtuple("Robot", "nombre escuela encargado escudo")):
     __slots__ = ()
