@@ -83,6 +83,7 @@ GENERADORES = {
 }
 
 class Fixture(object):
+    UMBRAL_TCT = [5, 3]
     def __init__(self, robots = None):
         self.robots = robots or []
         self.rondas = []
@@ -137,8 +138,8 @@ class Fixture(object):
         assert not self.rondas or self.rondas[-1].finalizado(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
-        # TODO: Mejorar como se determina si es todos contra todos
-        tuplas = self._generador(robots, tct is None and len(robots) in [5, 3] or tct)
+        tct = tct is None and len(robots) in self.UMBRAL_TCT or tct
+        tuplas = self._generador(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
         base = reduce(lambda a, ronda: a + len(ronda.encuentros), self.rondas, 1)
         ronda = self.crear_ronda(tuplas, promovidos, tct=tct, base=base)
@@ -235,6 +236,10 @@ class Fixture(object):
             if len(robots) == 1:
                 return robots.pop()
 
+    # TODO: La verdad que se podria hacer que en funcion del estado del encuentro 
+    # se obtenga cual es el que corresponde al robot y si el robot no esta en ese encuentro 
+    # fallar. La forma en que funciona hoy el metodo permite que puedas hacer ganar a un 
+    # robot aunque no sea parte del encuentro en curso, sera util?
     def gano(self, robot, nencuentro=None):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"

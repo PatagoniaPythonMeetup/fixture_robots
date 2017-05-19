@@ -221,7 +221,7 @@ class TestTorneo(TestBase):
                 self.assertEqual(encuentro.compitiendo(), True)
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
-                    fixture.gano(rwin)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 self.assertEqual(encuentro.iniciado(), False)
                 self.assertEqual(encuentro.compitiendo(), False)
                 self.assertEqual(encuentro.finalizado(), True)
@@ -242,7 +242,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -268,7 +268,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -297,7 +297,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -327,7 +327,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -357,7 +357,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -387,7 +387,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
@@ -417,7 +417,7 @@ class TestTorneo(TestBase):
                 while not encuentro.finalizado():
                     rwin = random.choice([encuentro.robot_1, encuentro.robot_2])
                     rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
-                    fixture.gano(rwin, nronda=ronda.numero, nencuentro=encuentro.numero)
+                    fixture.gano(rwin, nencuentro=encuentro.numero)
                 rwin = encuentro.ganador()
                 rlose = encuentro.robot_2 if encuentro.robot_1 == rwin else encuentro.robot_1
                 s = encuentro.score(rwin)
