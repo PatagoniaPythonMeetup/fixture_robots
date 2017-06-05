@@ -2,6 +2,11 @@ import json
 from flask import Flask, render_template
 from flask_graphql import GraphQLView
 from flask_cors import CORS
+
+from flask_graphql_subscriptions_transport import SubscriptionServer
+from python_graphql_subscriptions import PubSub, SubscriptionManager
+import eventlet
+
 from faker import Factory
 
 from server import Fixture, schema, Encuentro, Ronda
@@ -48,7 +53,16 @@ def faker(num):
     return render_template("index.html", robots = len(FIXTURE.robots))
 
 def main():
-    app.run()
+    eventlet.monkey_patch()
+    pubsub = PubSub()
+    setup_functions = {}
+    subscription_manager = SubscriptionManager(schema, pubsub, setup_functions)
+    subscription_server = SubscriptionServer(app, subscription_manager)
+    subscription_server.socketio.run(app,
+        host='localhost',
+        port=5000,
+        debug=True,
+        use_reloader=True)
 
 if __name__ == '__main__':
     main()
