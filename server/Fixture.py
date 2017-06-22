@@ -8,87 +8,28 @@ from .Robot import Robot
 from .Encuentro import Encuentro
 from .Ronda import Ronda
 
-def generador_samu(robots):
-    if len(robots) == 2:
-        return [Encuentro(robots[0], robots[1])]
-    
-    _escuela = robots[0].escuela
-    _neutros = [r for r in robots if r.escuela==_escuela]
-    random.shuffle(_neutros)
-    
-    _contrincantes = [r for r in robots if r.escuela!=_escuela]
-    random.shuffle(_contrincantes)
-
-    _rob_1 = _neutros[0]
-    _encuentros = []
-    if len(_contrincantes) !=0:
-        _rob_2 = _contrincantes[0]
-    else:
-        _rob_2 = _neutros[1]
-    
-    robots.remove(_rob_1)
-    robots.remove(_rob_2)
-    _encuentros.append(Encuentro(_rob_1, _rob_2))
-    
-    _encuentros.extend(generador_samu(robots))
-    
-    return _encuentros
-
-def generador_brutus(robots):
-    # Producto cartesiano de todos los robots con todos los robots
-    encuentros = [Encuentro(r1, r2) for r1 in robots for r2 in robots]
-    # Lo barajamos
-    random.shuffle(encuentros)
-    # Filtramos los que son validos
-    encuentros = [encuentro for encuentro in encuentros if encuentro.es_valido()]
-    # Filtramos los iguales
-    encuentros = reduce(lambda acumulador, encuentro: encuentro in acumulador and acumulador or acumulador + [encuentro], encuentros, [])
-    # Quitar los que compite la misma escuela, solo si hay un numero suficiente de encuentros
-    encuentros_distintos = [encuentro for encuentro in encuentros if not encuentro.misma_escuela()]
-    if len(encuentros_distintos) > len(robots) // 2:
-        encuentros = encuentros_distintos
-    # Filtramos los encuentros por robot y generamos la ronda
-    ronda = []
-    _robots = robots[:]
-    while _robots:
-        encuentro = encuentros.pop()
-        if encuentro.robot_1 in _robots and encuentro.robot_2 in _robots:
-            _robots.remove(encuentro.robot_1)
-            _robots.remove(encuentro.robot_2)
-            ronda.append(encuentro)
-        elif not encuentros:
-            ronda.append(encuentro)
-            break
-    return ronda
-
-def generador_combinaciones(robots, tct):
-    tuplas = [list(combine) for combine in combinations(robots, 2)]
-    ronda = []
-    random.shuffle(tuplas)
-    distinta_escuela = [ e for e in tuplas if e[0].escuela != e[1].escuela ]
-    misma_escuela = [ e for e in tuplas if e[0].escuela == e[1].escuela ]
-    for _tuplas in [distinta_escuela, misma_escuela]:
-        while _tuplas:
-            tupla = _tuplas.pop()
-            if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
-                ronda.append(tupla)
-            if not tct and len(ronda) == len(robots) // 2:
-                break
-    return ronda
-
-GENERADORES = {
-    "samu": generador_samu,
-    "brutus": generador_brutus,
-    "combinaciones": generador_combinaciones
-}
-
 class Fixture(object):
     UMBRAL_TCT = [5, 3]
     def __init__(self, robots = None):
         self.robots = robots or []
         self.rondas = []
-        self._generador = GENERADORES["combinaciones"]
-    
+
+    @staticmethod
+    def _generar_ronda(robots, tct):
+        tuplas = [list(combine) for combine in combinations(robots, 2)]
+        ronda = []
+        random.shuffle(tuplas)
+        distinta_escuela = [ e for e in tuplas if e[0].escuela != e[1].escuela ]
+        misma_escuela = [ e for e in tuplas if e[0].escuela == e[1].escuela ]
+        for _tuplas in [distinta_escuela, misma_escuela]:
+            while _tuplas:
+                tupla = _tuplas.pop()
+                if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
+                    ronda.append(tupla)
+                if not tct and len(ronda) == len(robots) // 2:
+                    break
+        return ronda
+
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable):
         robot = Robot(nombre, escuela, responsable)
@@ -139,7 +80,7 @@ class Fixture(object):
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
         tct = tct is None and len(robots) in self.UMBRAL_TCT or tct
-        tuplas = self._generador(robots, tct)
+        tuplas = self._generar_ronda(robots, tct)
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
         base = reduce(lambda a, ronda: a + len(ronda.encuentros), self.rondas, 1)
         ronda = self.crear_ronda(tuplas, promovidos, tct=tct, base=base)
