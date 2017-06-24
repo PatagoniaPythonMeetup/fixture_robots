@@ -1,6 +1,9 @@
+import random
 from functools import reduce
+from itertools import combinations
 
 from .Robot import Robot
+from .Encuentro import Encuentro
 
 class Ronda(object):
     TRACKS_EN_PARALELO = 1
@@ -9,6 +12,31 @@ class Ronda(object):
         self.encuentros = encuentros
         self.promovidos = promovidos or []
         self.tct = tct
+
+    #Generar nueva ronda
+    @staticmethod
+    def generar(robots, tct=False, allow_none=False, shuffle=True, encuentro_base=0, ronda_base=0):
+        tuplas = [list(combine) for combine in combinations(robots, 2)]
+        ronda_tuplas = []
+        if shuffle:
+            random.shuffle(tuplas)
+        distinta_escuela = [e for e in tuplas if e[0].escuela != e[1].escuela]
+        misma_escuela = [e for e in tuplas if e[0].escuela == e[1].escuela]
+        for _tuplas in [distinta_escuela, misma_escuela]:
+            while _tuplas:
+                tupla = _tuplas.pop()
+                if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda_tuplas]):
+                    ronda_tuplas.append(tupla)
+                if not tct and len(ronda_tuplas) == len(robots) // 2:
+                    break
+        # Ahora creamos la ronda
+        promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, ronda_tuplas, [])))
+        if promovidos and allow_none:
+            for t in [(p, None) for p in promovidos]:
+                ronda_tuplas.append(t)
+            promovidos = []
+        encuentros = [Encuentro(*t, numero=i) for i, t in enumerate(ronda_tuplas, encuentro_base + 1)]
+        return Ronda(ronda_base + 1, encuentros, list(promovidos), tct)
 
     # Robots
     @property

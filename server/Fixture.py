@@ -10,25 +10,11 @@ from .Ronda import Ronda
 
 class Fixture(object):
     UMBRAL_TCT = [5, 3]
-    def __init__(self, robots = None):
-        self.robots = robots or []
-        self.rondas = []
 
-    @staticmethod
-    def _generar_ronda(robots, tct):
-        tuplas = [list(combine) for combine in combinations(robots, 2)]
-        ronda = []
-        random.shuffle(tuplas)
-        distinta_escuela = [ e for e in tuplas if e[0].escuela != e[1].escuela ]
-        misma_escuela = [ e for e in tuplas if e[0].escuela == e[1].escuela ]
-        for _tuplas in [distinta_escuela, misma_escuela]:
-            while _tuplas:
-                tupla = _tuplas.pop()
-                if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda]):
-                    ronda.append(tupla)
-                if not tct and len(ronda) == len(robots) // 2:
-                    break
-        return ronda
+    def __init__(self, robots=None):
+        self.robots = robots or []
+        self.fases = []
+        self.rondas = []
 
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable):
@@ -56,35 +42,28 @@ class Fixture(object):
     # Encuentros
     def get_encuentros(self):
         return reduce(lambda a, ronda: a + ronda.encuentros, self.rondas, [])
-    
+
     def get_encuentro(self, numero):
         encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
         if len(encuentros) == 1:
             return encuentros.pop()
-    
+
     def get_encuentros_actuales(self):
         ronda = self.get_ronda_actual()
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def crear_ronda(self, tuplas, promovidos, tct, base):
-        encuentros = [Encuentro(*t, numero = i) for i, t in enumerate(tuplas, base)]
-        ronda = Ronda(len(self.rondas) + 1, encuentros, list(promovidos), tct)
-        return ronda
-
-    def agregar_ronda(self, ronda):
-        self.rondas.append(ronda)
-
     def generar_ronda(self, tct=None):
         assert not self.rondas or self.rondas[-1].finalizado(), "No se finalizo la ultima ronda"
         robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
         tct = tct is None and len(robots) in self.UMBRAL_TCT or tct
-        tuplas = self._generar_ronda(robots, tct)
-        promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, tuplas, [])))
-        base = reduce(lambda a, ronda: a + len(ronda.encuentros), self.rondas, 1)
-        ronda = self.crear_ronda(tuplas, promovidos, tct=tct, base=base)
-        self.agregar_ronda(ronda)
+        rondas = self.get_rondas()
+        encuentros = self.get_encuentros()
+        ronda_base = rondas and max([r.numero for r in rondas]) or 0
+        encuentro_base = encuentros and max([r.numero for r in encuentros]) or 0
+        ronda = Ronda.generar(robots, tct, encuentro_base=encuentro_base, ronda_base=ronda_base)
+        self.rondas.append(ronda)
         return ronda
 
     def get_ronda(self, numero):
@@ -182,7 +161,9 @@ class Fixture(object):
     # fallar. La forma en que funciona hoy el metodo permite que puedas hacer ganar a un 
     # robot aunque no sea parte del encuentro en curso, sera util?
     def gano(self, robot, nencuentro=None):
-        encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
+        encuentros = [e for e in self.get_encuentros() if e.participa(robot)]
+        if nencuentro is not None:
+            encuentros = [e for e in encuentros if e.numero == nencuentro]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentro = encuentros[0]
         encuentro.gano(robot)

@@ -1,7 +1,10 @@
 
+
 class Encuentro(object):
+    """Un encuentro enfrenta a dos competidores"""
     MINIMO_JUGADAS = 3
-    def __init__(self, robot_1, robot_2, numero=None, ganadas = None):
+
+    def __init__(self, robot_1, robot_2=None, numero=None, ganadas=None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
         self.numero = numero
@@ -22,25 +25,25 @@ class Encuentro(object):
 
     def es_valido(self):
         """Para que el encuentro sea valido los robots deben ser distintos"""
-        return self.robot_1 != self.robot_2
+        return self.robot_2 is not None and self.robot_1 != self.robot_2
 
     def misma_escuela(self):
-        return self.robot_1.escuela == self.robot_2.escuela
+        return self.robot_2 is not None and self.robot_1.escuela == self.robot_2.escuela
 
     def __eq__(self, other):
         """Un encuentro es igual a otro si tiene los mismos robots"""
         return hash(self) == hash(other)
-    
+
     # Estados
     def iniciado(self):
-        return not self.finalizado()
+        return self.robot_2 is not None and not self.finalizado()
 
     def finalizado(self):
         numero_jugadas = self.jugadas()
         tiene_ganador = bool(self.ganador())
         score = self.score(self.robot_1)
         return (numero_jugadas >= self.MINIMO_JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
-    
+
     def compitiendo(self):
         return not self.finalizado()
 
@@ -71,20 +74,7 @@ class Encuentro(object):
 
     def __str__(self):
         return "<%s[%s] vs %s[%s]>" % (self.robot_1.nombre, self.score(self.robot_1), self.robot_2.nombre, self.score(self.robot_2))
-    
+
     def __hash__(self):
-        return hash(self.robot_1) + hash(self.robot_2) 
-
-def main():
-    e = Encuentro("1", "2")
-    e.gano("1")
-    e.gano("2")
-    e.gano("2")
-    e.gano("1")
-    e.gano("2")
-    print(e.ganador(), e.puntaje("1"), e.puntaje("2"))
-
-if __name__ == '__main__':
-    main()
-
+        return hash(self.robot_1) + hash(self.robot_2)
             
