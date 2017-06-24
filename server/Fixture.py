@@ -41,7 +41,7 @@ class Fixture(object):
 
     # Encuentros
     def get_encuentros(self):
-        return reduce(lambda a, ronda: a + ronda.encuentros, self.rondas, [])
+        return reduce(lambda a, ronda: a + ronda.encuentros, self.get_rondas(), [])
 
     def get_encuentro(self, numero):
         encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
@@ -54,11 +54,11 @@ class Fixture(object):
 
     # Rondas
     def generar_ronda(self, tct=None):
-        assert not self.rondas or self.rondas[-1].finalizado(), "No se finalizo la ultima ronda"
-        robots = self.robots if not self.rondas else self.rondas[-1].ganadores()
+        rondas = self.get_rondas()
+        assert not rondas or rondas[-1].finalizado(), "No se finalizo la ultima ronda"
+        robots = self.robots if not rondas else rondas[-1].ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
         tct = tct is None and len(robots) in self.UMBRAL_TCT or tct
-        rondas = self.get_rondas()
         encuentros = self.get_encuentros()
         ronda_base = rondas and max([r.numero for r in rondas]) or 0
         encuentro_base = encuentros and max([r.numero for r in encuentros]) or 0
@@ -67,7 +67,7 @@ class Fixture(object):
         return ronda
 
     def get_ronda(self, numero):
-        rondas = [ronda for ronda in self.rondas if ronda.numero == numero]
+        rondas = [ronda for ronda in self.get_rondas() if ronda.numero == numero]
         if len(rondas) == 1:
             return rondas.pop()
 
@@ -75,8 +75,9 @@ class Fixture(object):
         return self.rondas[:]
 
     def get_ronda_actual(self):
-        if self.rondas and not self.finalizado():
-            return self.rondas[-1]
+        rondas = self.get_rondas()
+        if rondas and not self.finalizado():
+            return rondas[-1]
 
     # Limpiar
     def limpiar_rondas(self):
@@ -93,7 +94,7 @@ class Fixture(object):
     def to_dict(self):
         return {
             "robots": self.robots,
-            "rondas": [ ronda.to_dict() for ronda in self.rondas ]
+            "rondas": [ ronda.to_dict() for ronda in self.get_rondas() ]
         }
 
     def from_dict(self, data):
@@ -125,8 +126,9 @@ class Fixture(object):
 
     # Estados
     def iniciado(self):
+        rondas = self.get_rondas()
         tiene_robots = bool(self.robots)
-        tiene_rondas = bool(self.rondas)
+        tiene_rondas = bool(rondas)
         tiene_ganador = bool(self.ganador())
         return tiene_robots and tiene_rondas and not tiene_ganador
 
@@ -135,10 +137,11 @@ class Fixture(object):
         return ronda is not None and ronda.compitiendo()
 
     def finalizado(self):
+        rondas = self.get_rondas()
         tiene_robots = bool(self.robots)
-        tiene_rondas = bool(self.rondas)
+        tiene_rondas = bool(rondas)
         tiene_ganador = bool(self.ganador())
-        rondas_finalizadas = all([ronda.finalizado() for ronda in self.rondas])
+        rondas_finalizadas = all([ronda.finalizado() for ronda in rondas])
         return (tiene_robots and tiene_rondas and rondas_finalizadas and tiene_ganador) or (not tiene_robots)
 
     def vuelta(self):
@@ -151,8 +154,9 @@ class Fixture(object):
 
     # Trabajando sobre el fixture
     def ganador(self):
-        if self.rondas:
-            robots = self.rondas[-1].ganadores()
+        rondas = self.get_rondas()
+        if rondas:
+            robots = rondas[-1].ganadores()
             if len(robots) == 1:
                 return robots.pop()
 
@@ -173,6 +177,6 @@ class Fixture(object):
         """Retorna el *score* de un robot dentro del torneo
         score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
         """
-        scores = [ronda.score(robot) for ronda in self.rondas]
+        scores = [ronda.score(robot) for ronda in self.get_rondas()]
         return reduce(lambda acumulador, score: tuple([ a + b for a, b in zip(acumulador, score)]), scores, (0, 0, 0, 0, 0, 0, 0, 0))
         
