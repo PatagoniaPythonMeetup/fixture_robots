@@ -3,11 +3,12 @@
 class Encuentro(object):
     """Un encuentro enfrenta a dos competidores"""
     MINIMO_JUGADAS = 3
-
+    NUMERO = 1
     def __init__(self, robot_1, robot_2=None, numero=None, ganadas=None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
-        self.numero = numero
+        self.numero = Encuentro.NUMERO
+        Encuentro.NUMERO = Encuentro.NUMERO + 1
         self.ganadas = ganadas or []
 
     def score(self, robot):
@@ -66,7 +67,6 @@ class Encuentro(object):
 
     def to_dict(self):
         return {
-            "numero": self.numero,
             "robot_1": self.robot_1,
             "robot_2": self.robot_2,
             "ganadas": self.ganadas

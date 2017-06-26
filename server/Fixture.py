@@ -9,8 +9,6 @@ from .Encuentro import Encuentro
 from .Ronda import Ronda
 
 class Fixture(object):
-    UMBRAL_TCT = [5, 3]
-
     def __init__(self, robots=None):
         self.robots = robots or []
         self.fases = []
@@ -44,7 +42,8 @@ class Fixture(object):
         return reduce(lambda a, ronda: a + ronda.encuentros, self.get_rondas(), [])
 
     def get_encuentro(self, numero):
-        encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
+        encuentros = [encuentro for encuentro in self.get_encuentros() \
+            if encuentro.numero == numero]
         if len(encuentros) == 1:
             return encuentros.pop()
 
@@ -53,16 +52,12 @@ class Fixture(object):
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def generar_ronda(self, tct=None):
-        rondas = self.get_rondas()
-        assert not rondas or rondas[-1].finalizado(), "No se finalizo la ultima ronda"
-        robots = self.robots if not rondas else rondas[-1].ganadores()
+    def generar_ronda(self, tct=False):
+        ronda_actual = self.get_ronda_actual()
+        assert ronda_actual is None or ronda_actual.finalizado(), "No se finalizo la ultima ronda"
+        robots = self.robots if ronda_actual is None else ronda_actual.ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
-        tct = tct is None and len(robots) in self.UMBRAL_TCT or tct
-        encuentros = self.get_encuentros()
-        ronda_base = rondas and max([r.numero for r in rondas]) or 0
-        encuentro_base = encuentros and max([r.numero for r in encuentros]) or 0
-        ronda = Ronda.generar(robots, tct, encuentro_base=encuentro_base, ronda_base=ronda_base)
+        ronda = Ronda.generar(robots, tct)
         self.rondas.append(ronda)
         return ronda
 
@@ -94,7 +89,7 @@ class Fixture(object):
     def to_dict(self):
         return {
             "robots": self.robots,
-            "rondas": [ ronda.to_dict() for ronda in self.get_rondas() ]
+            "rondas": [ronda.to_dict() for ronda in self.get_rondas()]
         }
 
     def from_dict(self, data):
@@ -108,11 +103,13 @@ class Fixture(object):
             for encuentro_data in ronda_data["encuentros"]:
                 r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
                 r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
-                ganadas = [ tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"] ]
-                encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas = ganadas)
+                ganadas = [tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
+                encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas=ganadas)
                 encuentros.append(encuentro)
-            promovidos = [robot for robot in robots if robot in [ tuple(p) for p in ronda_data["promovidos"]] ]
-            ronda = Ronda(numero=ronda_data["numero"], encuentros = encuentros, promovidos = promovidos, tct = ronda_data.pop("tct", False))
+            promovidos = [robot for robot in robots \
+                if robot in [tuple(p) for p in ronda_data["promovidos"]]]
+            ronda = Ronda(numero=ronda_data["numero"], encuentros=encuentros, \
+                promovidos=promovidos, tct=ronda_data.pop("tct", False))
             self.agregar_ronda(ronda)
 
     def to_json(self):

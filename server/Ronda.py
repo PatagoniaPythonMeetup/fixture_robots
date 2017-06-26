@@ -7,15 +7,17 @@ from .Encuentro import Encuentro
 
 class Ronda(object):
     TRACKS_EN_PARALELO = 1
-    def __init__(self, numero, encuentros, promovidos=None, tct=False):
-        self.numero = numero
+    NUMERO = 1
+    def __init__(self, encuentros, promovidos=None, tct=False):
+        self.numero = Ronda.NUMERO
+        Ronda.NUMERO = Ronda.NUMERO + 1
         self.encuentros = encuentros
         self.promovidos = promovidos or []
         self.tct = tct
 
     #Generar nueva ronda
     @staticmethod
-    def generar(robots, tct=False, allow_none=False, shuffle=True, encuentro_base=0, ronda_base=0):
+    def generar(robots, tct=False, allow_none=False, shuffle=True):
         tuplas = [list(combine) for combine in combinations(robots, 2)]
         ronda_tuplas = []
         if shuffle:
@@ -35,8 +37,8 @@ class Ronda(object):
             for t in [(p, None) for p in promovidos]:
                 ronda_tuplas.append(t)
             promovidos = []
-        encuentros = [Encuentro(*t, numero=i) for i, t in enumerate(ronda_tuplas, encuentro_base + 1)]
-        return Ronda(ronda_base + 1, encuentros, list(promovidos), tct)
+        encuentros = [Encuentro(*t) for t in ronda_tuplas]
+        return Ronda(encuentros, list(promovidos), tct)
 
     # Robots
     @property
@@ -70,7 +72,6 @@ class Ronda(object):
     # Json dumps and loads
     def to_dict(self):
         return {
-            "numero": self.numero,
             "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
             "promovidos": self.promovidos,
             "tct": self.tct

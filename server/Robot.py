@@ -8,7 +8,7 @@ IMAGENES = 22
 
 class Robot(namedtuple("Robot", "nombre escuela encargado escudo")):
     __slots__ = ()
-    
+
     def __new__(cls, *args, **kwargs):
         if len(args) == 3:
             args = args + ("e{0:02d}.png".format((next(NUMEROS) % IMAGENES) + 1), )
