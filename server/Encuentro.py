@@ -2,7 +2,7 @@
 
 class Encuentro(object):
     """Un encuentro enfrenta a dos competidores"""
-    MINIMO_JUGADAS = 3
+    JUGADAS = 3
     NUMERO = 1
     def __init__(self, robot_1, robot_2=None, numero=None, ganadas=None):
         self.robot_1 = robot_1
@@ -20,9 +20,13 @@ class Encuentro(object):
         derrotas = len([r for r in self.ganadas if r != robot])
         return victorias, derrotas
 
-    def gano(self, robot):
+    def agregar_ganador(self, robot):
         assert robot is self.robot_1 or robot is self.robot_2, "El robot no es parte del encuentro"
         self.ganadas.append(robot)
+
+    def quitar_ganador(self, robot):
+        assert robot in self.ganadas, "El robot no gano en este encuentro"
+        self.ganadas.remove(robot)
 
     def es_valido(self):
         """Para que el encuentro sea valido los robots deben ser distintos"""
@@ -43,7 +47,7 @@ class Encuentro(object):
         numero_jugadas = self.jugadas()
         tiene_ganador = bool(self.ganador())
         score = self.score(self.robot_1)
-        return (numero_jugadas >= self.MINIMO_JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
+        return (numero_jugadas >= self.JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
 
     def compitiendo(self):
         return not self.finalizado()

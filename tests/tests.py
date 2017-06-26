@@ -108,53 +108,6 @@ class TestGeneradoresDeRonda(TestBase):
         self.assertEqual(set(robots), set(ronda.robots))
         self.assertEqual(3, len(ronda.encuentros))
 
-class TestGanadores(TestBase):
-    def test_ganador_1_en_ronda_1(self):
-        robots = self.robots[:]
-        ganadores = set()
-        fixture = Fixture(robots)
-        ronda = fixture.generar_ronda()
-        for e in ronda.encuentros:
-            ganadores.add(e.robot_1)
-            e.gano(e.robot_1)
-        self.assertEqual(set(ganadores), set(ronda.ganadores()))
-        
-    def test_ganador_2_en_ronda_1(self):
-        robots = self.robots[:]
-        ganadores = set()
-        fixture = Fixture(robots)
-        ronda = fixture.generar_ronda()
-        for e in ronda.encuentros:
-            ganadores.add(e.robot_2)
-            e.gano(e.robot_2)
-        self.assertEqual(set(ganadores), set(ronda.ganadores()))
-
-    def test_ganador_del_torneo(self):
-        robots = self.robots[:]
-        ganador = random.choice(robots)
-        fixture = Fixture(robots)
-        while not fixture.finalizado():
-            ronda = fixture.generar_ronda()
-            while not ronda.finalizado():
-                for e in ronda.encuentros:
-                    robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
-                    e.gano(robot)
-        self.assertEqual(ganador, fixture.ganador())
-
-    def test_ganador_impares_del_torneo(self):
-        robots = self.robots[:]
-        while len(robots) % 2 != 1:
-            robots.pop()
-        ganador = random.choice(robots)
-        fixture = Fixture(robots)
-        while not fixture.finalizado():
-            ronda = fixture.generar_ronda()
-            while not ronda.finalizado():
-                for e in ronda.encuentros:
-                    robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
-                    e.gano(robot)
-        self.assertEqual(ganador, fixture.ganador())
-
 class TestTorneo(TestBase):
     def test_estados(self):
         robots = self.robots[:16]

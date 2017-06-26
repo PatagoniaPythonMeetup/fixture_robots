@@ -6,7 +6,7 @@ from .Robot import Robot
 from .Encuentro import Encuentro
 
 class Ronda(object):
-    TRACKS_EN_PARALELO = 1
+    TRACKS = 1
     NUMERO = 1
     def __init__(self, encuentros, promovidos=None, tct=False):
         self.numero = Ronda.NUMERO
@@ -58,14 +58,17 @@ class Ronda(object):
             return ganadores[0]
 
     # Encuentros
+    def get_encuentros(self):
+        return self.encuentros[:]
+        
     def get_encuentro(self, numero):
-        encuentros = [encuentro for encuentro in self.encuentros if encuentro.numero == numero]
+        encuentros = [encuentro for encuentro in self.get_encuentros() if encuentro.numero == numero]
         if encuentros:
             return encuentros.pop()
 
     def get_encuentros_actuales(self):
-        encuentros = [encuentro for encuentro in self.encuentros if not encuentro.finalizado()]
-        return encuentros[:self.TRACKS_EN_PARALELO]
+        encuentros = [encuentro for encuentro in self.get_encuentros() if not encuentro.finalizado()]
+        return encuentros[:self.TRACKS]
 
     # Json dumps and loads
     def to_dict(self):

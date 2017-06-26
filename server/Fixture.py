@@ -10,7 +10,11 @@ from .Ronda import Ronda
 from .Fase import Clasificacion, Eliminacion, Final
 
 class Fixture(object):
-    def __init__(self, robots=None):
+    def __init__(self, robots=None, jugadas=3, tracks=1):
+        # Numero de tracks en paralelo que pueden ser sostenidos por disponibilidad de pistas
+        Ronda.TRACKS = tracks
+        # Numero minimo de jugadas para determinar un ganador en un encuentro
+        Encuentro.JUGADAS = jugadas
         self.robots = robots or []
         self.fases = []
 
@@ -57,7 +61,7 @@ class Fixture(object):
 
     # Encuentros
     def get_encuentros(self):
-        return reduce(lambda a, ronda: a + ronda.encuentros, self.get_rondas(), [])
+        return reduce(lambda a, ronda: a + ronda.get_encuentros(), self.get_rondas(), [])
 
     def get_encuentro(self, numero):
         encuentros = [encuentro for encuentro in self.get_encuentros() \
@@ -152,6 +156,7 @@ class Fixture(object):
     def compitiendo(self):
         return self.get_fase_actual().compitiendo()
 
+
     def finalizado(self):
         tiene_robots = bool(self.robots)
         return tiene_robots and self.get_fase_actual().finalizado()
@@ -165,19 +170,15 @@ class Fixture(object):
         return sum([e.jugadas() for e in encuentros]) if encuentros else 0
 
     # Trabajando sobre el fixture
-    def ganador(self):
-        ronda_actual = self.get_ronda_actual()
-        if ronda_actual is not None:
-            return ronda_actual.ganador()
+    def ganadores(self):
+        fase = self.get_fase_actual()
+        if fase is not None:
+            return fase.ganadores()
 
-    def gano(self, robot, nencuentro=None):
-        encuentros = [e for e in self.get_encuentros() if e.participa(robot)]
-        if nencuentro is not None:
-            encuentros = [e for e in encuentros if e.numero == nencuentro]
-        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
-        encuentro = encuentros[0]
-        encuentro.gano(robot)
-        return encuentro
+    def ganador(self):
+        ganadores = self.ganadores()
+        if len(ganadores) == 1:
+            return ganadores[0]
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del fixture
