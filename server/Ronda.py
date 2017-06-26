@@ -48,14 +48,14 @@ class Ronda(object):
         if self.tct:
             scores = [(r,) + self.score(r) for r in self.get_robots()]
             scores = sorted(scores, key=lambda s: s[8], reverse=True)
-            return [s[0] for s in scores] + self.promovidos
+            return [scores[0][0]]
         else:
             return [e.ganador() for e in self.encuentros] + self.promovidos
 
     def ganador(self):
         ganadores = self.ganadores()
-        if self.finalizado() and len(ganadores) == 1 or self.tct:
-            return ganadores[0]
+        if self.finalizado() and len(ganadores) == 1:
+            return ganadores.pop()
 
     # Encuentros
     def get_encuentros(self):
@@ -70,7 +70,7 @@ class Ronda(object):
         encuentros = [encuentro for encuentro in self.get_encuentros() if not encuentro.finalizado()]
         return encuentros[:self.TRACKS]
 
-    # Json dumps and loads
+    # Serialize
     def to_dict(self):
         return {
             "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],

@@ -101,31 +101,19 @@ class Fixture(object):
         if fases:
             return fases[-1]
 
-    # Limpiar
-    def limpiar_rondas(self):
-        self.rondas = []
-
-    def limpiar_robots(self):
-        self.robots = []
-
-    def limpiar(self):
-        self.limpiar_robots()
-        self.limpiar_rondas()
-
     # Json dumps and loads
     def to_dict(self):
         return {
             "robots": self.robots,
-            "rondas": [ronda.to_dict() for ronda in self.get_rondas()]
+            "fases": [fase.to_dict() for fase in self.get_fases()]
         }
 
     def from_dict(self, data):
-        self.limpiar()
         robots = []
         for robot_data in data["robots"]:
             robot = self.inscribir_robot(*robot_data)
             robots.append(robot)
-        for ronda_data in data["rondas"]:
+        for fase_data in data["fases"]:
             encuentros = []
             for encuentro_data in ronda_data["encuentros"]:
                 r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
@@ -155,7 +143,6 @@ class Fixture(object):
 
     def compitiendo(self):
         return self.get_fase_actual().compitiendo()
-
 
     def finalizado(self):
         tiene_robots = bool(self.robots)

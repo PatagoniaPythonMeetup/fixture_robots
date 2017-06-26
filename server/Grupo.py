@@ -12,6 +12,9 @@ class Grupo(object):
         self.numero = Grupo.NUMERO
         Grupo.NUMERO = Grupo.NUMERO + 1
 
+    def __len__(self):
+        return len(self.robots)
+    
     @staticmethod
     def generar(robots, cantidad, esc=True):
         if esc:
@@ -84,10 +87,21 @@ class Grupo(object):
         encuentros = self.get_encuentros()
         return sum([e.jugadas() for e in encuentros]) if encuentros else 0
 
+    # Serialize
+    def to_dict(self):
+        return {
+            "robots": self.robots,
+            "rondas": [ronda.to_dict() for ronda in self.get_rondas()]
+        }
+
     # Scores
+    def ganador(self):
+        ronda_actual = self.get_ronda_actual()
+        return self.get_ronda_actual().ganador()
+
     def ganadores(self):
         ronda_actual = self.get_ronda_actual()
-        return self.get_ronda_actual().ganadores() if ronda_actual is not None else []
+        return self.get_ronda_actual().ganadores()
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del grupo
