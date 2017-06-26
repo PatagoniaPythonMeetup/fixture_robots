@@ -49,15 +49,14 @@ class Ronda(object):
         if self.tct:
             scores = [(r,) + self.score(r) for r in self.robots]
             scores = sorted(scores, key=lambda s: s[8], reverse=True)
-            # El mejor puntuado es el ganador de esta ronda de todos contra todos
-            return [scores[0][0]]
+            return [s[0] for s in scores] + self.promovidos
         else:
             return [e.ganador() for e in self.encuentros] + self.promovidos
 
     def ganador(self):
         ganadores = self.ganadores()
-        if self.finalizado() and len(ganadores) == 1:
-            return ganadores.pop()
+        if self.finalizado() and len(ganadores) == 1 or self.tct:
+            return ganadores[0]
 
     # Encuentros
     def get_encuentro(self, numero):

@@ -71,7 +71,7 @@ class Fixture(object):
 
     def get_ronda_actual(self):
         rondas = self.get_rondas()
-        if rondas and not self.finalizado():
+        if rondas:
             return rondas[-1]
 
     # Limpiar
@@ -151,11 +151,9 @@ class Fixture(object):
 
     # Trabajando sobre el fixture
     def ganador(self):
-        rondas = self.get_rondas()
-        if rondas:
-            robots = rondas[-1].ganadores()
-            if len(robots) == 1:
-                return robots.pop()
+        ronda_actual = self.get_ronda_actual()
+        if ronda_actual is not None:
+            return ronda_actual.ganador()
 
     # TODO: La verdad que se podria hacer que en funcion del estado del encuentro 
     # se obtenga cual es el que corresponde al robot y si el robot no esta en ese encuentro 
