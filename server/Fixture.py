@@ -7,12 +7,12 @@ from itertools import combinations
 from .Robot import Robot
 from .Encuentro import Encuentro
 from .Ronda import Ronda
+from .Fase import Clasificacion, Eliminacion, Final
 
 class Fixture(object):
     def __init__(self, robots=None):
         self.robots = robots or []
         self.fases = []
-        self.rondas = []
 
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable):
@@ -34,8 +34,26 @@ class Fixture(object):
         return self.robots[:]
 
     def robots_en_juego(self):
-        ronda = self.get_ronda_actual()
-        return self.robots if not ronda else ronda.robots
+        ronda_actual = self.get_ronda_actual()
+        return self.robots if ronda_actual is None else ronda_actual.get_robots()
+
+    def clasificacion(self, grupos):
+        robots = self.robots # O los que vienen de la fase anterior
+        clas = Clasificacion(robots, grupos)
+        self.fases.append(clas)
+        return clas
+
+    def eliminacion(self):
+        robots = self.robots # O los que vienen de la fase anterior
+        clas = Eliminacion(robots)
+        self.fases.append(clas)
+        return clas
+
+    def final(self):
+        robots = self.robots # O los que vienen de la fase anterior
+        clas = Final(robots)
+        self.fases.append(clas)
+        return clas
 
     # Encuentros
     def get_encuentros(self):
@@ -52,14 +70,10 @@ class Fixture(object):
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def generar_ronda(self, tct=False):
-        ronda_actual = self.get_ronda_actual()
-        assert ronda_actual is None or ronda_actual.finalizado(), "No se finalizo la ultima ronda"
-        robots = self.robots if ronda_actual is None else ronda_actual.ganadores()
-        assert robots, "No hay robots para participar en una nueva ronda"
-        ronda = Ronda.generar(robots, tct)
-        self.rondas.append(ronda)
-        return ronda
+    def generar_ronda(self, tct=False, allow_none=False, shuffle=True):
+        fase = self.get_fase_actual()
+        if fase:
+            return fase.generar_ronda(tct, allow_none, shuffle)
 
     def get_ronda(self, numero):
         rondas = [ronda for ronda in self.get_rondas() if ronda.numero == numero]
@@ -67,12 +81,21 @@ class Fixture(object):
             return rondas.pop()
 
     def get_rondas(self):
-        return self.rondas[:]
+        return reduce(lambda a, fase: a + fase.get_rondas(), self.get_fases(), [])
 
     def get_ronda_actual(self):
         rondas = self.get_rondas()
         if rondas:
             return rondas[-1]
+
+    # Fases
+    def get_fases(self):
+        return self.fases[:]
+
+    def get_fase_actual(self):
+        fases = self.get_fases()
+        if fases:
+            return fases[-1]
 
     # Limpiar
     def limpiar_rondas(self):
@@ -123,23 +146,15 @@ class Fixture(object):
 
     # Estados
     def iniciado(self):
-        rondas = self.get_rondas()
         tiene_robots = bool(self.robots)
-        tiene_rondas = bool(rondas)
-        tiene_ganador = bool(self.ganador())
-        return tiene_robots and tiene_rondas and not tiene_ganador
+        return tiene_robots and self.get_fase_actual().iniciado()
 
     def compitiendo(self):
-        ronda = self.get_ronda_actual()
-        return ronda is not None and ronda.compitiendo()
+        return self.get_fase_actual().compitiendo()
 
     def finalizado(self):
-        rondas = self.get_rondas()
         tiene_robots = bool(self.robots)
-        tiene_rondas = bool(rondas)
-        tiene_ganador = bool(self.ganador())
-        rondas_finalizadas = all([ronda.finalizado() for ronda in rondas])
-        return (tiene_robots and tiene_rondas and rondas_finalizadas and tiene_ganador) or (not tiene_robots)
+        return tiene_robots and self.get_fase_actual().finalizado()
 
     def vuelta(self):
         encuentros = self.get_encuentros()
@@ -155,10 +170,6 @@ class Fixture(object):
         if ronda_actual is not None:
             return ronda_actual.ganador()
 
-    # TODO: La verdad que se podria hacer que en funcion del estado del encuentro 
-    # se obtenga cual es el que corresponde al robot y si el robot no esta en ese encuentro 
-    # fallar. La forma en que funciona hoy el metodo permite que puedas hacer ganar a un 
-    # robot aunque no sea parte del encuentro en curso, sera util?
     def gano(self, robot, nencuentro=None):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot)]
         if nencuentro is not None:
@@ -169,7 +180,7 @@ class Fixture(object):
         return encuentro
 
     def score(self, robot):
-        """Retorna el *score* de un robot dentro del torneo
+        """Retorna el *score* de un robot dentro del fixture
         score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
         """
         scores = [ronda.score(robot) for ronda in self.get_rondas()]

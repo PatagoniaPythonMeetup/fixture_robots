@@ -41,13 +41,12 @@ class Ronda(object):
         return Ronda(encuentros, list(promovidos), tct)
 
     # Robots
-    @property
-    def robots(self):
+    def get_robots(self):
         return list(reduce(lambda a, e: a.union([e.robot_1, e.robot_2]), self.encuentros, set(self.promovidos)))
 
     def ganadores(self):
         if self.tct:
-            scores = [(r,) + self.score(r) for r in self.robots]
+            scores = [(r,) + self.score(r) for r in self.get_robots()]
             scores = sorted(scores, key=lambda s: s[8], reverse=True)
             return [s[0] for s in scores] + self.promovidos
         else:
