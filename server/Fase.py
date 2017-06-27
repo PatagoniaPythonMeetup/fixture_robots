@@ -22,6 +22,9 @@ class Fase(object):
     def generar_rondas(self, tct=False, allow_none=False, shuffle=True):
         return [grupo.generar_ronda(tct, allow_none, shuffle) for grupo in self.get_grupos()]
 
+    def get_robots(self):
+        return reduce(lambda a, grupo: a + grupo.get_robots(), self.get_grupos(), [])
+
     # Estados
     def iniciado(self):
         ronda_actual = self.get_ronda_actual()
@@ -44,6 +47,13 @@ class Fase(object):
             "grupos": [grupo.to_dict() for grupo in self.get_grupos()]
         }
 
+    def score(self, robot):
+        """Retorna el *score* de un robot dentro de la fase
+        score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
+        """
+        scores = [grupo.score(robot) for grupo in self.get_grupos()]
+        return reduce(lambda acumulador, score: tuple([ a + b for a, b in zip(acumulador, score)]), scores, (0, 0, 0, 0, 0, 0, 0, 0))
+
 class Clasificacion(Fase):
     def __init__(self, robots, grupos):
         super().__init__(Grupo.generar(robots, grupos))
@@ -55,3 +65,7 @@ class Eliminacion(Fase):
 class Final(Fase):
     def __init__(self, robots):
         super().__init__([Grupo(robots)])
+
+    def posiciones(self):
+        scores = [(r,) + self.score(r) for r in self.get_robots()]
+        return sorted(scores, key=lambda s: s[8], reverse=True)

@@ -52,6 +52,9 @@ class Grupo(object):
         if rondas:
             return rondas[-1]
 
+    def get_robots(self):
+        return self.robots[:]
+        
     # Encuentros
     def get_encuentros(self):
         return reduce(lambda a, ronda: a + ronda.encuentros, self.get_rondas(), [])

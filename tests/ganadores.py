@@ -93,7 +93,7 @@ class TestGanadores(TestBase):
                         robot = random.choice([e.robot_1, e.robot_2])
                     e.agregar_ganador(robot)
         self.assertEqual(ganadores, fixture.ganadores())
-    
+
     def test_ganador_por_clasificacion_impares_tct_del_torneo(self):
         robots = self.robots[:27]
         fixture = Fixture(robots)
@@ -112,3 +112,17 @@ class TestGanadores(TestBase):
                         robot = random.choice([e.robot_1, e.robot_2])
                     e.agregar_ganador(robot)
         self.assertEqual(ganadores, fixture.ganadores())
+    
+    def test_ganador_por_final_del_torneo(self):
+        robots = self.robots[:4]
+        ganador = random.choice(robots)
+        fixture = Fixture(robots)
+        fase = fixture.final()
+        while not fixture.finalizado():
+            fase.generar_rondas()
+            for e in fase.get_encuentros():
+                while not e.finalizado():
+                    robot = ganador if e.participa(ganador) else random.choice([e.robot_1, e.robot_2])
+                    e.agregar_ganador(robot)
+        print(fase.resultados())
+        self.assertEqual(ganador, fixture.ganador())
