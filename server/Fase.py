@@ -14,10 +14,13 @@ class Fase(object):
     def get_rondas(self):
         return reduce(lambda a, grupo: a + grupo.get_rondas(), self.get_grupos(), [])
 
-    def get_ronda_actual(self):
-        rondas = self.get_rondas()
-        if rondas:
-            return rondas[-1]
+    def get_rondas_actuales(self):
+        rondas = []
+        for grupo in self.get_grupos():
+            rondas_del_grupo = grupo.get_rondas()
+            if rondas_del_grupo:
+                rondas.append(rondas_del_grupo[-1])
+        return rondas
 
     def generar_rondas(self, tct=False, allow_none=False, shuffle=True):
         return [grupo.generar_ronda(tct, allow_none, shuffle) for grupo in self.get_grupos()]
@@ -27,16 +30,21 @@ class Fase(object):
 
     # Estados
     def iniciado(self):
-        ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.iniciado() and ronda_actual.ganador() is None
+        rondas_actuales = self.get_rondas_actuales()
+        return rondas_actuales and \
+        any([ronda_actual.iniciado() for ronda_actual in rondas_actuales]) and \
+        any([ronda_actual.ganador() is None for ronda_actual in rondas_actuales])
 
     def compitiendo(self):
-        ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.compitiendo()
+        rondas_actuales = self.get_rondas_actuales()
+        return rondas_actuales and \
+        any([ronda_actual.compitiendo() for ronda_actual in rondas_actuales])
 
     def finalizado(self):
-        ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.finalizado() and ronda_actual.ganador()
+        rondas_actuales = self.get_rondas_actuales()
+        return rondas_actuales and \
+        any([ronda_actual.finalizado() for ronda_actual in rondas_actuales]) and \
+        any([ronda_actual.ganador() is None for ronda_actual in rondas_actuales])
 
     def ganadores(self):
         return reduce(lambda a, grupo: a + grupo.ganadores(), self.get_grupos(), [])
@@ -49,6 +57,10 @@ class Fase(object):
         return {
             "grupos": [grupo.to_dict() for grupo in self.get_grupos()]
         }
+
+    # Trabajando sobre la fase
+    def participa(self, robot):
+        return any([g.participa(robot) for g in self.get_grupos()])
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro de la fase
@@ -69,8 +81,17 @@ class Eliminacion(Fase):
 
 class Final(Fase):
     """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final"""
+    NOMBRES = {
+        16: "Octavos",
+        8: "Cuartos",
+        4: "Semifinal",
+        2: "Final"
+    }
+
     def __init__(self, robots):
-        super().__init__([Grupo(robots)])
+        assert len(robots) in self.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
+        n = len(robots) // 2
+        super().__init__([Grupo(robots[:n]), Grupo(robots[n:])])
 
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]

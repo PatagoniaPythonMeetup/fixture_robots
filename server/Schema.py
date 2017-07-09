@@ -116,6 +116,11 @@ class Query(graphene.ObjectType):
 
 # Mutaciones
 class GenerarRonda(graphene.Mutation):
+    class Input:
+        tct = graphene.Boolean()
+        allow_none = graphene.Boolean()
+        shuffle = graphene.Boolean()
+    
     ok = graphene.Boolean()
     mensaje = graphene.String()
     ronda = graphene.Field(lambda: Ronda)
@@ -124,13 +129,16 @@ class GenerarRonda(graphene.Mutation):
     @staticmethod
     def mutate(root, args, context, info):
         fixture = context["fixture"]
+        tct = args.get('tct')
+        allow_none = args.get('allow_none')
+        shuffle = args.get('shuffle')
         try:
-            ronda = fixture.generar_ronda()
+            ronda = fixture.generar_ronda(tct, allow_none, shuffle)
             return GenerarRonda(ok = True, mensaje = "Ronda creada", ronda = ronda, estado = fixture)
         except Exception as ex:
             return GenerarRonda(ok = False, mensaje = str(ex), estado = fixture)
 
-class GanaRobot(graphene.Mutation):
+class AgregarGanador(graphene.Mutation):
     class Input:
         key = graphene.String()
         encuentro = graphene.Int()
@@ -147,13 +155,36 @@ class GanaRobot(graphene.Mutation):
         encuentro = args.get('encuentro')
         try:
             robot = fixture.get_robot_por_key(key)
-            encuentro = fixture.gano(robot, nencuentro=encuentro)
-            return GanaRobot(ok = True, mensaje = "Robot declarado ganador", encuentro = encuentro, estado = fixture)
+            encuentro = fixture.agregar_ganador(robot, nencuentro=encuentro)
+            return AgregarGanador(ok = True, mensaje = "Robot declarado ganador", encuentro = encuentro, estado = fixture)
         except Exception as ex:
-            return GanaRobot(ok = False, mensaje = str(ex), estado = fixture)
+            return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
+
+class QuitarGanador(graphene.Mutation):
+    class Input:
+        key = graphene.String()
+        encuentro = graphene.Int()
+    
+    ok = graphene.Boolean()
+    mensaje = graphene.String()
+    encuentro = graphene.Field(lambda: Encuentro)
+    estado = graphene.Field(Estado)
+    
+    @staticmethod
+    def mutate(root, args, context, info):
+        fixture = context["fixture"]
+        key = args.get('key')
+        encuentro = args.get('encuentro')
+        try:
+            robot = fixture.get_robot_por_key(key)
+            encuentro = fixture.quitar_ganador(robot, nencuentro=encuentro)
+            return AgregarGanador(ok = True, mensaje = "Robot no declarado ganador", encuentro = encuentro, estado = fixture)
+        except Exception as ex:
+            return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
 
 class Mutations(graphene.ObjectType):
     generar_ronda = GenerarRonda.Field()
-    gana_robot = GanaRobot.Field()
+    agregar_ganador = AgregarGanador.Field()
+    quitar_ganador = QuitarGanador.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

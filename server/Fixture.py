@@ -115,16 +115,16 @@ class Fixture(object):
             robots.append(robot)
         for fase_data in data["fases"]:
             encuentros = []
-            for encuentro_data in ronda_data["encuentros"]:
+            for encuentro_data in fase_data["encuentros"]:
                 r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
                 r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
                 ganadas = [tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
                 encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas=ganadas)
                 encuentros.append(encuentro)
             promovidos = [robot for robot in robots \
-                if robot in [tuple(p) for p in ronda_data["promovidos"]]]
-            ronda = Ronda(numero=ronda_data["numero"], encuentros=encuentros, \
-                promovidos=promovidos, tct=ronda_data.pop("tct", False))
+                if robot in [tuple(p) for p in fase_data["promovidos"]]]
+            ronda = Ronda(numero=fase_data["numero"], encuentros=encuentros, \
+                promovidos=promovidos, tct=fase_data.pop("tct", False))
             self.agregar_ronda(ronda)
 
     def to_json(self):
@@ -163,9 +163,33 @@ class Fixture(object):
             return fase.ganadores()
 
     def ganador(self):
-        ganadores = self.ganadores()
-        if len(ganadores) == 1:
-            return ganadores[0]
+        fase = self.get_fase_actual()
+        if fase is not None:
+            return fase.ganador()
+    
+    def perdedores(self):
+        fase = self.get_fase_actual()
+        if fase is not None:
+            return fase.perdedores()
+
+    def perdedor(self):
+        fase = self.get_fase_actual()
+        if fase is not None:
+            return fase.perdedor()
+
+    def agregar_ganador(self, robot, nencuentro=None):
+        encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
+        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
+        encuentro = encuentros[0]
+        encuentro.agregar_ganador(robot)
+        return encuentro
+
+    def quitar_ganador(self, robot, nencuentro=None):
+        encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
+        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
+        encuentro = encuentros[0]
+        encuentro.quitar_ganador(robot)
+        return encuentro
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del fixture

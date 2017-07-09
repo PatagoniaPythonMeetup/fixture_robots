@@ -107,17 +107,7 @@ class Ronda(object):
     def jugadas(self):
         return sum([e.jugadas() for e in self.encuentros])
 
-    # Trabajando sobre la ronda
-    def participa(self, robot):
-        return robot in self.promovidos or any([e.participa(robot) for e in self.encuentros])
-
-    def gano(self, robot, nencuentro=None):
-        encuentros = [e for e in self.encuentros if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
-        assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
-        encuentro = encuentros[0]
-        encuentro.gano(robot)
-        return encuentro
-
+    # Score de la ronda
     def score(self, robot):
         """Retorna el *score* de un robot dentro de la ronda
         score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)

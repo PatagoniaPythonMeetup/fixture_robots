@@ -97,7 +97,6 @@ class Grupo(object):
             "rondas": [ronda.to_dict() for ronda in self.get_rondas()]
         }
 
-    # Scores
     def ganador(self):
         ronda_actual = self.get_ronda_actual()
         return self.get_ronda_actual().ganador()
@@ -114,6 +113,7 @@ class Grupo(object):
         ronda_actual = self.get_ronda_actual()
         return self.get_ronda_actual().perdedores()
 
+    # Score en el grupo
     def score(self, robot):
         """Retorna el *score* de un robot dentro del grupo
         score es una n-upla de la forma (jugados, triunfos, empates, derrotas, a favor, en contra, diferencia, puntos)
