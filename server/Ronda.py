@@ -57,6 +57,19 @@ class Ronda(object):
         if self.finalizado() and len(ganadores) == 1:
             return ganadores.pop()
 
+    def perdedores(self):
+        if self.tct:
+            scores = [(r,) + self.score(r) for r in self.get_robots()]
+            scores = sorted(scores, key=lambda s: s[8])
+            return [scores[0][0]]
+        else:
+            return [e.perdedor() for e in self.encuentros]
+
+    def perdedor(self):
+        perdedores = self.perdedores()
+        if self.finalizado() and len(perdedores) == 1:
+            return perdedores.pop()
+
     # Encuentros
     def get_encuentros(self):
         return self.encuentros[:]

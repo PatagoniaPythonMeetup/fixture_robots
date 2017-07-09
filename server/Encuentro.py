@@ -66,6 +66,11 @@ class Encuentro(object):
         elif len(r1) < len(r2):
             return self.robot_2
 
+    def perdedor(self):
+        ganador = self.ganador()
+        if ganador:
+            return self.robot_1 if self.robot_2 == ganador else self.robot_2
+
     def participa(self, valor):
         return valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2
 

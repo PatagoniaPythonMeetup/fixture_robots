@@ -67,7 +67,7 @@ class Grupo(object):
 
     def get_encuentros_actuales(self):
         ronda_actual = self.get_ronda_actual()
-        return ronda.get_encuentros_actuales() if ronda_actual is not None else []
+        return ronda_actual.get_encuentros_actuales() if ronda_actual is not None else []
 
     # Estados
     def iniciado(self):
@@ -105,6 +105,14 @@ class Grupo(object):
     def ganadores(self):
         ronda_actual = self.get_ronda_actual()
         return self.get_ronda_actual().ganadores()
+
+    def perdedor(self):
+        ronda_actual = self.get_ronda_actual()
+        return self.get_ronda_actual().perdedor()
+
+    def perdedores(self):
+        ronda_actual = self.get_ronda_actual()
+        return self.get_ronda_actual().perdedores()
 
     def score(self, robot):
         """Retorna el *score* de un robot dentro del grupo
