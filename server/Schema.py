@@ -156,15 +156,4 @@ class Mutations(graphene.ObjectType):
     generar_ronda = GenerarRonda.Field()
     gana_robot = GanaRobot.Field()
 
-# Subscription
-class Cliente(graphene.ObjectType):
-    nombre = graphene.String()
-    
-class Subscription(graphene.ObjectType):
-    clientes = graphene.List(Cliente)
-
-    def resolve_clientes(self, args, context, info):
-        return []
-
-
-schema = graphene.Schema(query=Query, mutation=Mutations, subscription=Subscription)
+schema = graphene.Schema(query=Query, mutation=Mutations)
