@@ -42,19 +42,22 @@ class Fixture(object):
         return self.robots if ronda_actual is None else ronda_actual.get_robots()
 
     def clasificacion(self, grupos):
-        robots = self.robots # O los que vienen de la fase anterior
+        fase = self.get_fase_actual()
+        robots = fase.ganadores() if fase is not None else self.get_robots()
         clas = Clasificacion(robots, grupos)
         self.fases.append(clas)
         return clas
 
     def eliminacion(self):
-        robots = self.robots # O los que vienen de la fase anterior
+        fase = self.get_fase_actual()
+        robots = fase.ganadores() if fase is not None else self.get_robots()
         clas = Eliminacion(robots)
         self.fases.append(clas)
         return clas
 
     def final(self):
-        robots = self.robots # O los que vienen de la fase anterior
+        fase = self.get_fase_actual()
+        robots = fase.ganadores() if fase is not None else self.get_robots()
         clas = Final(robots)
         self.fases.append(clas)
         return clas
