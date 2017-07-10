@@ -60,7 +60,7 @@ class Ronda(graphene.ObjectType):
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
     tct = graphene.Boolean()
-    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.String))
+    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     estado = graphene.Field(Estado)
 
     def resolve_score(self, args, context, info):
@@ -74,7 +74,7 @@ class Ronda(graphene.ObjectType):
 class Grupo(graphene.ObjectType):
     numero = graphene.Int()
     rondas = graphene.List(Ronda)
-    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.String))
+    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     estado = graphene.Field(Estado)
 
     def resolve_rondas(self, args, context, info):
@@ -90,7 +90,7 @@ class Grupo(graphene.ObjectType):
 
 class Fase(graphene.ObjectType):
     grupos = graphene.List(Grupo)
-    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.String))
+    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     estado = graphene.Field(Estado)
 
     def resolve_grupos(self, args, context, info):
@@ -105,7 +105,7 @@ class Fase(graphene.ObjectType):
         return self
 
 class Fixture(graphene.ObjectType):
-    robot = graphene.Field(Robot, key=graphene.Argument(graphene.String))
+    robot = graphene.Field(Robot, key=graphene.Argument(graphene.NonNull(graphene.String)))
     robots = graphene.List(Robot)
     encuentro = graphene.Field(Encuentro, numero=graphene.Argument(graphene.Int))
     encuentros = graphene.List(Encuentro)
@@ -113,7 +113,7 @@ class Fixture(graphene.ObjectType):
     rondas = graphene.List(Ronda)
     fases = graphene.List(Fase)
     ganador = graphene.Field(Robot)
-    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.String))
+    score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     estado = graphene.Field(Estado)
 
     def resolve_robot(self, args, context, info):
