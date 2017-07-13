@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_graphql import GraphQLView
 from flask_cors import CORS
 
@@ -29,24 +29,24 @@ def index():
 def dumps():
     with open("./datos/fixture.json", "w") as f:
         f.write(json.dumps(FIXTURE.to_dict()))
-    return render_template("index.html", robots = len(FIXTURE.robots))
+    return redirect("/")
 
 @app.route('/restore')
 def loads():
     with open("./datos/fixture.json", "r") as f:
         FIXTURE.from_dict(json.loads(f.read()))
-    return render_template("index.html", robots = len(FIXTURE.robots))
+    return redirect("/")
 
 @app.route('/clean')
 def clean():
     FIXTURE.limpiar()
-    return render_template("index.html", robots = len(FIXTURE.robots))
+    return redirect("/")
 
 @app.route('/faker/<num>')
 def faker(num):
     for _ in range(int(num)):
         FIXTURE.inscribir_robot(fake.name(), fake.name(), fake.name())
-    return render_template("index.html", robots = len(FIXTURE.robots))
+    return redirect("/")
 
 def main():
     app.run()

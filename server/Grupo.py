@@ -6,9 +6,9 @@ from .Ronda import Ronda
 
 class Grupo(object):
     NUMERO = 1
-    def __init__(self, robots):
+    def __init__(self, robots=None, rondas=None):
         self.robots = robots or []
-        self.rondas = []
+        self.rondas = rondas or []
         self.numero = Grupo.NUMERO
         Grupo.NUMERO = Grupo.NUMERO + 1
 

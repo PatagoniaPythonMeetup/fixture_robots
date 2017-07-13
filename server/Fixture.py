@@ -7,6 +7,7 @@ from itertools import combinations
 from .Robot import Robot
 from .Encuentro import Encuentro
 from .Ronda import Ronda
+from .Grupo import Grupo
 from .Fase import Clasificacion, Eliminacion, Final
 
 class Fixture(object):
@@ -19,8 +20,8 @@ class Fixture(object):
         self.fases = []
 
     # Robots
-    def inscribir_robot(self, nombre, escuela, responsable):
-        robot = Robot(nombre, escuela, responsable)
+    def inscribir_robot(self, nombre, escuela, responsable, escudo=None):
+        robot = Robot(nombre, escuela, responsable, escudo)
         self.robots.append(robot)
         return robot
 
@@ -42,22 +43,25 @@ class Fixture(object):
         return self.robots if ronda_actual is None else ronda_actual.get_robots()
 
     def clasificacion(self, grupos):
-        fase = self.get_fase_actual()
-        robots = fase.ganadores() if fase is not None else self.get_robots()
+        fase_actual = self.get_fase_actual()
+        assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
         clas = Clasificacion(robots, grupos)
         self.fases.append(clas)
         return clas
 
     def eliminacion(self):
-        fase = self.get_fase_actual()
-        robots = fase.ganadores() if fase is not None else self.get_robots()
+        fase_actual = self.get_fase_actual()
+        assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
         clas = Eliminacion(robots)
         self.fases.append(clas)
         return clas
 
     def final(self):
-        fase = self.get_fase_actual()
-        robots = fase.ganadores() if fase is not None else self.get_robots()
+        fase_actual = self.get_fase_actual()
+        assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
         clas = Final(robots)
         self.fases.append(clas)
         return clas
@@ -77,10 +81,10 @@ class Fixture(object):
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def generar_ronda(self, tct=False, allow_none=False, shuffle=True):
+    def generar_rondas(self, tct=False, allow_none=False, shuffle=True):
         fase = self.get_fase_actual()
         if fase:
-            return fase.generar_ronda(tct, allow_none, shuffle)
+            return fase.generar_rondas(tct, allow_none, shuffle)
 
     def get_ronda(self, numero):
         rondas = [ronda for ronda in self.get_rondas() if ronda.numero == numero]
@@ -104,6 +108,10 @@ class Fixture(object):
         if fases:
             return fases[-1]
 
+    def limpiar(self):
+        self.robots = []
+        self.fases = []
+
     # Json dumps and loads
     def to_dict(self):
         return {
@@ -112,23 +120,34 @@ class Fixture(object):
         }
 
     def from_dict(self, data):
-        robots = []
-        for robot_data in data["robots"]:
-            robot = self.inscribir_robot(*robot_data)
-            robots.append(robot)
+        CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final]}
+        robots = [Robot(*robot_data) for robot_data in data["robots"]]
+        fases = []
         for fase_data in data["fases"]:
-            encuentros = []
-            for encuentro_data in fase_data["encuentros"]:
-                r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
-                r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
-                ganadas = [tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
-                encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas=ganadas)
-                encuentros.append(encuentro)
-            promovidos = [robot for robot in robots \
-                if robot in [tuple(p) for p in fase_data["promovidos"]]]
-            ronda = Ronda(numero=fase_data["numero"], encuentros=encuentros, \
-                promovidos=promovidos, tct=fase_data.pop("tct", False))
-            self.agregar_ronda(ronda)
+            klass = fase_data["class"]
+            grupos = []
+            frobots = []
+            for grupo_data in fase_data["grupos"]:
+                rondas = []
+                for ronda_data in grupo_data["rondas"]:
+                    encuentros = []
+                    for encuentro_data in ronda_data["encuentros"]:
+                        r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
+                        r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
+                        ganadas = [tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
+                        encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas=ganadas)
+                        encuentros.append(encuentro)
+                    promovidos = [robot for robot in robots \
+                        if robot in [tuple(p) for p in fase_data["promovidos"]]]
+                    rondas.append(Ronda(encuentros=encuentros, \
+                        promovidos=promovidos, tct=ronda_data.pop("tct", False)))
+                grobots = [robot for robot in robots \
+                    if robot in [tuple(p) for p in grupo_data["robots"]]]
+                frobots = frobots + grobots
+                grupos.append(Grupo(grobots, rondas))
+            fases.append(CLASES[klass](frobots, grupos))
+        self.robots = robots
+        self.fases = fases
 
     def to_json(self):
         return json.dumps(self.to_dict())

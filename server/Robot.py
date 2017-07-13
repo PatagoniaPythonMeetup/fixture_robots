@@ -12,6 +12,8 @@ class Robot(namedtuple("Robot", "nombre escuela encargado escudo")):
     def __new__(cls, *args, **kwargs):
         if len(args) == 3:
             args = args + ("e{0:02d}.png".format((next(NUMEROS) % IMAGENES) + 1), )
+        elif args[3] is None:
+            args = args[:3] + ("e{0:02d}.png".format((next(NUMEROS) % IMAGENES) + 1), )
         return super().__new__(cls, *args, **kwargs)
 
     @property

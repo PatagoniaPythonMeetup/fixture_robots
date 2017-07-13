@@ -207,7 +207,7 @@ class GenerarFinal(graphene.Mutation):
         except Exception as ex:
             return GenerarFinal(ok = False, mensaje = str(ex), estado = fixture)
 
-class GenerarRonda(graphene.Mutation):
+class GenerarRondas(graphene.Mutation):
     class Input:
         tct = graphene.Boolean()
         allow_none = graphene.Boolean()
@@ -215,7 +215,7 @@ class GenerarRonda(graphene.Mutation):
     
     ok = graphene.Boolean()
     mensaje = graphene.String()
-    ronda = graphene.Field(lambda: Ronda)
+    ronda = graphene.List(Ronda)
     estado = graphene.Field(Estado)
     
     @staticmethod
@@ -225,10 +225,10 @@ class GenerarRonda(graphene.Mutation):
         allow_none = args.get('allow_none')
         shuffle = args.get('shuffle')
         try:
-            ronda = fixture.generar_ronda(tct, allow_none, shuffle)
-            return GenerarRonda(ok = True, mensaje = "Ronda creada", ronda = ronda, estado = fixture)
+            rondas = fixture.generar_rondas(tct, allow_none, shuffle)
+            return GenerarRondas(ok = True, mensaje = "Ronda creada", rondas = rondas, estado = fixture)
         except Exception as ex:
-            return GenerarRonda(ok = False, mensaje = str(ex), estado = fixture)
+            return GenerarRondas(ok = False, mensaje = str(ex), estado = fixture)
 
 class AgregarGanador(graphene.Mutation):
     class Input:
@@ -278,7 +278,7 @@ class Mutations(graphene.ObjectType):
     generar_clasificacion = GenerarClasificacion.Field()
     generar_eliminacion = GenerarEliminacion.Field()
     generar_final = GenerarFinal.Field()
-    generar_ronda = GenerarRonda.Field()
+    generar_rondas = GenerarRondas.Field()
     agregar_ganador = AgregarGanador.Field()
     quitar_ganador = QuitarGanador.Field()
 

@@ -34,8 +34,7 @@ class Ronda(object):
         # Ahora creamos la ronda
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, ronda_tuplas, [])))
         if promovidos and allow_none:
-            for t in [(p, None) for p in promovidos]:
-                ronda_tuplas.append(t)
+            ronda_tuplas = ronda_tuplas + [(p, None) for p in promovidos]
             promovidos = []
         encuentros = [Encuentro(*t) for t in ronda_tuplas]
         return Ronda(encuentros, list(promovidos), tct)

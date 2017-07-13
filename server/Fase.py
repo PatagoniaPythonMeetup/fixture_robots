@@ -2,7 +2,8 @@ from functools import reduce
 from .Grupo import Grupo
 
 class Fase(object):
-    def __init__(self, grupos):
+    def __init__(self, robots, grupos=None):
+        self.robots = robots
         self.grupos = grupos or []
 
     def get_grupos(self):
@@ -55,6 +56,7 @@ class Fase(object):
     # Serialize
     def to_dict(self):
         return {
+            "class": self.__class__.__name__,
             "grupos": [grupo.to_dict() for grupo in self.get_grupos()]
         }
 
@@ -71,13 +73,17 @@ class Fase(object):
 
 class Clasificacion(Fase):
     """Fase en la que los robots son separados en N grupos de donde se tomaran solo a los mas sobresalientes"""
-    def __init__(self, robots, grupos):
-        super().__init__(Grupo.generar(robots, grupos))
+    def __init__(self, robots, grupos=None):
+        if grupos is None:
+            grupos = Grupo.generar(robots, grupos)
+        super().__init__(robots, grupos)
 
 class Eliminacion(Fase):
     """Fase con un solo grupo donde todos compiten contra todos"""
-    def __init__(self, robots):
-        super().__init__([Grupo(robots)])
+    def __init__(self, robots, grupos=None):
+        if grupos is None:
+            grupos = [Grupo(robots)]
+        super().__init__(robots, grupos)
 
 class Final(Fase):
     """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final"""
@@ -88,10 +94,12 @@ class Final(Fase):
         2: "Final"
     }
 
-    def __init__(self, robots):
+    def __init__(self, robots, grupos=None):
         assert len(robots) in self.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
-        n = len(robots) // 2
-        super().__init__([Grupo(robots[:n]), Grupo(robots[n:])])
+        if grupos is None:
+            n = len(robots) // 2
+            grupos = [Grupo(robots[:n]), Grupo(robots[n:])]
+        super().__init__(robots, grupos)
 
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]
