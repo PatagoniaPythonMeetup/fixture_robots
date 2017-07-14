@@ -122,6 +122,7 @@ class Fixture(object):
     def from_dict(self, data):
         CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final]}
         robots = [Robot(*robot_data) for robot_data in data["robots"]]
+        print(robots)
         fases = []
         for fase_data in data["fases"]:
             klass = fase_data["class"]
@@ -132,13 +133,13 @@ class Fixture(object):
                 for ronda_data in grupo_data["rondas"]:
                     encuentros = []
                     for encuentro_data in ronda_data["encuentros"]:
-                        r1 = [robot for robot in robots if robot == tuple(encuentro_data["robot_1"])].pop()
-                        r2 = [robot for robot in robots if robot == tuple(encuentro_data["robot_2"])].pop()
-                        ganadas = [tuple(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
-                        encuentro = Encuentro(r1, r2, numero=encuentro_data["numero"], ganadas=ganadas)
+                        r1 = Robot(*encuentro_data["robot_1"])
+                        r2 = Robot(*encuentro_data["robot_2"])
+                        ganadas = [Robot(*gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
+                        encuentro = Encuentro(r1, r2, ganadas=ganadas)
                         encuentros.append(encuentro)
                     promovidos = [robot for robot in robots \
-                        if robot in [tuple(p) for p in fase_data["promovidos"]]]
+                        if robot in [tuple(p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
                         promovidos=promovidos, tct=ronda_data.pop("tct", False)))
                 grobots = [robot for robot in robots \
@@ -203,6 +204,7 @@ class Fixture(object):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentro = encuentros[0]
+        print(robot)
         encuentro.agregar_ganador(robot)
         return encuentro
 
@@ -210,6 +212,7 @@ class Fixture(object):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentro = encuentros[0]
+        print(robot)
         encuentro.quitar_ganador(robot)
         return encuentro
 

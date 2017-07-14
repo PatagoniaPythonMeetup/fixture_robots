@@ -145,6 +145,7 @@ class Fixture(graphene.ObjectType):
     
     def resolve_score(self, args, context, info):
         key = args['key']
+        fixture = context["fixture"]
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
@@ -215,7 +216,7 @@ class GenerarRondas(graphene.Mutation):
     
     ok = graphene.Boolean()
     mensaje = graphene.String()
-    ronda = graphene.List(Ronda)
+    rondas = graphene.List(Ronda)
     estado = graphene.Field(Estado)
     
     @staticmethod

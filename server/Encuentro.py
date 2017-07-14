@@ -4,7 +4,7 @@ class Encuentro(object):
     """Un encuentro enfrenta a dos competidores"""
     JUGADAS = 3
     NUMERO = 1
-    def __init__(self, robot_1, robot_2=None, numero=None, ganadas=None):
+    def __init__(self, robot_1, robot_2=None, ganadas=None):
         self.robot_1 = robot_1
         self.robot_2 = robot_2
         self.numero = Encuentro.NUMERO
@@ -13,7 +13,7 @@ class Encuentro(object):
 
     def score(self, robot):
         """El score de un robot en un encuentro se obtiene en base a las victorias y derrotas"""
-        assert robot is self.robot_1 or robot is self.robot_2, "El robot ganador no es parte del encuentro"
+        assert robot == self.robot_1 or robot == self.robot_2, "El robot ganador no es parte del encuentro"
         if not self.ganadas:
             return 0, 0
         victorias = len([r for r in self.ganadas if r == robot])
@@ -21,7 +21,7 @@ class Encuentro(object):
         return victorias, derrotas
 
     def agregar_ganador(self, robot):
-        assert robot is self.robot_1 or robot is self.robot_2, "El robot no es parte del encuentro"
+        assert robot == self.robot_1 or robot == self.robot_2, "El robot no es parte del encuentro"
         self.ganadas.append(robot)
 
     def quitar_ganador(self, robot):

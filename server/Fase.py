@@ -74,7 +74,7 @@ class Fase(object):
 class Clasificacion(Fase):
     """Fase en la que los robots son separados en N grupos de donde se tomaran solo a los mas sobresalientes"""
     def __init__(self, robots, grupos=None):
-        if grupos is None:
+        if isinstance(grupos, int):
             grupos = Grupo.generar(robots, grupos)
         super().__init__(robots, grupos)
 
