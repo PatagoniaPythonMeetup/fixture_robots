@@ -6,45 +6,9 @@ from base import TestBase
 
 from server import Robot, Fixture, Encuentro
 
-class TestEncuentros(unittest.TestCase):
-    def test_estado_inicial(self):
-        self.assertEqual(Encuentro("r1", "r2").finalizado(), False)
 
-    def test_r1r2r2(self):
-        r1 = "robot 1"
-        r2 = "robot 2"
-        e1 = Encuentro(r1, r2)
-        self.assertEqual(e1.iniciado(), True)
-        self.assertEqual(e1.compitiendo(), True)
-        self.assertEqual(e1.finalizado(), False)
-        e1.gano(r1)
-        self.assertEqual(e1.finalizado(), False)
-        e1.gano(r2)
-        self.assertEqual(e1.finalizado(), False)
-        e1.gano(r2)
-        self.assertEqual(e1.finalizado(), True)
 
-    def test_r1r1(self):
-        r1 = "robot 1"
-        r2 = "robot 2"
-        e1 = Encuentro(r1, r2)
-        self.assertEqual(e1.finalizado(), False)
-        e1.gano(r1)
-        self.assertEqual(e1.finalizado(), False)
-        e1.gano(r1)
-        self.assertEqual(e1.finalizado(), True)
 
-class TestRobots(unittest.TestCase):
-    def test_robots_iguales(self):
-        r1 = Robot("Ultron", "Los Avengers", "Nick Fury")
-        r2 = Robot("Wall-e", "Pixar", "Sr. Disney")
-        r3 = Robot("Ultron", "Los Avengers", "Nick Fury")
-        self.assertTrue(not r1 is r2)
-        self.assertTrue(not r1 == r2)
-        self.assertTrue(r1 is r1)
-        self.assertTrue(r1 == r1)
-        self.assertTrue(not r1 is r3)
-        self.assertTrue(r1 == r3)
 
 class TestGeneradoresDeRonda(TestBase):
     def test_sin_robots(self):

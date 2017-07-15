@@ -21,19 +21,25 @@ class Encuentro(object):
         return victorias, derrotas
 
     def agregar_ganador(self, robot):
+        assert self.es_valido(), "El encuentro no es valido"
         assert robot == self.robot_1 or robot == self.robot_2, "El robot no es parte del encuentro"
         self.ganadas.append(robot)
 
     def quitar_ganador(self, robot):
+        assert self.es_valido(), "El encuentro no es valido"
         assert robot in self.ganadas, "El robot no gano en este encuentro"
         self.ganadas.remove(robot)
 
     def es_valido(self):
-        """Para que el encuentro sea valido los robots deben ser distintos"""
+        """Para que el encuentro sea valido deben estar los dos robots y ser distintos"""
         return self.robot_2 is not None and self.robot_1 != self.robot_2
 
+    def agregar_adversario(self, r2):
+        self.robot_2 = r2
+        
     def misma_escuela(self):
-        return self.robot_2 is not None and self.robot_1.escuela == self.robot_2.escuela
+        assert self.es_valido(), "El encuentro no es valido"
+        return self.robot_1.escuela == self.robot_2.escuela
 
     def __eq__(self, other):
         """Un encuentro es igual a otro si tiene los mismos robots"""
@@ -47,10 +53,11 @@ class Encuentro(object):
         numero_jugadas = self.jugadas()
         tiene_ganador = bool(self.ganador())
         score = self.score(self.robot_1)
-        return (numero_jugadas >= self.JUGADAS and tiene_ganador) or (tiene_ganador and abs(score[0] - score[1]) > 1)
+        return (numero_jugadas >= self.JUGADAS and tiene_ganador) or \
+            (tiene_ganador and abs(score[0] - score[1]) > (self.JUGADAS // 2))
 
     def compitiendo(self):
-        return not self.finalizado()
+        return self.iniciado() and bool(self.ganadas) and not self.finalizado()
 
     def vuelta(self):
         return len(self.ganadas)
@@ -59,6 +66,7 @@ class Encuentro(object):
         return len(self.ganadas)
 
     def ganador(self):
+        assert self.es_valido(), "El encuentro no es valido"
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]
         r2 = [ r for r in self.ganadas if r == self.robot_2 ] 
         if len(r1) > len(r2):
@@ -67,6 +75,7 @@ class Encuentro(object):
             return self.robot_2
 
     def perdedor(self):
+        assert self.es_valido(), "El encuentro no es valido"
         ganador = self.ganador()
         if ganador:
             return self.robot_1 if self.robot_2 == ganador else self.robot_2
