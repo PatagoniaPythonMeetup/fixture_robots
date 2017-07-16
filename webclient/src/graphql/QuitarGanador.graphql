@@ -1,8 +1,8 @@
-mutation ganaRobot(
+mutation quitarGanador(
   $key: String!
   $encuentro: Int
 ) {
-  ganaRobot(key: $key, encuentro: $encuentro) {
+  quitarGanador(key: $key, encuentro: $encuentro) {
     ok
     mensaje
     encuentro {

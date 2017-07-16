@@ -8,11 +8,12 @@ import 'rxjs/add/operator/map';
 
 import {
     RobotsQuery,
-    RobotsScoreQuery,
+    RobotFixtureScoreQuery,
     RondasQuery,
     EncuentroQuery,
-    GenerarRondaMutation,
-    GanaRobotMutation,
+    GenerarRondasMutation,
+    AgregarGanadorMutation,
+    QuitarGanadorMutation,
     RobotQuery,
     RondaQuery,
     FixtureQuery
@@ -25,8 +26,12 @@ const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphq
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
 
-const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
-const GanaRobotMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GanaRobot.graphql');
+const GenerarRondasMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRondas.graphql');
+const AgregarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarGanador.graphql');
+const QuitarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/QuitarGanador.graphql');
+const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarClasificacion.graphql');
+const GenerarEliminacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarEliminacion.graphql');
+const GenerarFinalMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarFinal.graphql');
 
 export interface Estado {
   iniciado: Boolean
@@ -97,20 +102,30 @@ export class FixtureService {
 
   generarRonda() {
     // Llamando a la mutacion generar ronda
-    let obs$ = this.apollo.mutate<GenerarRondaMutation>({
-      mutation: GenerarRondaMutationNode
+    let obs$ = this.apollo.mutate<GenerarRondasMutation>({
+      mutation: GenerarRondasMutationNode
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
-    return obs$.map(({data}) => data.generarRonda.ronda);
+    obs$.subscribe(({data}) => this.estado.emit(data.generarRondas.estado))
+    return obs$.map(({data}) => data.generarRondas.rondas);
   }
 
-  ganaRobot(key: String, encuentro: Number = null) {
-    // Llamando a la mutacion generar ronda
-    let obs$ = this.apollo.mutate<GanaRobotMutation>({
-      mutation: GanaRobotMutationNode,
+  agregarGanador(key: String, encuentro: Number = null) {
+    // Llamando a la mutacion agregar a un ganador
+    let obs$ = this.apollo.mutate<AgregarGanadorMutation>({
+      mutation: AgregarGanadorMutationNode,
       variables: { key, encuentro },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.ganaRobot.estado))
-    return obs$.map(({data}) => data.ganaRobot.encuentro );
+    obs$.subscribe(({data}) => this.estado.emit(data.agregarGanador.estado))
+    return obs$.map(({data}) => data.agregarGanador.encuentro );
+  }
+
+  quitarGanador(key: String, encuentro: Number = null) {
+    // Llamando a la mutacion quitar a un ganador
+    let obs$ = this.apollo.mutate<QuitarGanadorMutation>({
+      mutation: QuitarGanadorMutationNode,
+      variables: { key, encuentro },
+    })
+    obs$.subscribe(({data}) => this.estado.emit(data.quitarGanador.estado))
+    return obs$.map(({data}) => data.quitarGanador.encuentro );
   }
 }

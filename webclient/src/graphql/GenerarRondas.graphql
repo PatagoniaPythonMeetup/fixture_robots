@@ -1,8 +1,8 @@
-mutation generarRonda {
-  generarRonda {
+mutation generarRondas {
+  generarRondas {
     ok
     mensaje
-    ronda {
+    rondas {
       numero
       tct
     }

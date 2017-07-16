@@ -9,7 +9,7 @@ sys.path.insert(1, BASE_PATH)
 from robots import *
 from encuentros import *
 from grupos import *
-#from ganadores import *
+from ganadores import *
 #from tests import *
 
 def main():
@@ -17,3 +17,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

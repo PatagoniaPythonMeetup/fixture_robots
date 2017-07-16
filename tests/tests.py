@@ -6,10 +6,6 @@ from base import TestBase
 
 from server import Robot, Fixture, Encuentro
 
-
-
-
-
 class TestGeneradoresDeRonda(TestBase):
     def test_sin_robots(self):
         fixture = Fixture([])

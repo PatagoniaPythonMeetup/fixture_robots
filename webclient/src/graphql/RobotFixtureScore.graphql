@@ -1,0 +1,5 @@
+query RobotFixtureScore ($key: String) {
+  fixture {
+    score(key: $key)
+  }
+}
