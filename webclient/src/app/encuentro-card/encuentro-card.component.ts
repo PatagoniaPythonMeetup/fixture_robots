@@ -13,9 +13,17 @@ export class EncuentroCardComponent implements OnInit {
   
   constructor(private fixture: FixtureService) { }
 
-  gano(event, key) {
+  agregarGanador(event, key) {
     $(event.target).transition('jiggle')
-    this.fixture.ganaRobot(key, this.encuentro.numero)
+    this.fixture.agregarGanador(key, this.encuentro.numero)
+      .subscribe((encuentro: any) => {
+        this.encuentro = Object.assign({}, this.encuentro, encuentro)
+      })
+  }
+  
+  quitarGanador(event, key) {
+    $(event.target).transition('jiggle')
+    this.fixture.quitarGanador(key, this.encuentro.numero)
       .subscribe((encuentro: any) => {
         this.encuentro = Object.assign({}, this.encuentro, encuentro)
       })

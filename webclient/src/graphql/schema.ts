@@ -69,6 +69,67 @@ export type FixtureQuery = {
   } | null,
 };
 
+export type GenerarClasificacionMutationVariables = {
+  grupos?: number | null,
+};
+
+export type GenerarClasificacionMutation = {
+  generarClasificacion:  {
+    ok: boolean | null,
+    mensaje: string | null,
+    fase:  {
+      nombre: string | null,
+    } | null,
+    estado:  {
+      iniciado: boolean | null,
+      compitiendo: boolean | null,
+      finalizado: boolean | null,
+      vuelta: number | null,
+      jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
+    } | null,
+  } | null,
+};
+
+export type GenerarEliminacionMutation = {
+  generarEliminacion:  {
+    ok: boolean | null,
+    mensaje: string | null,
+    fase:  {
+      nombre: string | null,
+    } | null,
+    estado:  {
+      iniciado: boolean | null,
+      compitiendo: boolean | null,
+      finalizado: boolean | null,
+      vuelta: number | null,
+      jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
+    } | null,
+  } | null,
+};
+
+export type GenerarFinalMutation = {
+  generarFinal:  {
+    ok: boolean | null,
+    mensaje: string | null,
+    fase:  {
+      nombre: string | null,
+    } | null,
+    estado:  {
+      iniciado: boolean | null,
+      compitiendo: boolean | null,
+      finalizado: boolean | null,
+      vuelta: number | null,
+      jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
+    } | null,
+  } | null,
+};
+
 export type GenerarRondasMutation = {
   generarRondas:  {
     ok: boolean | null,
@@ -133,13 +194,15 @@ export type RobotQuery = {
   } | null,
 };
 
-export type RobotFixtureScoreQueryVariables = {
-  key?: string | null,
-};
-
-export type RobotFixtureScoreQuery = {
+export type RobotFixtureScoresQuery = {
   fixture:  {
-    score: Array< number | null > | null,
+    robots:  Array< {
+      key: string | null,
+      nombre: string | null,
+      escudo: string | null,
+      escuela: string | null,
+    } > | null,
+    scores: Array< Array< number | null > | null > | null,
   } | null,
 };
 

@@ -125,7 +125,7 @@ class Fixture(object):
         print(robots)
         fases = []
         for fase_data in data["fases"]:
-            klass = fase_data["class"]
+            klass = fase_data["nombre"]
             grupos = []
             frobots = []
             for grupo_data in fase_data["grupos"]:

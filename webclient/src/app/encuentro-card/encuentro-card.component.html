@@ -1,7 +1,10 @@
 <div class="ui blue segment">
   <div class="ui equal width middle aligned grid">
     <div class="column">
-      <img class="ui small image" (click)="gano($event, encuentro.robots[0].key)" src="/assets/images/escudos/{{encuentro.robots[0].escudo}}">
+      <img class="ui small image" 
+        (click)="agregarGanador($event, encuentro.robots[0].key)" 
+        (rightClick)="quitarGanador($event, encuentro.robots[0].key)"
+        src="/assets/images/escudos/{{encuentro.robots[0].escudo}}">
     </div>
     <div class="column">
       <div class="ui huge statistic" [ngClass]="{'red': encuentro.puntos[0] < encuentro.puntos[1], 'green': encuentro.puntos[0] > encuentro.puntos[1]}">
@@ -17,7 +20,10 @@
       <img class="ui small image" src="/assets/images/versus.png">
     </div>
     <div class="column">
-      <img class="ui small image" (click)="gano($event, encuentro.robots[1].key)" src="/assets/images/escudos/{{encuentro.robots[1].escudo}}">
+      <img class="ui small image" 
+        (click)="agregarGanador($event, encuentro.robots[1].key)" 
+        (rightClick)="quitarGanador($event, encuentro.robots[1].key)" 
+        src="/assets/images/escudos/{{encuentro.robots[1].escudo}}">
     </div>
     <div class="column">
       <div class="ui huge statistic" [ngClass]="{'red': encuentro.puntos[0] > encuentro.puntos[1], 'green': encuentro.puntos[0] < encuentro.puntos[1]}">

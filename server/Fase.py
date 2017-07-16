@@ -6,6 +6,9 @@ class Fase(object):
         self.robots = robots
         self.grupos = grupos or []
 
+    def get_nombre(self):
+        return self.__class__.__name__
+    
     def get_grupos(self):
         return self.grupos[:]
 
@@ -56,7 +59,7 @@ class Fase(object):
     # Serialize
     def to_dict(self):
         return {
-            "class": self.__class__.__name__,
+            "nombre": self.get_nombre(),
             "grupos": [grupo.to_dict() for grupo in self.get_grupos()]
         }
 

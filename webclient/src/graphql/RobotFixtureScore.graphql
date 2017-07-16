@@ -1,5 +1,11 @@
-query RobotFixtureScore ($key: String) {
+query RobotFixtureScores {
   fixture {
-    score(key: $key)
+    robots {		
+      key
+      nombre		
+      escudo		
+      escuela
+    }
+    scores
   }
 }

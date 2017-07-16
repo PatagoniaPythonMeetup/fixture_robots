@@ -1,0 +1,18 @@
+mutation generarClasificacion($grupos: Int) {
+  generarClasificacion(grupos: $grupos) {
+    ok
+    mensaje
+    fase {
+      nombre
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      vuelta
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}

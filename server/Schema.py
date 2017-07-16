@@ -56,26 +56,39 @@ class Encuentro(graphene.ObjectType):
         return self
 
 class Ronda(graphene.ObjectType):
+    robots = graphene.List(Robot)
     numero = graphene.Int()
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
     tct = graphene.Boolean()
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
+    scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
+
+    def resolve_robots(self, args, context, info):
+        return self.get_robots()
 
     def resolve_score(self, args, context, info):
         key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
+    def resolve_scores(self, args, context, info):
+        return [self.score(robot) for robot in self.get_robots()]
+
     def resolve_estado(self, args, context, info):
         return self
 
 class Grupo(graphene.ObjectType):
+    robots = graphene.List(Robot)
     numero = graphene.Int()
     rondas = graphene.List(Ronda)
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
+    scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
+
+    def resolve_robots(self, args, context, info):
+        return self.get_robots()
 
     def resolve_rondas(self, args, context, info):
         return self.get_rondas()
@@ -85,21 +98,38 @@ class Grupo(graphene.ObjectType):
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
+    def resolve_scores(self, args, context, info):
+        return [self.score(robot) for robot in self.get_robots()]
+
     def resolve_estado(self, args, context, info):
         return self
 
 class Fase(graphene.ObjectType):
+    robots = graphene.List(Robot)
     grupos = graphene.List(Grupo)
+    nombre = graphene.String()
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
+    scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
-    def resolve_grupos(self, args, context, info):
-        return self.get_grupos()
+    def resolve_robots(self, args, context, info):
+        return self.get_robots()
+
+    def resolve_nombre(self, args, context, info):
+        return self.get_nombre()
+
+    def resolve_class(self, args, context, info):
+        key = args['key']
+        robot = fixture.get_robot_por_key(key)
+        return self.score(robot)
 
     def resolve_score(self, args, context, info):
         key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
+
+    def resolve_scores(self, args, context, info):
+        return [self.score(robot) for robot in self.get_robots()]
 
     def resolve_estado(self, args, context, info):
         return self
@@ -114,6 +144,7 @@ class Fixture(graphene.ObjectType):
     fases = graphene.List(Fase)
     ganador = graphene.Field(Robot)
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
+    scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
     def resolve_robot(self, args, context, info):
@@ -148,6 +179,9 @@ class Fixture(graphene.ObjectType):
         fixture = context["fixture"]
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
+
+    def resolve_scores(self, args, context, info):
+        return [self.score(robot) for robot in self.get_robots()]
 
     def resolve_estado(self, args, context, info):
         return self

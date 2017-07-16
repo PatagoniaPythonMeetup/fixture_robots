@@ -1,0 +1,18 @@
+mutation generarFinal {
+  generarFinal {
+    ok
+    mensaje
+    fase {
+      nombre
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      vuelta
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}
