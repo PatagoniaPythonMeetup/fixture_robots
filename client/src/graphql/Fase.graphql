@@ -1,0 +1,27 @@
+query Fase($numero: Int!) {
+  fixture {
+    fase(numero: $numero) {
+      numero
+      nombre
+      grupos {
+        numero
+        robots {
+          key
+          nombre
+          escuela
+          encargado
+          escudo
+        }
+        scores
+        rondas {
+          numero
+          tct
+          encuentros {
+            numero
+            puntos
+          }
+        }
+      }
+    }
+  }
+}

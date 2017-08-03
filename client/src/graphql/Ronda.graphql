@@ -1,0 +1,22 @@
+query Ronda($numero: Int!) {
+  fixture {
+    ronda(numero: $numero) {
+      numero
+      tct
+      encuentros {
+        numero
+        robots {
+          key
+          nombre
+          escudo
+        } 
+        puntos
+      }
+      promovidos {
+        key
+        nombre
+        escudo
+      }
+    }
+  }
+}

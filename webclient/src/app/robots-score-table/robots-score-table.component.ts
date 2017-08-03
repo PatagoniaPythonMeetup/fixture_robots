@@ -12,9 +12,9 @@ export class RobotsScoreTableComponent implements OnInit {
   robots: any
   
   constructor(private fixture: FixtureService) {
-    this.robotsScore$ = this.fixture.robotsScore()
-    this.robotsScore$.subscribe(robots => {
-      let r = robots.slice();
+    this.robotsScore$ = this.fixture.robotFixtureScores()
+    this.robotsScore$.subscribe(fixture => {
+      let r = fixture.robots.slice();
       r.sort((a, b) => b.score[7] - a.score[7]);
       this.robots = r;
     })

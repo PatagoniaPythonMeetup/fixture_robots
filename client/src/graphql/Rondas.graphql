@@ -1,0 +1,8 @@
+query Rondas {
+  fixture {
+    rondas {
+      numero
+      tct
+    }
+  }
+}

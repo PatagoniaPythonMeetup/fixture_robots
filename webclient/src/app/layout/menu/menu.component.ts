@@ -1,9 +1,6 @@
-import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { RondasQuery } from '../../../graphql/schema';
-import { ApolloQueryObservable } from 'apollo-angular/build/src';
 import { FixtureService, Estado } from '../../fixture.service';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -11,7 +8,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  rondas$: ApolloQueryObservable<any>;
+  rondas$: any;
   title = 'RoboFixture';
   estado: Estado
 
@@ -24,7 +21,7 @@ export class MenuComponent implements OnInit {
   }
 
   generarRonda() {
-    this.fixture.generarRonda()
+    this.fixture.generarRondas()
       .subscribe(ronda => {
         this.rondas$.refetch();
       })

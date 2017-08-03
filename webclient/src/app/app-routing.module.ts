@@ -6,7 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const routes: Routes = [
   { path: 'robots', component: RobotsScoreTableComponent },
-  { path: 'ronda/:numero',      component: RondaTableComponent },
+  { path: 'ronda/:numero', component: RondaTableComponent },
   {
     path: '',
     children: []

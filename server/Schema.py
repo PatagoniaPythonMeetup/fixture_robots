@@ -39,6 +39,12 @@ class Robot(graphene.ObjectType):
     escuela = graphene.String()
     encargado = graphene.String()
     escudo = graphene.String()
+    score = graphene.List(graphene.Int)
+
+    def resolve_score(self, args, context, info):
+        fixture = context["fixture"]
+        robot = fixture.get_robot_por_key(self.key)
+        return fixture.score(robot)
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()
@@ -80,8 +86,8 @@ class Ronda(graphene.ObjectType):
         return self
 
 class Grupo(graphene.ObjectType):
-    robots = graphene.List(Robot)
     numero = graphene.Int()
+    robots = graphene.List(Robot)
     rondas = graphene.List(Ronda)
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     scores = graphene.List(graphene.List(graphene.Int))
@@ -105,9 +111,10 @@ class Grupo(graphene.ObjectType):
         return self
 
 class Fase(graphene.ObjectType):
+    nombre = graphene.String()
+    numero = graphene.Int()
     robots = graphene.List(Robot)
     grupos = graphene.List(Grupo)
-    nombre = graphene.String()
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
@@ -141,6 +148,7 @@ class Fixture(graphene.ObjectType):
     encuentros = graphene.List(Encuentro)
     ronda = graphene.Field(Ronda, numero=graphene.Argument(graphene.Int))
     rondas = graphene.List(Ronda)
+    fase = graphene.Field(Fase, numero=graphene.Argument(graphene.Int))
     fases = graphene.List(Fase)
     ganador = graphene.Field(Robot)
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
@@ -167,6 +175,10 @@ class Fixture(graphene.ObjectType):
 
     def resolve_rondas(self, args, context, info):
         return self.get_rondas()
+
+    def resolve_fase(self, args, context, info):
+        numero = args['numero']
+        return self.get_fase(numero)
 
     def resolve_fases(self, args, context, info):
         return self.get_fases()

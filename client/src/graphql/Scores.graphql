@@ -1,0 +1,5 @@
+query Scores {
+  fixture {
+    scores
+  }
+}

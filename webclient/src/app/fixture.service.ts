@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 
 import {
     RobotsQuery,
-    RobotFixtureScoreQuery,
+    RobotFixtureScoresQuery,
     RondasQuery,
     EncuentroQuery,
     GenerarRondasMutation,
@@ -22,7 +22,7 @@ const FixtureQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fi
 const RobotQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robot.graphql');
 const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Robots.graphql');
 const RondaQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Ronda.graphql');
-const RobotsScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotsScore.graphql');
+const RobotFixtureScoresQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/RobotFixtureScores.graphql');
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
 
@@ -56,51 +56,44 @@ export class FixtureService {
   
   getEstado() {
     let obs$ = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-      .map(({data}) => data.fixture.estado)
-    obs$.subscribe(estado => this.estado.emit(estado))
+    obs$.subscribe(({data}) => this.estado.emit(data.fixture.estado))
     return obs$
   }
 
-  robots() {
-    return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode})
-      .map(({data}) => data.fixture.robots);
+  robots(): ApolloQueryObservable<RobotsQuery> {
+    return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode});
   }
 
-  robot(key: String) {
+  robot(key: String): ApolloQueryObservable<RobotQuery> {
     return this.apollo.watchQuery<RobotQuery>({ 
       query: RobotQueryNode,
       variables: { key }
-    })
-      .map(({data}) => data.fixture.robot as any) as ApolloQueryObservable<any>;
+    });
   }
 
-  ronda(numero: Number) {
+  ronda(numero: Number): ApolloQueryObservable<RondaQuery> {
     return this.apollo.watchQuery<RondaQuery>({ 
       query: RondaQueryNode,
       variables: { numero }
-    })
-      .map(({data}) => data.fixture.ronda);
+    });
   }
 
-  rondas() {
-    return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode})
-      .map(({data}) => data.fixture.rondas as any) as ApolloQueryObservable<any>;
+  rondas(): ApolloQueryObservable<RondasQuery> {
+    return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode});
   }
 
-  encuentro(numero: Number) {
+  encuentro(numero: Number): ApolloQueryObservable<EncuentroQuery> {
     return this.apollo.watchQuery<EncuentroQuery>({ 
       query: EncuentroQueryNode,
       variables: { numero }
-    })
-      .map(({data}) => data.fixture.encuentro as any) as ApolloQueryObservable<any>;
+    });
   }
 
-  robotsScore() {
-    return this.apollo.watchQuery<RobotsScoreQuery>({ query: RobotsScoreQueryNode})
-      .map(({data}) => data.fixture.robots);
+  robotFixtureScores(): ApolloQueryObservable<RobotFixtureScoresQuery> {
+    return this.apollo.watchQuery<RobotFixtureScoresQuery>({ query: RobotFixtureScoresQueryNode});
   }
 
-  generarRonda() {
+  generarRondas() {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GenerarRondasMutation>({
       mutation: GenerarRondasMutationNode

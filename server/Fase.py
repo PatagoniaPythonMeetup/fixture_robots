@@ -2,7 +2,11 @@ from functools import reduce
 from .Grupo import Grupo
 
 class Fase(object):
+    NUMERO = 1
+
     def __init__(self, robots, grupos=None):
+        self.numero = Fase.NUMERO
+        Fase.NUMERO = Fase.NUMERO + 1
         self.robots = robots
         self.grupos = grupos or []
 

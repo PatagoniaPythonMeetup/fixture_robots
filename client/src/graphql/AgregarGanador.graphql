@@ -1,0 +1,25 @@
+mutation agregarGanador(
+  $key: String!
+  $encuentro: Int
+) {
+  agregarGanador(key: $key, encuentro: $encuentro) {
+    ok
+    mensaje
+    encuentro {
+      numero
+      puntos
+      estado {
+        finalizado
+      }
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      vuelta
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}

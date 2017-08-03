@@ -1,0 +1,34 @@
+<table class="ui very striped basic celled small table">
+  <thead>
+    <tr>
+      <th class="five wide">Robot</th>
+      <th class="center aligned one wide"><div data-tooltip="Jugados" data-position="bottom center"><i class="asterisk icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="Triunfos" data-position="bottom center"><i class="plus icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="Empates" data-position="bottom center"><i class="checkmark icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="Derrotas" data-position="bottom center"><i class="minus icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="A Favor" data-position="bottom center"><i class="add square icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="En Contra" data-position="bottom center"><i class="minus square icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="Diferencia" data-position="bottom center"><i class="radio icon"></i></div></th>
+      <th class="center aligned one wide"><div data-tooltip="Puntos" data-position="bottom center"><i class="selected radio icon"></i></div></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let robot of robots; let i = index">
+      <td>
+        <div class="ui ribbon label">#{{i + 1}}</div>
+        <h4 class="ui image header">
+          <img src="/assets/images/escudos/{{robot.escudo}}" class="ui mini rounded image">
+            <div class="content">{{robot.nombre}} <div class="sub header">{{robot.escuela}}</div></div>
+        </h4>
+      </td>
+      <td class="center aligned">{{robot.score[0]}}</td>
+      <td class="center aligned">{{robot.score[1]}}</td>
+      <td class="center aligned">{{robot.score[2]}}</td>
+      <td class="center aligned">{{robot.score[3]}}</td>
+      <td class="center aligned">{{robot.score[4]}}</td>
+      <td class="center aligned">{{robot.score[5]}}</td>
+      <td class="center aligned">{{robot.score[6]}}</td>
+      <td class="center aligned">{{robot.score[7]}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -100,6 +100,11 @@ class Fixture(object):
             return rondas[-1]
 
     # Fases
+    def get_fase(self, numero):
+        fases = [fase for fase in self.get_fases() if fase.numero == numero]
+        if len(fases) == 1:
+            return fases.pop()
+
     def get_fases(self):
         return self.fases[:]
 
@@ -162,14 +167,17 @@ class Fixture(object):
     # Estados
     def iniciado(self):
         tiene_robots = bool(self.robots)
-        return tiene_robots and self.get_fase_actual().iniciado()
+        fase_actual = self.get_fase_actual()
+        return tiene_robots and fase_actual and fase_actual.iniciado()
 
     def compitiendo(self):
-        return self.get_fase_actual().compitiendo()
+        fase_actual = self.get_fase_actual()
+        return fase_actual and fase_actual.compitiendo()
 
     def finalizado(self):
         tiene_robots = bool(self.robots)
-        return tiene_robots and self.get_fase_actual().finalizado()
+        fase_actual = self.get_fase_actual()
+        return tiene_robots and fase_actual and fase_actual.finalizado()
 
     def vuelta(self):
         encuentros = self.get_encuentros()

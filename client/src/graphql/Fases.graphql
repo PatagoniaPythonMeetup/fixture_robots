@@ -1,0 +1,8 @@
+query Fases {
+  fixture {
+    fases {
+      numero
+      nombre
+    }
+  }
+}
