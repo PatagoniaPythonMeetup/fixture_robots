@@ -7,12 +7,12 @@ import { FixtureService } from "../fixture.service";
   styleUrls: ['./robots-score-table.component.css']
 })
 export class RobotsScoreTableComponent implements OnInit {
-  robotsScore$: any
+  robots$: any
   robots: any[]
   
   constructor(private fixture: FixtureService) {
-    this.robotsScore$ = this.fixture.robots()
-    this.robotsScore$.subscribe(({data}) => {
+    this.robots$ = this.fixture.robots()
+    this.robots$.subscribe(({data}) => {
       let robots = data.fixture.robots.slice();
       
       robots.sort((a, b) => b.score[7] - a.score[7]);
@@ -21,7 +21,7 @@ export class RobotsScoreTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.robotsScore$.refetch();
+    this.robots$.refetch();
   }
 
 }

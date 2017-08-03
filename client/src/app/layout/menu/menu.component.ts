@@ -8,16 +8,24 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit, AfterViewInit {
-  rondas$: any;
+  fases$: any;
+  fases: any[]
   title = 'RoboFixture';
   estado: Estado;
 
-  constructor(private router: Router, private fixture: FixtureService, private rootNode: ElementRef) {
+  constructor(
+    private router: Router, 
+    private fixture: FixtureService, 
+    private rootNode: ElementRef
+  ) {
     this.fixture.estado.subscribe(estado => this.estado = estado)
   }
 
   ngOnInit() {
-    this.rondas$ = this.fixture.rondas();
+    this.fases$ = this.fixture.fases();
+    this.fases$.subscribe(({data}) => {
+      this.fases = data.fixture.fases;
+    })
   }
 
   ngAfterViewInit(): void {
@@ -28,7 +36,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
   generarRonda() {
     this.fixture.generarRondas()
       .subscribe(ronda => {
-        this.rondas$.refetch();
+        this.fases$.refetch();
       })
   }
 }

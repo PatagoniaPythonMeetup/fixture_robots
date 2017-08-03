@@ -40,8 +40,7 @@ class Fase(object):
     def iniciado(self):
         rondas_actuales = self.get_rondas_actuales()
         return rondas_actuales and \
-        any([ronda_actual.iniciado() for ronda_actual in rondas_actuales]) and \
-        any([ronda_actual.ganador() is None for ronda_actual in rondas_actuales])
+        any([ronda_actual.iniciado() for ronda_actual in rondas_actuales])
 
     def compitiendo(self):
         rondas_actuales = self.get_rondas_actuales()
@@ -51,8 +50,7 @@ class Fase(object):
     def finalizado(self):
         rondas_actuales = self.get_rondas_actuales()
         return rondas_actuales and \
-        any([ronda_actual.finalizado() for ronda_actual in rondas_actuales]) and \
-        any([ronda_actual.ganador() is None for ronda_actual in rondas_actuales])
+        all([ronda_actual.finalizado() for ronda_actual in rondas_actuales])
 
     def ganadores(self):
         return reduce(lambda a, grupo: a + grupo.ganadores(), self.get_grupos(), [])

@@ -13,6 +13,8 @@ import {
     RondasQuery,
     ScoreQuery,
     ScoresQuery,
+    FaseQuery,
+    FasesQuery,
     EncuentroQuery,
     GenerarRondasMutation,
     AgregarGanadorMutation,
@@ -26,6 +28,8 @@ const RondaQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rond
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const ScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Score.graphql');
 const ScoresQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Scores.graphql');
+const FaseQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fase.graphql');
+const FasesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fases.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
 
 const GenerarRondasMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRondas.graphql');
@@ -93,6 +97,17 @@ export class FixtureService {
 
   rondas(): ApolloQueryObservable<RondasQuery> {
     return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode});
+  }
+
+  fase(numero: Number): ApolloQueryObservable<FaseQuery> {
+    return this.apollo.watchQuery<FaseQuery>({ 
+      query: FaseQueryNode,
+      variables: { numero }
+    });
+  }
+
+  fases(): ApolloQueryObservable<FasesQuery> {
+    return this.apollo.watchQuery<FasesQuery>({ query: FasesQueryNode});
   }
 
   encuentro(numero: Number): ApolloQueryObservable<EncuentroQuery> {
