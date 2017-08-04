@@ -43,6 +43,7 @@ class Fixture(object):
         return self.robots if ronda_actual is None else ronda_actual.get_robots()
 
     def clasificacion(self, grupos):
+        assert grupos is not None, "Debe indicar el numero de grupos para la fase de clasificacion"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
