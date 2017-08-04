@@ -82,10 +82,6 @@ class Grupo(object):
         ronda_actual = self.get_ronda_actual()
         return ronda_actual is not None and ronda_actual.finalizado()
 
-    def vuelta(self):
-        encuentros = self.get_encuentros()
-        return max([e.jugadas() for e in encuentros]) if encuentros else 0
-
     def jugadas(self):
         encuentros = self.get_encuentros()
         return sum([e.jugadas() for e in encuentros]) if encuentros else 0

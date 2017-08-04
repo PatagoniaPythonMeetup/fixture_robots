@@ -5,7 +5,6 @@ class Estado(graphene.ObjectType):
     iniciado = graphene.Boolean()
     compitiendo = graphene.Boolean()
     finalizado = graphene.Boolean()
-    vuelta = graphene.Int()
     jugadas = graphene.Int()
     encuentros = graphene.List(graphene.Int)
     ronda = graphene.Int()
@@ -18,9 +17,6 @@ class Estado(graphene.ObjectType):
     
     def resolve_finalizado(self, args, context, info):
         return self.finalizado()
-
-    def resolve_vuelta(self, args, context, info):
-        return self.vuelta()
 
     def resolve_jugadas(self, args, context, info):
         return self.jugadas()
@@ -268,12 +264,12 @@ class GenerarRondas(graphene.Mutation):
     @staticmethod
     def mutate(root, args, context, info):
         fixture = context["fixture"]
-        tct = args.get('tct')
-        allow_none = args.get('allow_none')
-        shuffle = args.get('shuffle')
+        tct = args.get('tct') or False
+        allow_none = args.get('allow_none') or False
+        shuffle = args.get('shuffle') or True
         try:
             rondas = fixture.generar_rondas(tct, allow_none, shuffle)
-            return GenerarRondas(ok = True, mensaje = "Ronda creada", rondas = rondas, estado = fixture)
+            return GenerarRondas(ok = True, mensaje = "Rondas creadas", rondas = rondas, estado = fixture)
         except Exception as ex:
             return GenerarRondas(ok = False, mensaje = str(ex), estado = fixture)
 

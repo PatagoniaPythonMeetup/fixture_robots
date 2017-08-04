@@ -9,7 +9,6 @@ mutation generarClasificacion($grupos: Int) {
       iniciado
       compitiendo
       finalizado
-      vuelta
       jugadas
       encuentros
       ronda

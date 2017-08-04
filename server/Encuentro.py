@@ -59,9 +59,6 @@ class Encuentro(object):
     def compitiendo(self):
         return self.iniciado() and bool(self.ganadas) and not self.finalizado()
 
-    def vuelta(self):
-        return len(self.ganadas)
-
     def jugadas(self):
         return len(self.ganadas)
 

@@ -16,7 +16,6 @@ mutation quitarGanador(
       iniciado
       compitiendo
       finalizado
-      vuelta
       jugadas
       encuentros
       ronda

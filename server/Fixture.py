@@ -180,10 +180,6 @@ class Fixture(object):
         fase_actual = self.get_fase_actual()
         return tiene_robots and fase_actual and fase_actual.finalizado()
 
-    def vuelta(self):
-        encuentros = self.get_encuentros()
-        return max([e.jugadas() for e in encuentros]) if encuentros else 0
-    
     def jugadas(self):
         encuentros = self.get_encuentros()
         return sum([e.jugadas() for e in encuentros]) if encuentros else 0

@@ -4,7 +4,6 @@ query Fixture {
       iniciado
       compitiendo
       finalizado
-      vuelta
       jugadas
       encuentros
       ronda
