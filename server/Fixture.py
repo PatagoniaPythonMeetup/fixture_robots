@@ -128,7 +128,6 @@ class Fixture(object):
     def from_dict(self, data):
         CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final]}
         robots = [Robot(*robot_data) for robot_data in data["robots"]]
-        print(robots)
         fases = []
         for fase_data in data["fases"]:
             klass = fase_data["nombre"]
@@ -145,11 +144,11 @@ class Fixture(object):
                         encuentro = Encuentro(r1, r2, ganadas=ganadas)
                         encuentros.append(encuentro)
                     promovidos = [robot for robot in robots \
-                        if robot in [tuple(p) for p in ronda_data["promovidos"]]]
+                        if robot in [Robot(*p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
                         promovidos=promovidos, tct=ronda_data.pop("tct", False)))
                 grobots = [robot for robot in robots \
-                    if robot in [tuple(p) for p in grupo_data["robots"]]]
+                    if robot in [Robot(*p) for p in grupo_data["robots"]]]
                 frobots = frobots + grobots
                 grupos.append(Grupo(grobots, rondas))
             fases.append(CLASES[klass](frobots, grupos))
