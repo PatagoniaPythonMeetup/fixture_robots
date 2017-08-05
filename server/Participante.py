@@ -14,6 +14,8 @@ class Participante(namedtuple("Participante", "nombre dni email rol")):
             args = args[:3] + ("alumno")
         return super().__new__(cls, *args, **kwargs)
 
+        def __str__(self):
+            return "{}\n{}".format(self.nombre, self.dni)
     @property
     def key(self):
         _key = self.nombre + self.dni

@@ -15,6 +15,9 @@ class Equipo(namedtuple("Equipo", "robot categoria profesor encargado alumnos es
 	def __str__(self):
 		return self.robot.name
 
+    def __eq__(self, other):
+        return isinstance(other, Equipo) and self.robot == other.robot
+
 
 def validate_equipo():
     def decorate(func):
