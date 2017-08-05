@@ -10,7 +10,6 @@ mutation generarRondas {
       iniciado
       compitiendo
       finalizado
-      vuelta
       jugadas
       encuentros
       ronda

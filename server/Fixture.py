@@ -43,6 +43,7 @@ class Fixture(object):
         return self.robots if ronda_actual is None else ronda_actual.get_robots()
 
     def clasificacion(self, grupos):
+        assert grupos is not None, "Debe indicar el numero de grupos para la fase de clasificacion"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
@@ -127,7 +128,6 @@ class Fixture(object):
     def from_dict(self, data):
         CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final]}
         robots = [Robot(*robot_data) for robot_data in data["robots"]]
-        print(robots)
         fases = []
         for fase_data in data["fases"]:
             klass = fase_data["nombre"]
@@ -144,11 +144,11 @@ class Fixture(object):
                         encuentro = Encuentro(r1, r2, ganadas=ganadas)
                         encuentros.append(encuentro)
                     promovidos = [robot for robot in robots \
-                        if robot in [tuple(p) for p in ronda_data["promovidos"]]]
+                        if robot in [Robot(*p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
                         promovidos=promovidos, tct=ronda_data.pop("tct", False)))
                 grobots = [robot for robot in robots \
-                    if robot in [tuple(p) for p in grupo_data["robots"]]]
+                    if robot in [Robot(*p) for p in grupo_data["robots"]]]
                 frobots = frobots + grobots
                 grupos.append(Grupo(grobots, rondas))
             fases.append(CLASES[klass](frobots, grupos))
@@ -179,10 +179,6 @@ class Fixture(object):
         fase_actual = self.get_fase_actual()
         return tiene_robots and fase_actual and fase_actual.finalizado()
 
-    def vuelta(self):
-        encuentros = self.get_encuentros()
-        return max([e.jugadas() for e in encuentros]) if encuentros else 0
-    
     def jugadas(self):
         encuentros = self.get_encuentros()
         return sum([e.jugadas() for e in encuentros]) if encuentros else 0
