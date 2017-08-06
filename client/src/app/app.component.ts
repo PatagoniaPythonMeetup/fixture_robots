@@ -8,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
   providers: [FixtureService]
 })
 export class AppComponent implements OnInit {
-  constructor(private fixture: FixtureService) {}
+  constructor(private fixture: FixtureService) {
+    
+  }
 
   ngOnInit() {
     this.fixture.getEstado()
   }
+
 }

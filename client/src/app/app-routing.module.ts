@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RobotsScoreTableComponent } from "./robots-score-table/robots-score-table.component";
+import { PageGeneralComponent } from "./page-general/page-general.component";
+import { PageFaseComponent } from "./page-fase/page-fase.component";
 
 const routes: Routes = [
-  { path: 'robots', component: RobotsScoreTableComponent },
+  { path: 'general', component: PageGeneralComponent },
+  { path: 'fase/:numero', component: PageFaseComponent },
   {
     path: '',
     children: []

@@ -1,12 +1,12 @@
-query Score($key: String) {
+query ScoresGeneral {
   fixture {
-    robot(key: $key) {
+    robots {
       key
       nombre
       escuela
       encargado
       escudo
     }
-    score(key: $key)
+    scores
   }
 }

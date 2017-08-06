@@ -10,6 +10,8 @@ import { MainComponent } from './layout/main/main.component';
 import { MenuComponent } from './layout/menu/menu.component';
 import { RobotsScoreTableComponent } from './robots-score-table/robots-score-table.component';
 import { AppRoutingModule } from "./app-routing.module";
+import { PageGeneralComponent } from './page-general/page-general.component';
+import { PageFaseComponent } from './page-fase/page-fase.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { AppRoutingModule } from "./app-routing.module";
     FooterComponent,
     MainComponent,
     MenuComponent,
-    RobotsScoreTableComponent
+    RobotsScoreTableComponent,
+    PageGeneralComponent,
+    PageFaseComponent
   ],
   imports: [
     BrowserModule,

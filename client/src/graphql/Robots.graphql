@@ -6,7 +6,6 @@ query Robots {
       escuela
       encargado
       escudo
-      score
     }
   }
 }

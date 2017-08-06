@@ -12,7 +12,7 @@ import {
     RondaQuery,
     RondasQuery,
     ScoreQuery,
-    ScoresQuery,
+    ScoresGeneralQuery,
     FaseQuery,
     FasesQuery,
     EncuentroQuery,
@@ -27,7 +27,7 @@ const RobotsQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rob
 const RondaQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Ronda.graphql');
 const RondasQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Rondas.graphql');
 const ScoreQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Score.graphql');
-const ScoresQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Scores.graphql');
+const ScoresGeneralQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/ScoresGeneral.graphql');
 const FaseQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fase.graphql');
 const FasesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fases.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
@@ -43,14 +43,13 @@ export interface Estado {
   iniciado: Boolean
   compitiendo: Boolean
   finalizado: Boolean
-  vuelta: Number
   jugadas: Number
   encuentros: Array<Number>
   ronda: Number
 }
 
 let ESTADO_INICIAL: Estado = {
-  iniciado: false, compitiendo: false, finalizado: false, vuelta: 0, jugadas: 0, encuentros: [], ronda: 0
+  iniciado: false, compitiendo: false, finalizado: false, jugadas: 0, encuentros: [], ronda: 0
 }
 
 @Injectable()
@@ -66,10 +65,6 @@ export class FixtureService {
     return obs$
   }
 
-  robots(): ApolloQueryObservable<RobotsQuery> {
-    return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode});
-  }
-
   robot(key: String): ApolloQueryObservable<RobotQuery> {
     return this.apollo.watchQuery<RobotQuery>({ 
       query: RobotQueryNode,
@@ -77,26 +72,8 @@ export class FixtureService {
     });
   }
 
-  scores(): ApolloQueryObservable<ScoresQuery> {
-    return this.apollo.watchQuery<ScoresQuery>({ query: ScoresQueryNode});
-  }
-
-  score(key: String): ApolloQueryObservable<ScoreQuery> {
-    return this.apollo.watchQuery<ScoreQuery>({ 
-      query: ScoreQueryNode,
-      variables: { key }
-    });
-  }
-
-  ronda(numero: Number): ApolloQueryObservable<RondaQuery> {
-    return this.apollo.watchQuery<RondaQuery>({ 
-      query: RondaQueryNode,
-      variables: { numero }
-    });
-  }
-
-  rondas(): ApolloQueryObservable<RondasQuery> {
-    return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode});
+  robots(): ApolloQueryObservable<RobotsQuery> {
+    return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode});
   }
 
   fase(numero: Number): ApolloQueryObservable<FaseQuery> {
@@ -110,11 +87,33 @@ export class FixtureService {
     return this.apollo.watchQuery<FasesQuery>({ query: FasesQueryNode});
   }
 
+  ronda(numero: Number): ApolloQueryObservable<RondaQuery> {
+    return this.apollo.watchQuery<RondaQuery>({ 
+      query: RondaQueryNode,
+      variables: { numero }
+    });
+  }
+
+  rondas(): ApolloQueryObservable<RondasQuery> {
+    return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode});
+  }
+
   encuentro(numero: Number): ApolloQueryObservable<EncuentroQuery> {
     return this.apollo.watchQuery<EncuentroQuery>({ 
       query: EncuentroQueryNode,
       variables: { numero }
     });
+  }
+
+  score(key: String): ApolloQueryObservable<ScoreQuery> {
+    return this.apollo.watchQuery<ScoreQuery>({ 
+      query: ScoreQueryNode,
+      variables: { key }
+    });
+  }
+  
+  scoresGeneral(): ApolloQueryObservable<ScoresGeneralQuery> {
+    return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
 
   generarRondas() {

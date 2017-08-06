@@ -1,5 +1,0 @@
-query Scores {
-  fixture {
-    scores
-  }
-}

@@ -21,7 +21,6 @@ export type AgregarGanadorMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -62,8 +61,8 @@ export type FaseQueryVariables = {
 export type FaseQuery = {
   fixture:  {
     fase:  {
-      numero: number | null,
       nombre: string | null,
+      numero: number | null,
       grupos:  Array< {
         numero: number | null,
         robots:  Array< {
@@ -73,15 +72,20 @@ export type FaseQuery = {
           encargado: string | null,
           escudo: string | null,
         } > | null,
-        scores: Array< Array< number | null > | null > | null,
         rondas:  Array< {
           numero: number | null,
           tct: boolean | null,
           encuentros:  Array< {
+            robots:  Array< {
+              key: string | null,
+              nombre: string | null,
+              escudo: string | null,
+            } > | null,
             numero: number | null,
             puntos: Array< number | null > | null,
           } > | null,
         } > | null,
+        scores: Array< Array< number | null > | null > | null,
       } > | null,
     } | null,
   } | null,
@@ -102,7 +106,6 @@ export type FixtureQuery = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -125,7 +128,6 @@ export type GenerarClasificacionMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -144,7 +146,6 @@ export type GenerarEliminacionMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -163,7 +164,6 @@ export type GenerarFinalMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -183,7 +183,6 @@ export type GenerarRondasMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -211,7 +210,6 @@ export type QuitarGanadorMutation = {
       iniciado: boolean | null,
       compitiendo: boolean | null,
       finalizado: boolean | null,
-      vuelta: number | null,
       jugadas: number | null,
       encuentros: Array< number | null > | null,
       ronda: number | null,
@@ -243,7 +241,6 @@ export type RobotsQuery = {
       escuela: string | null,
       encargado: string | null,
       escudo: string | null,
-      score: Array< number | null > | null,
     } > | null,
   } | null,
 };
@@ -290,12 +287,26 @@ export type ScoreQueryVariables = {
 
 export type ScoreQuery = {
   fixture:  {
+    robot:  {
+      key: string | null,
+      nombre: string | null,
+      escuela: string | null,
+      encargado: string | null,
+      escudo: string | null,
+    } | null,
     score: Array< number | null > | null,
   } | null,
 };
 
-export type ScoresQuery = {
+export type ScoresGeneralQuery = {
   fixture:  {
+    robots:  Array< {
+      key: string | null,
+      nombre: string | null,
+      escuela: string | null,
+      encargado: string | null,
+      escudo: string | null,
+    } > | null,
     scores: Array< Array< number | null > | null > | null,
   } | null,
 };
