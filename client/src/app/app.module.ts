@@ -8,10 +8,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FooterComponent } from './layout/footer/footer.component';
 import { MainComponent } from './layout/main/main.component';
 import { MenuComponent } from './layout/menu/menu.component';
-import { RobotsScoreTableComponent } from './robots-score-table/robots-score-table.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { PageGeneralComponent } from './page-general/page-general.component';
 import { PageFaseComponent } from './page-fase/page-fase.component';
+import { GrupoComponent } from './components/grupo/grupo.component';
+import { RobotsScoreComponent } from './components/robots-score/robots-score.component';
+import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,11 @@ import { PageFaseComponent } from './page-fase/page-fase.component';
     FooterComponent,
     MainComponent,
     MenuComponent,
-    RobotsScoreTableComponent,
     PageGeneralComponent,
-    PageFaseComponent
+    PageFaseComponent,
+    GrupoComponent,
+    RobotsScoreComponent,
+    ClasificacionComponent
   ],
   imports: [
     BrowserModule,

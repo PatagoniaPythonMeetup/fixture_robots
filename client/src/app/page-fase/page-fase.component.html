@@ -1,3 +1,3 @@
-<p>
-  page-fase works!
-</p>
+<div *ngIf="fase && fase.nombre === 'Clasificacion'">
+  <clasificacion [grupos]="fase.grupos"></clasificacion>
+</div>

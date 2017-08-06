@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./page-fase.component.css']
 })
 export class PageFaseComponent {
-  faseQuery$: any;
+  faseQuery$: any
   fase: any
   estado: Estado
 

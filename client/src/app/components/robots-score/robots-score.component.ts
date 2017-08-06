@@ -10,11 +10,11 @@ interface IRobot {
 }
 
 @Component({
-  selector: 'robots-score-table',
-  templateUrl: './robots-score-table.component.html',
-  styleUrls: ['./robots-score-table.component.css']
+  selector: 'robots-score',
+  templateUrl: './robots-score.component.html',
+  styleUrls: ['./robots-score.component.css']
 })
-export class RobotsScoreTableComponent implements OnInit {
+export class RobotsScoreComponent implements OnInit {
   @Input() robots: IRobot[] = <IRobot[]>[]
   constructor() {
   }
@@ -23,4 +23,3 @@ export class RobotsScoreTableComponent implements OnInit {
   }
 
 }
-
