@@ -1,7 +1,8 @@
+<div class="ui horizontal divider">
+  <h1>{{nombre}}</h1>
+</div>
+Estado del grupo: {{grupo.estado | json}}
 <div class="ui segment">
-  <h1 class="ui header">
-    {{nombre}}
-  </h1>
   <robots-score [robots]=robots></robots-score>
   <ronda *ngFor="let ronda of rondas" [ronda]=ronda></ronda>
 </div>

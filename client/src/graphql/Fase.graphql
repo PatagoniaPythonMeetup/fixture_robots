@@ -3,6 +3,11 @@ query Fase($numero: Int!) {
     fase(numero: $numero) {
       nombre
       numero
+      estado {
+        iniciado
+        compitiendo
+        finalizado
+      }
       grupos {
         numero
         robots {

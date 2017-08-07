@@ -1,3 +1,6 @@
 <div *ngIf="fase && fase.nombre === 'clasificacion'">
-  <clasificacion [grupos]="fase.grupos"></clasificacion>
+  <clasificacion [fase]="fase"></clasificacion>
+</div>
+<div *ngIf="fase && fase.nombre === 'final'">
+  <clasificacion [fase]="fase"></clasificacion>
 </div>

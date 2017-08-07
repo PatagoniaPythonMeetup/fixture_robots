@@ -8,6 +8,7 @@ import { FixtureService } from "../../fixture.service";
 })
 export class RondaComponent implements OnInit {
   @Input() ronda: any
+  nombre: String
 
   constructor(private fixture: FixtureService) { }
 
@@ -21,6 +22,7 @@ export class RondaComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.nombre = `Ronda ${this.ronda.numero}`
   }
 }

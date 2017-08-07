@@ -1,3 +1,4 @@
-<div *ngFor="let grupo of grupos">
+Estado de la fase: {{fase.estado | json}}
+<div *ngFor="let grupo of fase.grupos">
   <grupo [grupo]=grupo></grupo>
 </div>

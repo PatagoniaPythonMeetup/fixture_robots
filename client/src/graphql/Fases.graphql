@@ -4,5 +4,10 @@ query Fases {
       numero
       nombre
     }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+    }
   }
 }

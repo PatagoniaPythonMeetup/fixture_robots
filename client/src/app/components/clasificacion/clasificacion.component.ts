@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./clasificacion.component.css']
 })
 export class ClasificacionComponent implements OnInit {
-  @Input() grupos: any[] = <any[]>[]
+  @Input() fase: any
   
   constructor() { }
 

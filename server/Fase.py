@@ -64,7 +64,7 @@ class Fase(object):
         robots = reduce(lambda a, grupo: a + grupo.perdedores(), self.get_grupos(), [])
         scores = [(r,) + self.score(r) for r in robots]
         scores = sorted(scores, key=lambda s: s[7] + s[8])
-        return [score[0] for socre in scores]
+        return [score[0] for score in scores]
 
     # Serialize
     def to_dict(self):
