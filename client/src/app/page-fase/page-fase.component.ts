@@ -23,15 +23,13 @@ export class PageFaseComponent {
     this.route.params
       .switchMap(params => (this.faseQuery$ = this.fixture.fase(+params['numero'])))
       .subscribe(({data}) => {
-        console.log(data.fixture.fase)
-        this.fase = data.fixture.fase});
+        this.fase = data.fixture.fase
+      });
     }
 
   setEstado(estado: Estado) {
     this.estado = estado
-    if (this.fase && (estado.ronda === this.fase.numero || estado.finalizado)) {
-      this.faseQuery$.refetch();
-    }
+    this.faseQuery$.refetch();
   }
 
 }

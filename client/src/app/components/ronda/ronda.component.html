@@ -1,0 +1,46 @@
+<h1 class="ui center aligned header">Encuentros</h1>
+<table class="ui very striped basic celled small table">
+  <thead>
+    <tr>
+      <th class="center aligned six wide">Local</th>
+      <th class="center aligned one wide">&nbsp;</th>
+      <th class="center aligned one wide">&nbsp;</th>
+      <th class="center aligned six wide">Visitante</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let encuentro of ronda.encuentros">
+      <td class="right aligned">
+        <h4 class="ui image header">
+          <img/>
+          <div class="content">{{encuentro.robots[0].nombre}}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+          <img class="ui large image" 
+            (click)="resultado($event, encuentro.numero, encuentro.robots[0].key)"
+            src="/assets/images/escudos/{{encuentro.robots[0].escudo}}">
+        </h4>
+      </td>
+      <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] > encuentro.puntos[1], 'negative': encuentro.puntos[0] < encuentro.puntos[1]}">
+        <h1>{{encuentro.puntos[0]}}</h1>
+      </td>
+      <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] < encuentro.puntos[1], 'negative': encuentro.puntos[0] > encuentro.puntos[1]}">
+        <h1>{{encuentro.puntos[1]}}</h1>
+      </td>
+      <td class="left aligned">
+        <h4 class="ui image header">
+          <img class="ui large image" 
+            (click)="resultado($event, encuentro.numero, encuentro.robots[1].key)"
+            src="/assets/images/escudos/{{encuentro.robots[1].escudo}}">
+          <div class="content">{{encuentro.robots[1].nombre}}</div>
+        </h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="ronda.promovidos && ronda.promovidos.length > 0">
+  <h1 class="ui center aligned header">Promovidos</h1>
+  <h4 class="ui image header" *ngFor="let robot of ronda.promovidos">
+    <img src="/assets/images/escudos/{{robot.escudo}}" class="ui large image">
+    <div class="content">{{robot.nombre}}</div>
+  </h4>
+</div>

@@ -132,7 +132,7 @@ export class FixtureService {
       variables: { key, encuentro },
     })
     obs$.subscribe(({data}) => this.estado.emit(data.agregarGanador.estado))
-    return obs$.map(({data}) => data.agregarGanador.encuentro );
+    return obs$;
   }
 
   quitarGanador(key: String, encuentro: Number = null) {
@@ -142,7 +142,7 @@ export class FixtureService {
       variables: { key, encuentro },
     })
     obs$.subscribe(({data}) => this.estado.emit(data.quitarGanador.estado))
-    return obs$.map(({data}) => data.quitarGanador.encuentro );
+    return obs$;
   }
 }
 

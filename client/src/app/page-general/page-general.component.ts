@@ -16,7 +16,7 @@ export class PageGeneralComponent implements OnInit {
       let robots = data.fixture.robots.slice().map(r => _.clone(r));
       let scores = data.fixture.scores.slice().map(s => _.clone(s));
       robots.forEach((r, i) => r.score = scores[i]);
-      robots.sort((a, b) => b.score[7] - a.score[7]);
+      robots.sort((a, b) => (b.score[6] + b.score[7]) - (a.score[6] + a.score[7]));
       this.robots = robots;
     })
   }

@@ -1,6 +1,6 @@
 mutation agregarGanador(
   $key: String!
-  $encuentro: Int
+  $encuentro: Int!
 ) {
   agregarGanador(key: $key, encuentro: $encuentro) {
     ok

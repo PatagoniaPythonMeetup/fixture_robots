@@ -15,6 +15,11 @@ query Fase($numero: Int!) {
         rondas {
           numero
           tct
+          promovidos {
+            key
+            nombre
+            escudo
+          }
           encuentros {
             robots {
               key

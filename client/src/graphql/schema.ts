@@ -75,6 +75,11 @@ export type FaseQuery = {
         rondas:  Array< {
           numero: number | null,
           tct: boolean | null,
+          promovidos:  Array< {
+            key: string | null,
+            nombre: string | null,
+            escudo: string | null,
+          } > | null,
           encuentros:  Array< {
             robots:  Array< {
               key: string | null,

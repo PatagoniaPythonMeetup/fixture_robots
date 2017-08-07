@@ -1,6 +1,6 @@
 mutation quitarGanador(
   $key: String!
-  $encuentro: Int
+  $encuentro: Int!
 ) {
   quitarGanador(key: $key, encuentro: $encuentro) {
     ok

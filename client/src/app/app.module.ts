@@ -14,6 +14,7 @@ import { PageFaseComponent } from './page-fase/page-fase.component';
 import { GrupoComponent } from './components/grupo/grupo.component';
 import { RobotsScoreComponent } from './components/robots-score/robots-score.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
+import { RondaComponent } from './components/ronda/ronda.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
     PageFaseComponent,
     GrupoComponent,
     RobotsScoreComponent,
-    ClasificacionComponent
+    ClasificacionComponent,
+    RondaComponent
   ],
   imports: [
     BrowserModule,

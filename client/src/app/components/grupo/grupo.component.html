@@ -1,2 +1,7 @@
-<h3>{{nombre}}</h3>
-<robots-score [robots]=robots></robots-score>
+<div class="ui segment">
+  <h1 class="ui header">
+    {{nombre}}
+  </h1>
+  <robots-score [robots]=robots></robots-score>
+  <ronda *ngFor="let ronda of rondas" [ronda]=ronda></ronda>
+</div>
