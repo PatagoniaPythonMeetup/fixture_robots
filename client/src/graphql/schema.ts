@@ -3,7 +3,7 @@
 
 export type AgregarGanadorMutationVariables = {
   key: string,
-  encuentro?: number | null,
+  encuentro: number,
 };
 
 export type AgregarGanadorMutation = {
@@ -72,6 +72,11 @@ export type FaseQuery = {
           encargado: string | null,
           escudo: string | null,
         } > | null,
+        estado:  {
+          iniciado: boolean | null,
+          compitiendo: boolean | null,
+          finalizado: boolean | null,
+        } | null,
         rondas:  Array< {
           numero: number | null,
           tct: boolean | null,
@@ -80,6 +85,11 @@ export type FaseQuery = {
             nombre: string | null,
             escudo: string | null,
           } > | null,
+          estado:  {
+            iniciado: boolean | null,
+            compitiendo: boolean | null,
+            finalizado: boolean | null,
+          } | null,
           encuentros:  Array< {
             robots:  Array< {
               key: string | null,
@@ -88,6 +98,11 @@ export type FaseQuery = {
             } > | null,
             numero: number | null,
             puntos: Array< number | null > | null,
+            estado:  {
+              iniciado: boolean | null,
+              compitiendo: boolean | null,
+              finalizado: boolean | null,
+            } | null,
           } > | null,
         } > | null,
         scores: Array< Array< number | null > | null > | null,
@@ -158,6 +173,10 @@ export type GenerarEliminacionMutation = {
   } | null,
 };
 
+export type GenerarFinalMutationVariables = {
+  jugadores: number,
+};
+
 export type GenerarFinalMutation = {
   generarFinal:  {
     ok: boolean | null,
@@ -176,14 +195,21 @@ export type GenerarFinalMutation = {
   } | null,
 };
 
-export type GenerarRondasMutation = {
-  generarRondas:  {
+export type GenerarRondaMutationVariables = {
+  grupo: number,
+  tct: boolean,
+  allowNone: boolean,
+  shuffle: boolean,
+};
+
+export type GenerarRondaMutation = {
+  generarRonda:  {
     ok: boolean | null,
     mensaje: string | null,
-    rondas:  Array< {
+    ronda:  {
       numero: number | null,
       tct: boolean | null,
-    } > | null,
+    } | null,
     estado:  {
       iniciado: boolean | null,
       compitiendo: boolean | null,
@@ -197,7 +223,7 @@ export type GenerarRondasMutation = {
 
 export type QuitarGanadorMutationVariables = {
   key: string,
-  encuentro?: number | null,
+  encuentro: number,
 };
 
 export type QuitarGanadorMutation = {

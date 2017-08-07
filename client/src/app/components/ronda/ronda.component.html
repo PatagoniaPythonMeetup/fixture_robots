@@ -2,6 +2,7 @@
 <table class="ui very striped basic celled small table">
   <thead>
     <tr>
+      <th class="center aligned one wide">&nbsp;</th>
       <th class="center aligned six wide">Local</th>
       <th class="center aligned one wide">&nbsp;</th>
       <th class="center aligned one wide">&nbsp;</th>
@@ -10,6 +11,14 @@
   </thead>
   <tbody>
     <tr *ngFor="let encuentro of ronda.encuentros">
+      <td *ngIf="encuentro.estado.finalizado; else noEnCursoBlock">
+        <div class="ui ribbon label green"># {{encuentro.numero}}</div>
+      </td>
+      <ng-template #noEnCursoBlock>
+      <td class="left aligned">
+        <div class="ui ribbon label red"># {{encuentro.numero}}</div>
+      </td>
+      </ng-template>
       <td class="right aligned">
         <h4 class="ui image header">
           <img/>

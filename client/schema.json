@@ -940,9 +940,13 @@
                   "name": "grupos",
                   "description": null,
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 }
@@ -970,7 +974,22 @@
             {
               "name": "generarFinal",
               "description": null,
-              "args": [],
+              "args": [
+                {
+                  "name": "jugadores",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
               "type": {
                 "kind": "OBJECT",
                 "name": "GenerarFinal",
@@ -980,7 +999,7 @@
               "deprecationReason": null
             },
             {
-              "name": "generarRondas",
+              "name": "generarRonda",
               "description": null,
               "args": [
                 {
@@ -990,6 +1009,20 @@
                     "kind": "SCALAR",
                     "name": "Boolean",
                     "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "grupo",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 },
@@ -1016,7 +1049,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "GenerarRondas",
+                "name": "GenerarRonda",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1027,22 +1060,30 @@
               "description": null,
               "args": [
                 {
-                  "name": "key",
+                  "name": "encuentro",
                   "description": null,
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "encuentro",
+                  "name": "key",
                   "description": null,
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 }
@@ -1060,22 +1101,30 @@
               "description": null,
               "args": [
                 {
-                  "name": "key",
+                  "name": "encuentro",
                   "description": null,
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "encuentro",
+                  "name": "key",
                   "description": null,
                   "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 }
@@ -1273,7 +1322,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "GenerarRondas",
+          "name": "GenerarRonda",
           "description": null,
           "fields": [
             {
@@ -1301,17 +1350,13 @@
               "deprecationReason": null
             },
             {
-              "name": "rondas",
+              "name": "ronda",
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Ronda",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Ronda",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null

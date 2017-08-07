@@ -12,6 +12,11 @@ query Fase($numero: Int!) {
           encargado
           escudo
         }
+        estado {
+          iniciado
+          compitiendo
+          finalizado
+        }
         rondas {
           numero
           tct
@@ -19,6 +24,11 @@ query Fase($numero: Int!) {
             key
             nombre
             escudo
+          }
+          estado {
+            iniciado
+            compitiendo
+            finalizado
           }
           encuentros {
             robots {
@@ -28,6 +38,11 @@ query Fase($numero: Int!) {
             }
             numero
             puntos
+            estado {
+              iniciado
+              compitiendo
+              finalizado
+            }
           }
         }
         scores

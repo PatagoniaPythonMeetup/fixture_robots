@@ -1,0 +1,23 @@
+mutation generarRonda(
+  $grupo: Int!
+  $tct: Boolean!
+  $allowNone: Boolean!
+  $shuffle: Boolean!
+) {
+  generarRonda(grupo: $grupo, tct: $tct, allowNone: $allowNone, shuffle: $shuffle) {
+    ok
+    mensaje
+    ronda {
+      numero
+      tct
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}

@@ -16,7 +16,7 @@ import {
     FaseQuery,
     FasesQuery,
     EncuentroQuery,
-    GenerarRondasMutation,
+    GenerarRondaMutation,
     AgregarGanadorMutation,
     QuitarGanadorMutation,
     FixtureQuery
@@ -32,7 +32,7 @@ const FaseQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fase.
 const FasesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fases.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
 
-const GenerarRondasMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRondas.graphql');
+const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const AgregarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarGanador.graphql');
 const QuitarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/QuitarGanador.graphql');
 const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarClasificacion.graphql');
@@ -116,16 +116,17 @@ export class FixtureService {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
 
-  generarRondas() {
+  generarRonda(grupo: Number, tct: Boolean, allowNone: Boolean, shuffle: Boolean) {
     // Llamando a la mutacion generar ronda
-    let obs$ = this.apollo.mutate<GenerarRondasMutation>({
-      mutation: GenerarRondasMutationNode
+    let obs$ = this.apollo.mutate<GenerarRondaMutation>({
+      mutation: GenerarRondaMutationNode,
+      variables: { grupo, tct, allowNone, shuffle },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.generarRondas.estado))
-    return obs$.map(({data}) => data.generarRondas.rondas);
+    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
+    return obs$.map(({data}) => data.generarRonda.ronda);
   }
 
-  agregarGanador(key: String, encuentro: Number = null) {
+  agregarGanador(key: String, encuentro: Number) {
     // Llamando a la mutacion agregar a un ganador
     let obs$ = this.apollo.mutate<AgregarGanadorMutation>({
       mutation: AgregarGanadorMutationNode,

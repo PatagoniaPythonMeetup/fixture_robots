@@ -11,7 +11,7 @@ class Fase(object):
         self.grupos = grupos or []
 
     def get_nombre(self):
-        return self.__class__.__name__
+        return self.__class__.__name__.lower()
     
     def get_grupos(self):
         return self.grupos[:]
@@ -30,8 +30,10 @@ class Fase(object):
                 rondas.append(rondas_del_grupo[-1])
         return rondas
 
-    def generar_rondas(self, tct=False, allow_none=False, shuffle=True):
-        return [grupo.generar_ronda(tct, allow_none, shuffle) for grupo in self.get_grupos()]
+    def generar_ronda(self, ngrupo, tct=False, allow_none=False, shuffle=True):
+        grupos = [grupo for grupo in self.get_grupos() if grupo.numero == ngrupo]
+        if grupos:
+            return grupos[0].generar_ronda(tct, allow_none, shuffle)
 
     def get_robots(self):
         return reduce(lambda a, grupo: a + grupo.get_robots(), self.get_grupos(), [])
@@ -53,10 +55,16 @@ class Fase(object):
         all([ronda_actual.finalizado() for ronda_actual in rondas_actuales])
 
     def ganadores(self):
-        return reduce(lambda a, grupo: a + grupo.ganadores(), self.get_grupos(), [])
+        robots = reduce(lambda a, grupo: a + grupo.ganadores(), self.get_grupos(), [])
+        scores = [(r,) + self.score(r) for r in robots]
+        scores = sorted(scores, key=lambda s: s[7] + s[8], reverse=True)
+        return [score[0] for score in scores]
 
     def perdedores(self):
-        return reduce(lambda a, grupo: a + grupo.perdedores(), self.get_grupos(), [])
+        robots = reduce(lambda a, grupo: a + grupo.perdedores(), self.get_grupos(), [])
+        scores = [(r,) + self.score(r) for r in robots]
+        scores = sorted(scores, key=lambda s: s[7] + s[8])
+        return [score[0] for socre in scores]
 
     # Serialize
     def to_dict(self):

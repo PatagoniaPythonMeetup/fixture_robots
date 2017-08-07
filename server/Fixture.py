@@ -59,11 +59,11 @@ class Fixture(object):
         self.fases.append(clas)
         return clas
 
-    def final(self):
+    def final(self, jugadores):
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
-        clas = Final(robots)
+        clas = Final(robots[:jugadores])
         self.fases.append(clas)
         return clas
 
@@ -82,10 +82,10 @@ class Fixture(object):
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def generar_rondas(self, tct=False, allow_none=False, shuffle=True):
+    def generar_ronda(self, ngrupo, tct=False, allow_none=False, shuffle=True):
         fase = self.get_fase_actual()
         if fase:
-            return fase.generar_rondas(tct, allow_none, shuffle)
+            return fase.generar_ronda(ngrupo,tct, allow_none, shuffle)
 
     def get_ronda(self, numero):
         rondas = [ronda for ronda in self.get_rondas() if ronda.numero == numero]

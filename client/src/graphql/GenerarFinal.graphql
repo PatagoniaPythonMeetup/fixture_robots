@@ -1,5 +1,7 @@
-mutation generarFinal {
-  generarFinal {
+mutation generarFinal(
+  $jugadores: Int!
+) {
+  generarFinal(jugadores: $jugadores) {
     ok
     mensaje
     fase {

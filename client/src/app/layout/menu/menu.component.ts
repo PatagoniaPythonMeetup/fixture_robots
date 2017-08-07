@@ -32,11 +32,4 @@ export class MenuComponent implements OnInit, AfterViewInit {
     console.log($(".ui", this.rootNode.nativeElement));
     $(".ui.dropdown", this.rootNode.nativeElement).dropdown();
   }
-
-  generarRonda() {
-    this.fixture.generarRondas()
-      .subscribe(ronda => {
-        this.fases$.refetch();
-      })
-  }
 }

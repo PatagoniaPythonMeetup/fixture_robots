@@ -45,9 +45,9 @@ class Ronda(object):
 
     def ganadores(self):
         if self.tct:
-            scores = [(r,) + self.score(r) for r in self.get_robots()]
-            scores = sorted(scores, key=lambda s: s[8], reverse=True)
-            return [scores[0][0]]
+            # En una ronda todos contra todos los robots solo son ranqueados,
+            # hay que ordenarlos por puntos y obtener una lista de merito
+            return self.get_robots()
         else:
             return [e.ganador() for e in self.encuentros] + self.promovidos
 
@@ -58,9 +58,9 @@ class Ronda(object):
 
     def perdedores(self):
         if self.tct:
-            scores = [(r,) + self.score(r) for r in self.get_robots()]
-            scores = sorted(scores, key=lambda s: s[8])
-            return [scores[0][0]]
+            # En una ronda todos contra todos los robots solo son ranqueados,
+            # hay que ordenarlos por puntos y obtener una lista de merito
+            return self.get_robots()
         else:
             return [e.perdedor() for e in self.encuentros]
 
@@ -95,16 +95,14 @@ class Ronda(object):
         return not self.finalizado()
 
     def finalizado(self):
-        return all([e.finalizado() for e in self.encuentros])
+        print([e.finalizado() for e in self.get_encuentros()])
+        return all([e.finalizado() for e in self.get_encuentros()])
     
     def compitiendo(self):
         return not self.finalizado()
 
-    def vuelta(self):
-        return max([e.jugadas() for e in self.encuentros])
-    
     def jugadas(self):
-        return sum([e.jugadas() for e in self.encuentros])
+        return sum([e.jugadas() for e in self.get_encuentros()])
 
     # Score de la ronda
     def score(self, robot):
