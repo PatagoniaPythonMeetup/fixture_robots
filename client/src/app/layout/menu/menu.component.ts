@@ -8,24 +8,28 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit, AfterViewInit {
-  fases$: any;
+  fases$: any
   fases: any[]
-  title = 'RoboFixture';
-  estado: Estado;
+  title = 'RoboFixture'
+  estado: Estado
 
   constructor(
     private router: Router, 
     private fixture: FixtureService, 
     private rootNode: ElementRef
   ) {
-    this.fixture.estado.subscribe(estado => this.estado = estado)
+    this.fixture.estado.subscribe(estado => this.setEstado(estado))
   }
 
   ngOnInit() {
     this.fases$ = this.fixture.fases();
     this.fases$.subscribe(({data}) => {
-      this.fases = data.fixture.fases;
+      this.fases = data.fixture.fases
     })
+  }
+
+  setEstado(estado: Estado) {
+    this.estado = estado
   }
 
   ngAfterViewInit(): void {

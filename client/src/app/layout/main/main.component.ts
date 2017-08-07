@@ -1,3 +1,4 @@
+import { Estado } from '../../../../../webclient/src/app/fixture.service';
 import { FixtureService } from '../../fixture.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,11 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  
+  estado: Estado
+
   constructor(private fixture: FixtureService) { 
+    this.fixture.estado.subscribe(estado => this.setEstado(estado))
   }
 
   ngOnInit() {
+    
+  }
+
+  setEstado(estado: Estado) {
+    this.estado = estado
   }
 
 }
