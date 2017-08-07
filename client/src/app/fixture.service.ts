@@ -120,10 +120,10 @@ export class FixtureService {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GenerarRondaMutation>({
       mutation: GenerarRondaMutationNode,
-      variables: { grupo, tct, allowNone, shuffle },
+      variables: { grupo, tct, allowNone, shuffle }
     })
     obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
-    return obs$.map(({data}) => data.generarRonda.ronda);
+    return obs$;
   }
 
   agregarGanador(key: String, encuentro: Number) {

@@ -1013,6 +1013,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "shuffle",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "grupo",
                   "description": null,
                   "type": {
@@ -1028,16 +1038,6 @@
                 },
                 {
                   "name": "allowNone",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "shuffle",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

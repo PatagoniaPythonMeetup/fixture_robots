@@ -1,4 +1,4 @@
-mutation agregarGanador(
+mutation AgregarGanador(
   $key: String!
   $encuentro: Int!
 ) {

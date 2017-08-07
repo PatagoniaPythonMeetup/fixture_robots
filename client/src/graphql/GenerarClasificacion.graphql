@@ -1,4 +1,4 @@
-mutation generarClasificacion($grupos: Int) {
+mutation GenerarClasificacion($grupos: Int) {
   generarClasificacion(grupos: $grupos) {
     ok
     mensaje

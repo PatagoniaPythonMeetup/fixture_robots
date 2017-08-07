@@ -1,4 +1,4 @@
-mutation generarRonda(
+mutation GenerarRonda(
   $grupo: Int!
   $tct: Boolean!
   $allowNone: Boolean!

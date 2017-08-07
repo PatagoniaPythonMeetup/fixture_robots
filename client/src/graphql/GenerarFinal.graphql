@@ -1,4 +1,4 @@
-mutation generarFinal(
+mutation GenerarFinal(
   $jugadores: Int!
 ) {
   generarFinal(jugadores: $jugadores) {

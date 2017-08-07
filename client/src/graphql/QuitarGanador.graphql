@@ -1,4 +1,4 @@
-mutation quitarGanador(
+mutation QuitarGanador(
   $key: String!
   $encuentro: Int!
 ) {
