@@ -47,7 +47,11 @@ class Encuentro(object):
 
     # Estados
     def iniciado(self):
-        return self.robot_2 is not None and not self.finalizado()
+        tiene_ganadas = bool(self.ganadas)
+        return self.robot_2 is not None and tiene_ganadas
+
+    def compitiendo(self):
+        return self.iniciado() and not self.finalizado()
 
     def finalizado(self):
         numero_jugadas = self.jugadas()
@@ -55,9 +59,6 @@ class Encuentro(object):
         score = self.score(self.robot_1)
         return (numero_jugadas >= self.JUGADAS and tiene_ganador) or \
             (tiene_ganador and abs(score[0] - score[1]) > (self.JUGADAS // 2))
-
-    def compitiendo(self):
-        return self.iniciado() and bool(self.ganadas) and not self.finalizado()
 
     def jugadas(self):
         return len(self.ganadas)

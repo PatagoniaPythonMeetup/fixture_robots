@@ -92,10 +92,9 @@ class Ronda(object):
 
     # Estados
     def iniciado(self):
-        return not self.finalizado()
+        return any([e.iniciado() for e in self.get_encuentros()])
 
     def finalizado(self):
-        print([e.finalizado() for e in self.get_encuentros()])
         return all([e.finalizado() for e in self.get_encuentros()])
     
     def compitiendo(self):

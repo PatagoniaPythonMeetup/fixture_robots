@@ -1,17 +1,18 @@
 import { Router } from '@angular/router';
 import { FixtureService, Estado } from '../../fixture.service';
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit, AfterViewInit {
+export class MenuComponent implements OnInit, AfterViewChecked {
   fases$: any
   fases: any[]
   title = 'RoboFixture'
   estado: Estado
+  jqueyBind: Boolean = false
 
   constructor(
     private router: Router, 
@@ -32,8 +33,10 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.estado = estado
   }
 
-  ngAfterViewInit(): void {
-    console.log($(".ui", this.rootNode.nativeElement));
-    $(".ui.dropdown", this.rootNode.nativeElement).dropdown();
+  ngAfterViewChecked(): void {
+    if (!this.jqueyBind && $(".ui.dropdown", this.rootNode.nativeElement).length) {
+      $(".ui.dropdown", this.rootNode.nativeElement).dropdown()
+      this.jqueyBind = true
+    }
   }
 }

@@ -168,16 +168,17 @@ class Fixture(object):
     def iniciado(self):
         tiene_robots = bool(self.robots)
         fase_actual = self.get_fase_actual()
-        return tiene_robots and fase_actual and fase_actual.iniciado()
+        return tiene_robots and fase_actual is not None
 
     def compitiendo(self):
         fase_actual = self.get_fase_actual()
-        return fase_actual and fase_actual.compitiendo()
+        return fase_actual is not None and (fase_actual.compitiendo() or not fase_actual.iniciado())
 
     def finalizado(self):
         tiene_robots = bool(self.robots)
+        tiene_ganador = bool(self.ganador())
         fase_actual = self.get_fase_actual()
-        return tiene_robots and fase_actual and fase_actual.finalizado()
+        return tiene_robots and tiene_ganador and fase_actual and fase_actual.finalizado()
 
     def jugadas(self):
         encuentros = self.get_encuentros()
@@ -208,7 +209,6 @@ class Fixture(object):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentro = encuentros[0]
-        print(robot)
         encuentro.agregar_ganador(robot)
         return encuentro
 
@@ -216,7 +216,6 @@ class Fixture(object):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"
         encuentro = encuentros[0]
-        print(robot)
         encuentro.quitar_ganador(robot)
         return encuentro
 
