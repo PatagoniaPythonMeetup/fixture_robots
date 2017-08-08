@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FixtureService } from "../../fixture.service";
 
 @Component({
   selector: 'grupo',
@@ -11,7 +12,7 @@ export class GrupoComponent implements OnInit {
   robots: any[];
   rondas: any[];
 
-  constructor() { }
+  constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
     this.nombre = `Grupo ${this.grupo.numero}`
@@ -21,6 +22,10 @@ export class GrupoComponent implements OnInit {
     robots.sort((a, b) => b.score[7] - a.score[7]);
     this.robots = robots;
     this.rondas = this.grupo.rondas.map(r => _.clone(r));
+  }
+
+  agregarRonda(numero) {
+    this.fixture.generarRonda(numero, false, false, false)
   }
 
 }

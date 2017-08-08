@@ -40,19 +40,16 @@ class Fase(object):
 
     # Estados
     def iniciado(self):
-        rondas_actuales = self.get_rondas_actuales()
-        return rondas_actuales and \
-        any([ronda_actual.iniciado() for ronda_actual in rondas_actuales])
+        grupos = self.get_grupos()
+        return any([grupo.iniciado() for grupo in grupos])
 
     def compitiendo(self):
-        rondas_actuales = self.get_rondas_actuales()
-        return rondas_actuales and \
-        any([ronda_actual.compitiendo() for ronda_actual in rondas_actuales])
+        grupos = self.get_grupos()
+        return any([grupo.compitiendo() for grupo in grupos])
 
     def finalizado(self):
-        rondas_actuales = self.get_rondas_actuales()
-        return rondas_actuales and \
-        all([ronda_actual.finalizado() for ronda_actual in rondas_actuales])
+        grupos = self.get_grupos()
+        return all([grupo.finalizado() for grupo in grupos])
 
     def ganadores(self):
         robots = reduce(lambda a, grupo: a + grupo.ganadores(), self.get_grupos(), [])

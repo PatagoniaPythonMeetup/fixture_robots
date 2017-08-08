@@ -72,15 +72,15 @@ class Grupo(object):
     # Estados
     def iniciado(self):
         ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.iniciado()
+        return ronda_actual is not None
 
     def compitiendo(self):
         ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.compitiendo()
+        return ronda_actual is not None and (ronda_actual.compitiendo() or not ronda_actual.iniciado())
 
     def finalizado(self):
         ronda_actual = self.get_ronda_actual()
-        return ronda_actual is not None and ronda_actual.finalizado()
+        return ronda_actual is not None and ronda_actual.finalizado() and (bool(ronda_actual.ganador()) or ronda_actual.tct)
 
     def jugadas(self):
         encuentros = self.get_encuentros()
@@ -114,7 +114,7 @@ class Grupo(object):
         if ronda_actual:
             return ronda_actual.perdedores()
         return []
-    
+
     # Score en el grupo
     def score(self, robot):
         """Retorna el *score* de un robot dentro del grupo

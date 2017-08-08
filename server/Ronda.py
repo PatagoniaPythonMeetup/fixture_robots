@@ -98,7 +98,7 @@ class Ronda(object):
         return all([e.finalizado() for e in self.get_encuentros()])
     
     def compitiendo(self):
-        return not self.finalizado()
+        return self.iniciado() and not self.finalizado()
 
     def jugadas(self):
         return sum([e.jugadas() for e in self.get_encuentros()])
