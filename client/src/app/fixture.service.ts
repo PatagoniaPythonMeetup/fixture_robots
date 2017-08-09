@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Rx';
 import { ApolloQueryObservable } from 'apollo-angular';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Apollo } from "apollo-angular";
 import { DocumentNode } from 'graphql';
 
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 import {

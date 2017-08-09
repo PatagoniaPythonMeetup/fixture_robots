@@ -1011,6 +1011,33 @@
               "deprecationReason": null
             },
             {
+              "name": "generarAdhoc",
+              "description": null,
+              "args": [
+                {
+                  "name": "robots",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "GenerarAdHoc",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "generarRonda",
               "description": null,
               "args": [
@@ -1029,7 +1056,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "tct",
+                  "name": "allowNone",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1039,7 +1066,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "allowNone",
+                  "name": "tct",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1072,20 +1099,6 @@
               "description": null,
               "args": [
                 {
-                  "name": "key",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "encuentro",
                   "description": null,
                   "type": {
@@ -1094,6 +1107,20 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "key",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   },
@@ -1113,20 +1140,6 @@
               "description": null,
               "args": [
                 {
-                  "name": "key",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "encuentro",
                   "description": null,
                   "type": {
@@ -1135,6 +1148,20 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "key",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   },
@@ -1276,6 +1303,65 @@
         {
           "kind": "OBJECT",
           "name": "GenerarFinal",
+          "description": null,
+          "fields": [
+            {
+              "name": "ok",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "mensaje",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "fase",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Fase",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "estado",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Estado",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "GenerarAdHoc",
           "description": null,
           "fields": [
             {

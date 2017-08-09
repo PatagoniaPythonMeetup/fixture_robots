@@ -40,7 +40,7 @@ export type EncuentroQuery = {
         key: string | null,
         nombre: string | null,
         escudo: string | null,
-      } > | null,
+      } | null > | null,
       puntos: Array< number | null > | null,
     } | null,
   } | null,
@@ -50,7 +50,7 @@ export type EncuentrosQuery = {
   fixture:  {
     encuentros:  Array< {
       numero: number | null,
-    } > | null,
+    } | null > | null,
   } | null,
 };
 
@@ -77,7 +77,7 @@ export type FaseQuery = {
           escuela: string | null,
           encargado: string | null,
           escudo: string | null,
-        } > | null,
+        } | null > | null,
         estado:  {
           iniciado: boolean | null,
           compitiendo: boolean | null,
@@ -90,7 +90,7 @@ export type FaseQuery = {
             key: string | null,
             nombre: string | null,
             escudo: string | null,
-          } > | null,
+          } | null > | null,
           estado:  {
             iniciado: boolean | null,
             compitiendo: boolean | null,
@@ -101,7 +101,7 @@ export type FaseQuery = {
               key: string | null,
               nombre: string | null,
               escudo: string | null,
-            } > | null,
+            } | null > | null,
             numero: number | null,
             puntos: Array< number | null > | null,
             estado:  {
@@ -109,10 +109,10 @@ export type FaseQuery = {
               compitiendo: boolean | null,
               finalizado: boolean | null,
             } | null,
-          } > | null,
-        } > | null,
+          } | null > | null,
+        } | null > | null,
         scores: Array< Array< number | null > | null > | null,
-      } > | null,
+      } | null > | null,
     } | null,
   } | null,
 };
@@ -122,7 +122,7 @@ export type FasesQuery = {
     fases:  Array< {
       numero: number | null,
       nombre: string | null,
-    } > | null,
+    } | null > | null,
     estado:  {
       iniciado: boolean | null,
       compitiendo: boolean | null,
@@ -283,7 +283,7 @@ export type RobotsQuery = {
       escuela: string | null,
       encargado: string | null,
       escudo: string | null,
-    } > | null,
+    } | null > | null,
   } | null,
 };
 
@@ -302,14 +302,14 @@ export type RondaQuery = {
           key: string | null,
           nombre: string | null,
           escudo: string | null,
-        } > | null,
+        } | null > | null,
         puntos: Array< number | null > | null,
-      } > | null,
+      } | null > | null,
       promovidos:  Array< {
         key: string | null,
         nombre: string | null,
         escudo: string | null,
-      } > | null,
+      } | null > | null,
     } | null,
   } | null,
 };
@@ -319,7 +319,7 @@ export type RondasQuery = {
     rondas:  Array< {
       numero: number | null,
       tct: boolean | null,
-    } > | null,
+    } | null > | null,
   } | null,
 };
 
@@ -348,7 +348,7 @@ export type ScoresGeneralQuery = {
       escuela: string | null,
       encargado: string | null,
       escudo: string | null,
-    } > | null,
+    } | null > | null,
     scores: Array< Array< number | null > | null > | null,
   } | null,
 };

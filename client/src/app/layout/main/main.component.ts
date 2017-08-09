@@ -1,4 +1,4 @@
-import { Estado } from '../../../../../webclient/src/app/fixture.service';
+import { Estado } from '../../fixture.service';
 import { FixtureService } from '../../fixture.service';
 import { Component, OnInit } from '@angular/core';
 
