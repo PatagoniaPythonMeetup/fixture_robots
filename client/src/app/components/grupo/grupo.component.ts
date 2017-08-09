@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ModalComponent } from '../../layout/modal/modal.component';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FixtureService } from "../../fixture.service";
 
 @Component({
@@ -11,7 +12,8 @@ export class GrupoComponent implements OnInit {
   nombre: string
   robots: any[];
   rondas: any[];
-
+  @ViewChild("rondaModal") rondaModal: ModalComponent;
+  
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
@@ -25,6 +27,7 @@ export class GrupoComponent implements OnInit {
   }
 
   agregarRonda(numero) {
+    this.rondaModal.show();
     this.fixture.generarRonda(numero, false, false, false)
   }
 

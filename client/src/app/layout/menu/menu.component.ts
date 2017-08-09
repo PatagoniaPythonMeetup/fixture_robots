@@ -2,6 +2,8 @@ import { Router } from '@angular/router';
 import { FixtureService, Estado } from '../../fixture.service';
 import { Component, OnInit, AfterViewInit, AfterViewChecked, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 
+declare var jQuery: any;
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -35,7 +37,7 @@ export class MenuComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (!this.jqueyBind && $(".ui.dropdown", this.rootNode.nativeElement).length) {
-      $(".ui.dropdown", this.rootNode.nativeElement).dropdown()
+      jQuery(".ui.dropdown", this.rootNode.nativeElement).dropdown()
       this.jqueyBind = true
     }
   }
