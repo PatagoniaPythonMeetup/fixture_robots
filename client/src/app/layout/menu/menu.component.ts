@@ -39,4 +39,10 @@ export class MenuComponent implements OnInit, AfterViewChecked {
       this.jqueyBind = true
     }
   }
+
+  // Crear fases
+  generarAdhoc() {
+    this.fixture.generarAdhoc(this.estado.seleccion)
+  }
+
 }

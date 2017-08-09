@@ -16,6 +16,10 @@ import {
     FaseQuery,
     FasesQuery,
     EncuentroQuery,
+    GenerarClasificacionMutation,
+    GenerarEliminacionMutation,
+    GenerarFinalMutation,
+    GenerarAdhocMutation,
     GenerarRondaMutation,
     AgregarGanadorMutation,
     QuitarGanadorMutation,
@@ -38,6 +42,7 @@ const QuitarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../g
 const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarClasificacion.graphql');
 const GenerarEliminacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarEliminacion.graphql');
 const GenerarFinalMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarFinal.graphql');
+const GenerarAdhocMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarAdhoc.graphql');
 
 export interface Estado {
   iniciado: Boolean
@@ -133,6 +138,15 @@ export class FixtureService {
   
   scoresGeneral(): ApolloQueryObservable<ScoresGeneralQuery> {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
+  }
+
+  generarAdhoc(robots: String[]) {
+    let obs$ = this.apollo.mutate<GenerarAdhocMutation>({
+      mutation: GenerarAdhocMutationNode,
+      variables: { robots }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarAdhoc.estado))
+    return obs$;
   }
 
   generarRonda(grupo: Number, tct: Boolean, allowNone: Boolean, shuffle: Boolean) {

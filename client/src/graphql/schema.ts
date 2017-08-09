@@ -144,6 +144,28 @@ export type FixtureQuery = {
   } | null,
 };
 
+export type GenerarAdhocMutationVariables = {
+  robots?: Array< string | null > | null,
+};
+
+export type GenerarAdhocMutation = {
+  generarAdhoc:  {
+    ok: boolean | null,
+    mensaje: string | null,
+    fase:  {
+      nombre: string | null,
+    } | null,
+    estado:  {
+      iniciado: boolean | null,
+      compitiendo: boolean | null,
+      finalizado: boolean | null,
+      jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
+    } | null,
+  } | null,
+};
+
 export type GenerarClasificacionMutationVariables = {
   grupos?: number | null,
 };

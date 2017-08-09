@@ -1,0 +1,19 @@
+mutation GenerarAdhoc(
+  $robots: [String]
+) {
+  generarAdhoc(robots: $robots) {
+    ok
+    mensaje
+    fase {
+      nombre
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}
