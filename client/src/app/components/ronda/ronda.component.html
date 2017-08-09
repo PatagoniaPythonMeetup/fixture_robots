@@ -50,7 +50,9 @@ RONDA: {{ronda.estado | json}}
 </table>
 
 <div *ngIf="ronda.promovidos && ronda.promovidos.length > 0">
-  <h1 class="ui center aligned header">Promovidos</h1>
+  <div class="ui horizontal divider">
+    <h5>Promovidos</h5>
+  </div>
   <h4 class="ui image header" *ngFor="let robot of ronda.promovidos">
     <img src="/assets/images/escudos/{{robot.escudo}}" class="ui large image">
     <div class="content">{{robot.nombre}}</div>

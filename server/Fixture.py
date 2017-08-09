@@ -8,7 +8,7 @@ from .Robot import Robot
 from .Encuentro import Encuentro
 from .Ronda import Ronda
 from .Grupo import Grupo
-from .Fase import Clasificacion, Eliminacion, Final
+from .Fase import Clasificacion, Eliminacion, Final, AdHoc
 
 class Fixture(object):
     def __init__(self, robots=None, jugadas=3, tracks=1):
@@ -64,6 +64,14 @@ class Fixture(object):
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
         clas = Final(robots[:jugadores])
+        self.fases.append(clas)
+        return clas
+
+    def adhoc(self, robots):
+        fase_actual = self.get_fase_actual()
+        assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        robots = [robot for robot in self.get_robots() if robot.key in robots]
+        clas = AdHoc(robots)
         self.fases.append(clas)
         return clas
 

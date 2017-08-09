@@ -11,6 +11,9 @@ class Fase(object):
         self.grupos = grupos or []
 
     def get_nombre(self):
+        return self.__class__.__name__
+    
+    def get_tipo(self):
         return self.__class__.__name__.lower()
     
     def get_grupos(self):
@@ -44,8 +47,7 @@ class Fase(object):
         return any([grupo.iniciado() for grupo in grupos])
 
     def compitiendo(self):
-        grupos = self.get_grupos()
-        return any([grupo.compitiendo() for grupo in grupos])
+        return self.iniciado() and not self.finalizado()
 
     def finalizado(self):
         grupos = self.get_grupos()
@@ -113,10 +115,17 @@ class Final(Fase):
     def __init__(self, robots, grupos=None):
         assert len(robots) in self.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
         if grupos is None:
-            n = len(robots) // 2
-            grupos = [Grupo(robots[:n]), Grupo(robots[n:])]
+            mitad = len(robots) // 2
+            grupos = [Grupo(robots[:mitad]), Grupo(robots[mitad:])]
         super().__init__(robots, grupos)
 
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]
         return sorted(scores, key=lambda s: s[8], reverse=True)
+
+class AdHoc(Fase):
+    """Fase con dos o mas robots para scorear"""
+    def __init__(self, robots, grupos=None):
+        if grupos is None:
+            grupos = [Grupo(robots)]
+        super().__init__(robots, grupos)

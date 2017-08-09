@@ -101,6 +101,7 @@ class Grupo(graphene.ObjectType):
         return self
 
 class Fase(graphene.ObjectType):
+    tipo = graphene.String()
     nombre = graphene.String()
     numero = graphene.Int()
     robots = graphene.List(Robot)
@@ -109,11 +110,14 @@ class Fase(graphene.ObjectType):
     scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
-    def resolve_robots(self, args, context, info):
-        return self.get_robots()
+    def resolve_tipo(self, args, context, info):
+        return self.get_tipo()
 
     def resolve_nombre(self, args, context, info):
         return self.get_nombre()
+
+    def resolve_robots(self, args, context, info):
+        return self.get_robots()
 
     def resolve_class(self, args, context, info):
         key = args['key']
@@ -248,6 +252,25 @@ class GenerarFinal(graphene.Mutation):
         except Exception as ex:
             return GenerarFinal(ok = False, mensaje = str(ex), estado = fixture)
 
+class GenerarAdHoc(graphene.Mutation):
+    class Input:
+        robots = graphene.List(graphene.String)
+        
+    ok = graphene.Boolean()
+    mensaje = graphene.String()
+    fase = graphene.Field(lambda: Fase)
+    estado = graphene.Field(Estado)
+    
+    @staticmethod
+    def mutate(root, args, context, info):
+        fixture = context["fixture"]
+        robots = args.get('robots')
+        try:
+            fase = fixture.adhoc(robots)
+            return GenerarFinal(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
+        except Exception as ex:
+            return GenerarFinal(ok = False, mensaje = str(ex), estado = fixture)
+
 class GenerarRonda(graphene.Mutation):
     class Input:
         grupo = graphene.NonNull(graphene.Int)
@@ -321,6 +344,7 @@ class Mutations(graphene.ObjectType):
     generar_clasificacion = GenerarClasificacion.Field()
     generar_eliminacion = GenerarEliminacion.Field()
     generar_final = GenerarFinal.Field()
+    generar_adhoc = GenerarAdHoc.Field()
     generar_ronda = GenerarRonda.Field()
     agregar_ganador = AgregarGanador.Field()
     quitar_ganador = QuitarGanador.Field()

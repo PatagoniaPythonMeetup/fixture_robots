@@ -1,6 +1,7 @@
 query Fase($numero: Int!) {
   fixture {
     fase(numero: $numero) {
+      tipo
       nombre
       numero
       estado {
