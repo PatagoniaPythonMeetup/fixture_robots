@@ -4,11 +4,11 @@ from .Grupo import Grupo
 class Fase(object):
     NUMERO = 1
 
-    def __init__(self, robots, grupos=None):
+    def __init__(self, robots, grupos):
         self.numero = Fase.NUMERO
         Fase.NUMERO = Fase.NUMERO + 1
         self.robots = robots
-        self.grupos = grupos or []
+        self.grupos = grupos
 
     def get_nombre(self):
         return self.__class__.__name__
@@ -33,10 +33,10 @@ class Fase(object):
                 rondas.append(rondas_del_grupo[-1])
         return rondas
 
-    def generar_ronda(self, ngrupo, tct=False, allow_none=False, shuffle=True):
+    def generar_ronda(self, ngrupo, tct, esc, allow_none, shuffle):
         grupos = [grupo for grupo in self.get_grupos() if grupo.numero == ngrupo]
         if grupos:
-            return grupos[0].generar_ronda(tct, allow_none, shuffle)
+            return grupos[0].generar_ronda(tct, esc, allow_none, shuffle)
 
     def get_robots(self):
         return reduce(lambda a, grupo: a + grupo.get_robots(), self.get_grupos(), [])
@@ -91,17 +91,11 @@ class Fase(object):
 
 class Clasificacion(Fase):
     """Fase en la que los robots son separados en N grupos de donde se tomaran solo a los mas sobresalientes"""
-    def __init__(self, robots, grupos=None):
-        if isinstance(grupos, int):
-            grupos = Grupo.generar(robots, grupos)
-        super().__init__(robots, grupos)
+    pass
 
 class Eliminacion(Fase):
     """Fase con un solo grupo donde todos compiten contra todos"""
-    def __init__(self, robots, grupos=None):
-        if grupos is None:
-            grupos = [Grupo(robots)]
-        super().__init__(robots, grupos)
+    pass
 
 class Final(Fase):
     """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final"""
@@ -112,20 +106,10 @@ class Final(Fase):
         2: "Final"
     }
 
-    def __init__(self, robots, grupos=None):
-        assert len(robots) in self.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
-        if grupos is None:
-            mitad = len(robots) // 2
-            grupos = [Grupo(robots[:mitad]), Grupo(robots[mitad:])]
-        super().__init__(robots, grupos)
-
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]
         return sorted(scores, key=lambda s: s[8], reverse=True)
 
 class AdHoc(Fase):
     """Fase con dos o mas robots para scorear"""
-    def __init__(self, robots, grupos=None):
-        if grupos is None:
-            grupos = [Grupo(robots)]
-        super().__init__(robots, grupos)
+    pass

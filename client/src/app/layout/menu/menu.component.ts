@@ -15,6 +15,8 @@ export class MenuComponent implements OnInit, AfterViewChecked {
   title = 'RoboFixture'
   estado: Estado
   jqueyBind: Boolean = false
+  @ViewChild("inputGrupos") inputGrupos: ElementRef;
+  @ViewChild("checkboxEsc") checkboxEsc: ElementRef;
 
   constructor(
     private router: Router, 
@@ -43,6 +45,20 @@ export class MenuComponent implements OnInit, AfterViewChecked {
   }
 
   // Crear fases
+  generarClasificacion() {
+    let grupos = jQuery(this.inputGrupos.nativeElement).val();
+    let esc = jQuery(this.checkboxEsc.nativeElement).prop( "checked" );
+    this.fixture.generarClasificacion(Number(grupos), esc)
+  }
+
+  generarEliminacion() {
+    this.fixture.generarAdhoc(this.estado.seleccion)
+  }
+
+  generarFinal() {
+    this.fixture.generarAdhoc(this.estado.seleccion)
+  }
+
   generarAdhoc() {
     this.fixture.generarAdhoc(this.estado.seleccion)
   }

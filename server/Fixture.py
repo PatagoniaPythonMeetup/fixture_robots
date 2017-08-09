@@ -42,11 +42,12 @@ class Fixture(object):
         ronda_actual = self.get_ronda_actual()
         return self.robots if ronda_actual is None else ronda_actual.get_robots()
 
-    def clasificacion(self, grupos):
+    def clasificacion(self, grupos, esc):
         assert grupos is not None, "Debe indicar el numero de grupos para la fase de clasificacion"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
+        grupos = Grupo.generar(robots, grupos, esc)
         clas = Clasificacion(robots, grupos)
         self.fases.append(clas)
         return clas
@@ -55,15 +56,19 @@ class Fixture(object):
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
-        clas = Eliminacion(robots)
+        grupos = [Grupo(robots)]
+        clas = Eliminacion(robots, grupos)
         self.fases.append(clas)
         return clas
 
     def final(self, jugadores):
+        assert jugadores in Final.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
-        clas = Final(robots[:jugadores])
+        mitad = len(robots) // 2
+        grupos = [Grupo(robots[:mitad]), Grupo(robots[mitad:])]
+        clas = Final(robots, grupos)
         self.fases.append(clas)
         return clas
 
@@ -71,7 +76,8 @@ class Fixture(object):
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = [robot for robot in self.get_robots() if robot.key in robots]
-        clas = AdHoc(robots)
+        grupos = [Grupo(robots)]
+        clas = AdHoc(robots, grupos)
         self.fases.append(clas)
         return clas
 
@@ -90,10 +96,10 @@ class Fixture(object):
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
     # Rondas
-    def generar_ronda(self, ngrupo, tct=False, allow_none=False, shuffle=True):
+    def generar_ronda(self, ngrupo, tct, esc, allow_none, shuffle):
         fase = self.get_fase_actual()
         if fase:
-            return fase.generar_ronda(ngrupo,tct, allow_none, shuffle)
+            return fase.generar_ronda(ngrupo, tct, esc, allow_none, shuffle)
 
     def get_ronda(self, numero):
         rondas = [ronda for ronda in self.get_rondas() if ronda.numero == numero]

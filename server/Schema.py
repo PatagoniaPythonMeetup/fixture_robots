@@ -202,6 +202,7 @@ class Query(graphene.ObjectType):
 class GenerarClasificacion(graphene.Mutation):
     class Input:
         grupos = graphene.NonNull(graphene.Int)
+        esc = graphene.Boolean()
         
     ok = graphene.Boolean()
     mensaje = graphene.String()
@@ -212,8 +213,9 @@ class GenerarClasificacion(graphene.Mutation):
     def mutate(root, args, context, info):
         fixture = context["fixture"]
         grupos = args.get('grupos')
+        esc = args.get('esc') or True
         try:
-            fase = fixture.clasificacion(grupos)
+            fase = fixture.clasificacion(grupos, esc)
             return GenerarClasificacion(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
         except Exception as ex:
             return GenerarClasificacion(ok = False, mensaje = str(ex), estado = fixture)
@@ -275,6 +277,7 @@ class GenerarRonda(graphene.Mutation):
     class Input:
         grupo = graphene.NonNull(graphene.Int)
         tct = graphene.Boolean()
+        esc = graphene.Boolean()
         allow_none = graphene.Boolean()
         shuffle = graphene.Boolean()
     
@@ -288,10 +291,11 @@ class GenerarRonda(graphene.Mutation):
         fixture = context["fixture"]
         ngrupo = args.get('grupo')
         tct = args.get('tct') or False
+        esc = args.get('esc') or True
         allow_none = args.get('allow_none') or False
         shuffle = args.get('shuffle') or True
         try:
-            ronda = fixture.generar_ronda(ngrupo, tct, allow_none, shuffle)
+            ronda = fixture.generar_ronda(ngrupo, tct, esc, allow_none, shuffle)
             return GenerarRonda(ok = True, mensaje = "Ronda creada", ronda = ronda, estado = fixture)
         except Exception as ex:
             return GenerarRonda(ok = False, mensaje = str(ex), estado = fixture)

@@ -2,6 +2,8 @@ import { ModalComponent } from '../../layout/modal/modal.component';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FixtureService } from "../../fixture.service";
 
+declare var jQuery: any;
+
 @Component({
   selector: 'grupo',
   templateUrl: './grupo.component.html',
@@ -13,7 +15,11 @@ export class GrupoComponent implements OnInit {
   robots: any[];
   rondas: any[];
   @ViewChild("rondaModal") rondaModal: ModalComponent;
-  
+  @ViewChild("checkboxTct") checkboxTct: ElementRef;
+  @ViewChild("checkboxEsc") checkboxEsc: ElementRef;
+  @ViewChild("checkboxAllowNone") checkboxAllowNone: ElementRef;
+  @ViewChild("checkboxShuffle") checkboxShuffle: ElementRef;
+
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
@@ -26,9 +32,11 @@ export class GrupoComponent implements OnInit {
     this.rondas = this.grupo.rondas.map(r => _.clone(r));
   }
 
-  agregarRonda(numero) {
-    this.rondaModal.show();
-    this.fixture.generarRonda(numero, false, false, false)
+  agregarRonda() {
+    let tct = jQuery(this.checkboxTct.nativeElement).prop( "checked" );
+    let esc = jQuery(this.checkboxEsc.nativeElement).prop( "checked" );
+    let allowNone = jQuery(this.checkboxAllowNone.nativeElement).prop( "checked" );
+    let shuffle = jQuery(this.checkboxShuffle.nativeElement).prop( "checked" );
+    this.fixture.generarRonda(this.grupo.numero, tct, esc, allowNone, shuffle)
   }
-
 }

@@ -16,7 +16,7 @@ class Grupo(object):
         return len(self.robots)
     
     @staticmethod
-    def generar(robots, cantidad, esc=True):
+    def generar(robots, cantidad, esc):
         if esc:
             robots = sorted(robots, key=lambda e: e.escuela)
         else:
@@ -30,12 +30,12 @@ class Grupo(object):
         return [Grupo(rs) for rs in grupos]
 
     # Rondas
-    def generar_ronda(self, tct=False, allow_none=False, shuffle=True):
+    def generar_ronda(self, tct, esc, allow_none, shuffle):
         ronda_actual = self.get_ronda_actual()
         assert ronda_actual is None or ronda_actual.finalizado(), "No se finalizo la ultima ronda"
         robots = self.robots if ronda_actual is None else ronda_actual.ganadores()
         assert robots, "No hay robots para participar en una nueva ronda"
-        ronda = Ronda.generar(robots, tct, allow_none, shuffle=True)
+        ronda = Ronda.generar(robots, tct, esc, allow_none, shuffle)
         self.rondas.append(ronda)
         return ronda
 

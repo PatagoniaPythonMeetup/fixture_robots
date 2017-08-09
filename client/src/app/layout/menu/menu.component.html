@@ -10,12 +10,27 @@
       <div class="ui selection dropdown primary">
         Nueva Fase <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item">Clasificación</div>
-          <div class="item">Eliminación</div>
-          <div class="item">Final</div>
+          <div (click)="clasificacionModal.show()" class="item">Clasificación</div>
+          <div (click)="eliminacionModal.show()" class="item">Eliminación</div>
+          <div (click)="finalModal.show()" class="item">Final</div>
           <div (click)="generarAdhoc()" class="item">Ad Hoc</div>
         </div>
       </div>
     </a>
   </div>
 </div>
+
+<modal title="Clasificación" class="mini" #clasificacionModal>
+    <modal-content>
+        <div class="ui input corner labeled">
+          <input placeholder="Grupos" type="number" #inputGrupos>
+        </div>
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" checked="checked" #checkboxEsc>
+          <label>Priorizar grupos con distintas escuelas</label>
+        </div>
+    </modal-content>
+    <modal-actions>
+      <div (click)="generarClasificacion()" class="ui positive button">Crear</div>
+    </modal-actions>
+</modal>

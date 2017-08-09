@@ -961,6 +961,16 @@
                     }
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "esc",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -1056,7 +1066,17 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "shuffle",
+                  "name": "tct",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "esc",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1076,7 +1096,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "tct",
+                  "name": "shuffle",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1099,20 +1119,6 @@
               "description": null,
               "args": [
                 {
-                  "name": "encuentro",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "key",
                   "description": null,
                   "type": {
@@ -1121,6 +1127,20 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "encuentro",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
                       "ofType": null
                     }
                   },
@@ -1140,20 +1160,6 @@
               "description": null,
               "args": [
                 {
-                  "name": "encuentro",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "key",
                   "description": null,
                   "type": {
@@ -1162,6 +1168,20 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "encuentro",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
                       "ofType": null
                     }
                   },

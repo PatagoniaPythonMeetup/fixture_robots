@@ -1,5 +1,8 @@
-mutation GenerarClasificacion($grupos: Int) {
-  generarClasificacion(grupos: $grupos) {
+mutation GenerarClasificacion(
+  $grupos: Int!
+  $esc: Boolean!
+) {
+  generarClasificacion(grupos: $grupos, esc: $esc) {
     ok
     mensaje
     fase {

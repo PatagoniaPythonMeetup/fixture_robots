@@ -140,6 +140,32 @@ export class FixtureService {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
 
+  generarClasificacion(grupos: Number, esc: Boolean) {
+    let obs$ = this.apollo.mutate<GenerarClasificacionMutation>({
+      mutation: GenerarClasificacionMutationNode,
+      variables: { grupos, esc }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarClasificacion.estado))
+    return obs$;
+  }
+
+  generarEliminacion() {
+    let obs$ = this.apollo.mutate<GenerarEliminacionMutation>({
+      mutation: GenerarEliminacionMutationNode
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarEliminacion.estado))
+    return obs$;
+  }
+
+  generarFinal(jugadores: Number) {
+    let obs$ = this.apollo.mutate<GenerarFinalMutation>({
+      mutation: GenerarFinalMutationNode,
+      variables: { jugadores }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarFinal.estado))
+    return obs$;
+  }
+
   generarAdhoc(robots: String[]) {
     let obs$ = this.apollo.mutate<GenerarAdhocMutation>({
       mutation: GenerarAdhocMutationNode,
@@ -149,11 +175,11 @@ export class FixtureService {
     return obs$;
   }
 
-  generarRonda(grupo: Number, tct: Boolean, allowNone: Boolean, shuffle: Boolean) {
+  generarRonda(grupo: Number, tct: Boolean, esc: Boolean, allowNone: Boolean, shuffle: Boolean) {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GenerarRondaMutation>({
       mutation: GenerarRondaMutationNode,
-      variables: { grupo, tct, allowNone, shuffle }
+      variables: { grupo, tct, esc, allowNone, shuffle }
     })
     obs$.subscribe(({data}) => this.setEstado(data.generarRonda.estado))
     return obs$;
