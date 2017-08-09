@@ -46,23 +46,42 @@ export interface Estado {
   jugadas: Number
   encuentros: Array<Number>
   ronda: Number
+  seleccion: Array<any>
 }
 
 let ESTADO_INICIAL: Estado = {
-  iniciado: false, compitiendo: false, finalizado: false, jugadas: 0, encuentros: [], ronda: 0
+  iniciado: false,
+  compitiendo: false,
+  finalizado: false,
+  jugadas: 0,
+  encuentros: [],
+  ronda: 0,
+  seleccion: []
 }
 
 @Injectable()
 export class FixtureService {
   estado: EventEmitter<Estado> = new EventEmitter<Estado>()
+  seleccion: Array<any> = []
 
   constructor(private apollo: Apollo) {
   }
   
+  setRobotsSeleccionados(robots) {
+    this.seleccion = robots;
+    this.getEstado();
+  }
+
   getEstado() {
     let obs$ = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-    obs$.subscribe(({data}) => this.estado.emit(data.fixture.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.fixture.estado))
     return obs$
+  }
+
+  setEstado(estado) {
+    estado = _.clone(estado);
+    estado.seleccion = this.seleccion.slice();
+    this.estado.emit(estado);
   }
 
   robot(key: String): ApolloQueryObservable<RobotQuery> {
@@ -122,7 +141,7 @@ export class FixtureService {
       mutation: GenerarRondaMutationNode,
       variables: { grupo, tct, allowNone, shuffle }
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.generarRonda.estado))
     return obs$;
   }
 
@@ -132,7 +151,7 @@ export class FixtureService {
       mutation: AgregarGanadorMutationNode,
       variables: { key, encuentro },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.agregarGanador.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.agregarGanador.estado))
     return obs$;
   }
 
@@ -142,7 +161,7 @@ export class FixtureService {
       mutation: QuitarGanadorMutationNode,
       variables: { key, encuentro },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.quitarGanador.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.quitarGanador.estado))
     return obs$;
   }
 }
