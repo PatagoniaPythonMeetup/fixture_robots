@@ -1,7 +1,6 @@
 <div class="ui horizontal divider">
   <h3>{{nombre}}</h3>
 </div>
-RONDA: {{ronda.estado | json}}
 <table class="ui very striped basic celled small table">
   <thead>
     <tr>
@@ -14,10 +13,10 @@ RONDA: {{ronda.estado | json}}
   </thead>
   <tbody>
     <tr *ngFor="let encuentro of ronda.encuentros">
-      <td *ngIf="encuentro.estado.finalizado; else noEnCursoBlock">
+      <td *ngIf="encuentro.estado.finalizado; else noFinalizadoBlock">
         <div class="ui ribbon label green"># {{encuentro.numero}}</div>
       </td>
-      <ng-template #noEnCursoBlock>
+      <ng-template #noFinalizadoBlock>
       <td class="left aligned">
         <div class="ui ribbon label red"># {{encuentro.numero}}</div>
       </td>
@@ -35,15 +34,23 @@ RONDA: {{ronda.estado | json}}
         <h1>{{encuentro.puntos[0]}}</h1>
       </td>
       <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] < encuentro.puntos[1], 'negative': encuentro.puntos[0] > encuentro.puntos[1]}">
-        <h1>{{encuentro.puntos[1]}}</h1>
+        <h1 *ngIf="encuentro.robots[1]">{{encuentro.puntos[1]}}</h1>
       </td>
       <td class="left aligned">
-        <h4 class="ui image header">
+        <h4 *ngIf="encuentro.robots[1]; else noRobotBlock" class="ui image header">
           <img class="ui large image" 
             (click)="resultado($event, encuentro.numero, encuentro.robots[1].key)"
             src="/assets/images/escudos/{{encuentro.robots[1].escudo}}">
           <div class="content">{{encuentro.robots[1].nombre}}</div>
         </h4>
+        <ng-template #noRobotBlock>
+          <button 
+            class="ui primary button" 
+            (click)="agregarAdversario($event, encuentro.numero)"
+            data-tooltip="Repechaje con un perdedor aleatorio de la ronda en curso" 
+            data-position="bottom center">Agregar Adversario
+          </button>
+        </ng-template>
       </td>
     </tr>
   </tbody>

@@ -19,7 +19,7 @@ export class PageFaseComponent {
     private router: Router,
     private fixture: FixtureService
   ) { 
-    this.fixture.estado.subscribe(estado => this.setEstado(estado))
+    this.fixture.estado$.subscribe(estado => this.setEstado(estado))
     this.route.params
       .switchMap(params => (this.faseQuery$ = this.fixture.fase(+params['numero'])))
       .subscribe(({data}) => {

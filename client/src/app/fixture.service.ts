@@ -16,9 +16,14 @@ import {
     FaseQuery,
     FasesQuery,
     EncuentroQuery,
+    GenerarClasificacionMutation,
+    GenerarEliminacionMutation,
+    GenerarFinalMutation,
+    GenerarAdhocMutation,
     GenerarRondaMutation,
     AgregarGanadorMutation,
     QuitarGanadorMutation,
+    AgregarAdversarioMutation,
     FixtureQuery
 } from '../graphql/schema';
 const FixtureQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fixture.graphql');
@@ -34,10 +39,12 @@ const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/
 
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const AgregarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarGanador.graphql');
+const AgregarAdversarioMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarAdversario.graphql');
 const QuitarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/QuitarGanador.graphql');
 const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarClasificacion.graphql');
 const GenerarEliminacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarEliminacion.graphql');
 const GenerarFinalMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarFinal.graphql');
+const GenerarAdhocMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarAdhoc.graphql');
 
 export interface Estado {
   iniciado: Boolean
@@ -46,23 +53,35 @@ export interface Estado {
   jugadas: Number
   encuentros: Array<Number>
   ronda: Number
+  seleccion: Array<any>
 }
 
 let ESTADO_INICIAL: Estado = {
-  iniciado: false, compitiendo: false, finalizado: false, jugadas: 0, encuentros: [], ronda: 0
+  iniciado: false,
+  compitiendo: false,
+  finalizado: false,
+  jugadas: 0,
+  encuentros: [],
+  ronda: 0,
+  seleccion: []
 }
 
 @Injectable()
 export class FixtureService {
-  estado: EventEmitter<Estado> = new EventEmitter<Estado>()
+  estado: Estado = ESTADO_INICIAL;
+  estado$: EventEmitter<Estado> = new EventEmitter<Estado>()
 
   constructor(private apollo: Apollo) {
+    let estado = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+    estado.subscribe(({data}) => this.setEstado(data.fixture.estado))
   }
   
-  getEstado() {
-    let obs$ = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-    obs$.subscribe(({data}) => this.estado.emit(data.fixture.estado))
-    return obs$
+  setRobotsSeleccionados(robots) {
+    this.estado$.emit(Object.assign(this.estado, {seleccion: robots}));
+  }
+
+  setEstado(estado) {
+    this.estado$.emit(Object.assign(this.estado, estado));
   }
 
   robot(key: String): ApolloQueryObservable<RobotQuery> {
@@ -116,13 +135,48 @@ export class FixtureService {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
 
-  generarRonda(grupo: Number, tct: Boolean, allowNone: Boolean, shuffle: Boolean) {
+  generarClasificacion(grupos: Number, esc: Boolean) {
+    let obs$ = this.apollo.mutate<GenerarClasificacionMutation>({
+      mutation: GenerarClasificacionMutationNode,
+      variables: { grupos, esc }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarClasificacion.estado))
+    return obs$;
+  }
+
+  generarEliminacion() {
+    let obs$ = this.apollo.mutate<GenerarEliminacionMutation>({
+      mutation: GenerarEliminacionMutationNode
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarEliminacion.estado))
+    return obs$;
+  }
+
+  generarFinal(jugadores: Number) {
+    let obs$ = this.apollo.mutate<GenerarFinalMutation>({
+      mutation: GenerarFinalMutationNode,
+      variables: { jugadores }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarFinal.estado))
+    return obs$;
+  }
+
+  generarAdhoc(robots: String[]) {
+    let obs$ = this.apollo.mutate<GenerarAdhocMutation>({
+      mutation: GenerarAdhocMutationNode,
+      variables: { robots }
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.generarAdhoc.estado))
+    return obs$;
+  }
+
+  generarRonda(grupo: Number, tct: Boolean, esc: Boolean, allowNone: Boolean, shuffle: Boolean) {
     // Llamando a la mutacion generar ronda
     let obs$ = this.apollo.mutate<GenerarRondaMutation>({
       mutation: GenerarRondaMutationNode,
-      variables: { grupo, tct, allowNone, shuffle }
+      variables: { grupo, tct, esc, allowNone, shuffle }
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.generarRonda.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.generarRonda.estado))
     return obs$;
   }
 
@@ -132,7 +186,7 @@ export class FixtureService {
       mutation: AgregarGanadorMutationNode,
       variables: { key, encuentro },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.agregarGanador.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.agregarGanador.estado))
     return obs$;
   }
 
@@ -142,7 +196,17 @@ export class FixtureService {
       mutation: QuitarGanadorMutationNode,
       variables: { key, encuentro },
     })
-    obs$.subscribe(({data}) => this.estado.emit(data.quitarGanador.estado))
+    obs$.subscribe(({data}) => this.setEstado(data.quitarGanador.estado))
+    return obs$;
+  }
+
+  agregarAdversario(encuentro: Number) {
+    // Llamando a la mutacion agregar a un ganador
+    let obs$ = this.apollo.mutate<AgregarAdversarioMutation>({
+      mutation: AgregarAdversarioMutationNode,
+      variables: { encuentro },
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.agregarAdversario.estado))
     return obs$;
   }
 }

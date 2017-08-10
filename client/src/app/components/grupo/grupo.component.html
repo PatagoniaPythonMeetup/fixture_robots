@@ -1,14 +1,37 @@
 <div class="ui horizontal divider">
   <h1>{{nombre}}</h1>
 </div>
-GRUPO: {{grupo.estado | json}}
 <div class="ui segment">
   <robots-score [robots]=robots></robots-score>
   <ronda *ngFor="let ronda of rondas" [ronda]=ronda></ronda>
   <br>
   <button 
     *ngIf="!grupo.estado.finalizado && !grupo.estado.compitiendo"
-    (click)="agregarRonda(grupo.numero)"
+    (click)="rondaModal.show()"
     class="positive ui button" ><i class="plus icon"></i>Ronda
   </button>
 </div>
+
+<modal title="Nueva Ronda" class="mini" #rondaModal>
+    <modal-content>
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" #checkboxTct>
+          <label>Todos contra todos</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" checked="checked" #checkboxEsc>
+          <label>Priorizar encuentros entre distintas escuelas</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" #checkboxAllowNone>
+          <label>Permitir encuentros sin resolver</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="checkbox" name="example" checked="checked" #checkboxShuffle>
+          <label>Mezclar robots antes de armar encuentros</label>
+        </div>
+    </modal-content>
+    <modal-actions>
+      <div (click)="agregarRonda()" class="ui positive button">Crear</div>
+    </modal-actions>
+</modal>

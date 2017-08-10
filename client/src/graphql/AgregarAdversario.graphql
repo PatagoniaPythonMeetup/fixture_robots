@@ -1,0 +1,23 @@
+mutation AgregarAdversario(
+  $encuentro: Int!
+) {
+  agregarAdversario(encuentro: $encuentro) {
+    ok
+    mensaje
+    encuentro {
+      numero
+      puntos
+      estado {
+        finalizado
+      }
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}

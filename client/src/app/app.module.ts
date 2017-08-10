@@ -15,6 +15,7 @@ import { GrupoComponent } from './components/grupo/grupo.component';
 import { RobotsScoreComponent } from './components/robots-score/robots-score.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 import { RondaComponent } from './components/ronda/ronda.component';
+import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { RondaComponent } from './components/ronda/ronda.component';
     GrupoComponent,
     RobotsScoreComponent,
     ClasificacionComponent,
-    RondaComponent
+    RondaComponent,
+    ModalComponent,
+    ModalTagsDirective
   ],
   imports: [
     BrowserModule,

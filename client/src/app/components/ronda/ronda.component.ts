@@ -22,7 +22,14 @@ export class RondaComponent implements OnInit {
     }
   }
 
+  agregarAdversario(evento, encuentro){
+    this.fixture.agregarAdversario(encuentro)
+  }
+
   ngOnInit() {
-    this.nombre = `Ronda ${this.ronda.numero}`
+    if (this.ronda.tct)
+      this.nombre = `Todos vs Todos`
+    else
+      this.nombre = `Ronda ${this.ronda.numero}`
   }
 }

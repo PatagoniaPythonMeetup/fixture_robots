@@ -17,14 +17,16 @@ class Ronda(object):
 
     #Generar nueva ronda
     @staticmethod
-    def generar(robots, tct=False, allow_none=False, shuffle=True):
+    def generar(robots, tct=False, esc=True, allow_none=False, shuffle=True):
         tuplas = [list(combine) for combine in combinations(robots, 2)]
         ronda_tuplas = []
         if shuffle:
             random.shuffle(tuplas)
-        distinta_escuela = [e for e in tuplas if e[0].escuela != e[1].escuela]
-        misma_escuela = [e for e in tuplas if e[0].escuela == e[1].escuela]
-        for _tuplas in [distinta_escuela, misma_escuela]:
+        if esc:
+            distinta_escuela = [e for e in tuplas if e[0].escuela != e[1].escuela]
+            misma_escuela = [e for e in tuplas if e[0].escuela == e[1].escuela]
+            tuplas = [distinta_escuela, misma_escuela]
+        for _tuplas in tuplas:
             while _tuplas:
                 tupla = _tuplas.pop()
                 if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda_tuplas]):

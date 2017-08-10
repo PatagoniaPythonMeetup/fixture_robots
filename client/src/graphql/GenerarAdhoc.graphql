@@ -1,8 +1,7 @@
-mutation GenerarClasificacion(
-  $grupos: Int!
-  $esc: Boolean!
+mutation GenerarAdhoc(
+  $robots: [String]
 ) {
-  generarClasificacion(grupos: $grupos, esc: $esc) {
+  generarAdhoc(robots: $robots) {
     ok
     mensaje
     fase {

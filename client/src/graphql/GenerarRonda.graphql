@@ -1,10 +1,11 @@
 mutation GenerarRonda(
   $grupo: Int!
   $tct: Boolean!
+  $esc: Boolean!
   $allowNone: Boolean!
   $shuffle: Boolean!
 ) {
-  generarRonda(grupo: $grupo, tct: $tct, allowNone: $allowNone, shuffle: $shuffle) {
+  generarRonda(grupo: $grupo, tct: $tct, esc: $esc, allowNone: $allowNone, shuffle: $shuffle) {
     ok
     mensaje
     ronda {
