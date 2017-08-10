@@ -66,6 +66,7 @@ class Fixture(object):
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
+        robots = robots[:jugadores]
         mitad = len(robots) // 2
         grupos = [Grupo(robots[:mitad]), Grupo(robots[mitad:])]
         clas = Final(robots, grupos)

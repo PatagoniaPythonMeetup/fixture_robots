@@ -6,12 +6,12 @@
     </a>
     <a class="item" routerLink="/general" routerLinkActive="active">General</a>
     <a *ngFor="let fase of fases" class="item" [routerLink]="['/fase', fase.numero]" routerLinkActive="active">{{fase.nombre}}</a>
-    <a class="item" *ngIf="estado && !estado.finalizado && !estado.compitiendo">
+    <a class="item" [style.display]="(!estado || estado.finalizado || estado.compitiendo) ? 'none' : 'block'">
       <div class="ui selection dropdown primary">
         Nueva Fase <i class="dropdown icon"></i>
         <div class="menu">
           <div (click)="clasificacionModal.show()" class="item">Clasificación</div>
-          <div (click)="eliminacionModal.show()" class="item">Eliminación</div>
+          <div (click)="generarEliminacion()" class="item">Eliminación</div>
           <div (click)="finalModal.show()" class="item">Final</div>
           <div (click)="generarAdhoc()" class="item">Ad Hoc</div>
         </div>
@@ -32,5 +32,16 @@
     </modal-content>
     <modal-actions>
       <div (click)="generarClasificacion()" class="ui positive button">Crear</div>
+    </modal-actions>
+</modal>
+
+<modal title="Final" class="mini" #finalModal>
+    <modal-content>
+        <div class="ui input corner labeled">
+          <input placeholder="Jugadores" type="number" #inputJugadores>
+        </div>
+    </modal-content>
+    <modal-actions>
+      <div (click)="generarFinal()" class="ui positive button">Crear</div>
     </modal-actions>
 </modal>

@@ -66,27 +66,20 @@ let ESTADO_INICIAL: Estado = {
 
 @Injectable()
 export class FixtureService {
-  estado: EventEmitter<Estado> = new EventEmitter<Estado>()
-  seleccion: Array<any> = []
+  estado: Estado = ESTADO_INICIAL;
+  estado$: EventEmitter<Estado> = new EventEmitter<Estado>()
 
   constructor(private apollo: Apollo) {
+    let estado = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
+    estado.subscribe(({data}) => this.setEstado(data.fixture.estado))
   }
   
   setRobotsSeleccionados(robots) {
-    this.seleccion = robots;
-    this.getEstado();
-  }
-
-  getEstado() {
-    let obs$ = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-    obs$.subscribe(({data}) => this.setEstado(data.fixture.estado))
-    return obs$
+    this.estado$.emit(Object.assign(this.estado, {seleccion: robots}));
   }
 
   setEstado(estado) {
-    estado = _.clone(estado);
-    estado.seleccion = this.seleccion.slice();
-    this.estado.emit(estado);
+    this.estado$.emit(Object.assign(this.estado, estado));
   }
 
   robot(key: String): ApolloQueryObservable<RobotQuery> {

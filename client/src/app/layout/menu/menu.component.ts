@@ -9,7 +9,7 @@ declare var jQuery: any;
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit, AfterViewChecked {
+export class MenuComponent implements OnInit {
   fases$: any
   fases: any[]
   title = 'RoboFixture'
@@ -17,13 +17,14 @@ export class MenuComponent implements OnInit, AfterViewChecked {
   jqueyBind: Boolean = false
   @ViewChild("inputGrupos") inputGrupos: ElementRef;
   @ViewChild("checkboxEsc") checkboxEsc: ElementRef;
+  @ViewChild("inputJugadores") inputJugadores: ElementRef;
 
   constructor(
     private router: Router, 
     private fixture: FixtureService, 
     private rootNode: ElementRef
   ) {
-    this.fixture.estado.subscribe(estado => this.setEstado(estado))
+    this.fixture.estado$.subscribe(estado => this.setEstado(estado))
   }
 
   ngOnInit() {
@@ -35,13 +36,7 @@ export class MenuComponent implements OnInit, AfterViewChecked {
 
   setEstado(estado: Estado) {
     this.estado = estado
-  }
-
-  ngAfterViewChecked(): void {
-    if (!this.jqueyBind && $(".ui.dropdown", this.rootNode.nativeElement).length) {
-      jQuery(".ui.dropdown", this.rootNode.nativeElement).dropdown()
-      this.jqueyBind = true
-    }
+    jQuery(".ui.dropdown", this.rootNode.nativeElement).dropdown()
   }
 
   // Crear fases
@@ -52,15 +47,18 @@ export class MenuComponent implements OnInit, AfterViewChecked {
   }
 
   generarEliminacion() {
-    this.fixture.generarAdhoc(this.estado.seleccion)
+    this.fixture.generarEliminacion()
   }
 
   generarFinal() {
-    this.fixture.generarAdhoc(this.estado.seleccion)
+    let jugadores = jQuery(this.inputJugadores.nativeElement).val();
+    this.fixture.generarFinal(Number(jugadores))
   }
 
   generarAdhoc() {
-    this.fixture.generarAdhoc(this.estado.seleccion)
+    let seleccion = [...this.estado.seleccion]
+    if (seleccion.length > 2)
+      this.fixture.generarAdhoc(this.estado.seleccion)
   }
 
 }

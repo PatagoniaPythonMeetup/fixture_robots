@@ -23,11 +23,10 @@ export class RobotsScoreComponent implements OnInit {
   estado: Estado
 
   constructor(private fixture: FixtureService) { 
-    this.fixture.estado.subscribe(estado => this.setEstado(estado))
+    this.fixture.estado$.subscribe(estado => this.setEstado(estado))
   }
 
   ngOnInit() {
-    this.fixture.getEstado()
   }
 
   setEstado(estado: Estado) {
