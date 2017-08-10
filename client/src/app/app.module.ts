@@ -12,10 +12,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { PageGeneralComponent } from './page-general/page-general.component';
 import { PageFaseComponent } from './page-fase/page-fase.component';
 import { GrupoComponent } from './components/grupo/grupo.component';
-import { RobotsScoreComponent } from './components/robots-score/robots-score.component';
-import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 import { RondaComponent } from './components/ronda/ronda.component';
 import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.component';
+import { FaseComponent } from './components/fase/fase.component';
+import { ScoreComponent } from './components/score/score.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +27,11 @@ import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.compone
     PageGeneralComponent,
     PageFaseComponent,
     GrupoComponent,
-    RobotsScoreComponent,
-    ClasificacionComponent,
     RondaComponent,
     ModalComponent,
-    ModalTagsDirective
+    ModalTagsDirective,
+    FaseComponent,
+    ScoreComponent
   ],
   imports: [
     BrowserModule,
