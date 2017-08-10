@@ -11,11 +11,11 @@ interface IRobot {
 }
 
 @Component({
-  selector: 'robots-score',
-  templateUrl: './robots-score.component.html',
-  styleUrls: ['./robots-score.component.css']
+  selector: 'score',
+  templateUrl: './score.component.html',
+  styleUrls: ['./score.component.css']
 })
-export class RobotsScoreComponent implements OnInit {
+export class ScoreComponent implements OnInit {
   @Input() robots: IRobot[] = <IRobot[]>[]
   @Input() ordenable: Boolean = true
   @Input() seleccionable: Boolean = false
@@ -41,5 +41,4 @@ export class RobotsScoreComponent implements OnInit {
       this.seleccion = this.seleccion.filter(k => k !== robot.key)
     this.fixture.setRobotsSeleccionados(this.seleccion);
   }
-
 }
