@@ -35,8 +35,8 @@ export class MenuComponent implements OnInit {
   }
 
   setEstado(estado: Estado) {
-    this.estado = estado
-    jQuery(".ui.dropdown", this.rootNode.nativeElement).dropdown()
+    this.estado = estado;
+    jQuery(".ui.dropdown", this.rootNode.nativeElement).dropdown();
   }
 
   // Crear fases
@@ -44,21 +44,25 @@ export class MenuComponent implements OnInit {
     let grupos = jQuery(this.inputGrupos.nativeElement).val();
     let esc = jQuery(this.checkboxEsc.nativeElement).prop( "checked" );
     this.fixture.generarClasificacion(Number(grupos), esc)
+      .subscribe(({data}) => this.fases$.refetch());
   }
 
   generarEliminacion() {
     this.fixture.generarEliminacion()
+      .subscribe(({data}) => this.fases$.refetch())
   }
 
   generarFinal() {
     let jugadores = jQuery(this.inputJugadores.nativeElement).val();
     this.fixture.generarFinal(Number(jugadores))
+      .subscribe(({data}) => this.fases$.refetch());
   }
 
   generarAdhoc() {
-    let seleccion = [...this.estado.seleccion]
+    let seleccion = [...this.estado.seleccion];
     if (seleccion.length > 2)
       this.fixture.generarAdhoc(this.estado.seleccion)
+        .subscribe(({data}) => this.fases$.refetch());
   }
 
 }

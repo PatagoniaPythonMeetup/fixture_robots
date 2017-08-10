@@ -64,7 +64,6 @@ class Encuentro(object):
         return len(self.ganadas)
 
     def ganador(self):
-        assert self.es_valido(), "El encuentro no es valido"
         r1 = [ r for r in self.ganadas if r == self.robot_1 ]
         r2 = [ r for r in self.ganadas if r == self.robot_2 ] 
         if len(r1) > len(r2):
@@ -73,13 +72,12 @@ class Encuentro(object):
             return self.robot_2
 
     def perdedor(self):
-        assert self.es_valido(), "El encuentro no es valido"
         ganador = self.ganador()
         if ganador:
             return self.robot_1 if self.robot_2 == ganador else self.robot_2
 
     def participa(self, valor):
-        return valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2
+        return self.es_valido() and (valor == self.robot_1 or valor in self.robot_1 or valor == self.robot_2 or valor in self.robot_2)
 
     def to_dict(self):
         return {

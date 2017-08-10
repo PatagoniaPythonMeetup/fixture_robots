@@ -1,7 +1,6 @@
 <div class="ui horizontal divider">
   <h1>{{nombre}}</h1>
 </div>
-GRUPO: {{grupo.estado | json}}
 <div class="ui segment">
   <robots-score [robots]=robots></robots-score>
   <ronda *ngFor="let ronda of rondas" [ronda]=ronda></ronda>

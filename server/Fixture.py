@@ -96,6 +96,17 @@ class Fixture(object):
         ronda = self.get_ronda_actual()
         return ronda.get_encuentros_actuales() if ronda is not None else []
 
+    def agregar_adversario(self, numero):
+        """Busca un encuentro dentro de una ronda y si no es valido lo resuleve 
+        usando los perdedores de la ronda.
+        Resuelve solo cuando es el ultimo encuentro que queda por finalizar"""
+        for ronda in self.get_rondas():
+            encuentros = [encuentro for encuentro in ronda.get_encuentros() if encuentro.numero == numero]
+            if encuentros:
+                assert all([e.finalizado() for e in ronda.get_encuentros() if e.numero != numero]), "Debe finalizar todos los encuentros previos en la ronda" 
+                encuentros[0].agregar_adversario(random.choice(ronda.perdedores()))
+                return encuentros[0]
+
     # Rondas
     def generar_ronda(self, ngrupo, tct, esc, allow_none, shuffle):
         fase = self.get_fase_actual()

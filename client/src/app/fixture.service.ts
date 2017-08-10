@@ -23,6 +23,7 @@ import {
     GenerarRondaMutation,
     AgregarGanadorMutation,
     QuitarGanadorMutation,
+    AgregarAdversarioMutation,
     FixtureQuery
 } from '../graphql/schema';
 const FixtureQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fixture.graphql');
@@ -38,6 +39,7 @@ const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/
 
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const AgregarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarGanador.graphql');
+const AgregarAdversarioMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarAdversario.graphql');
 const QuitarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/QuitarGanador.graphql');
 const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarClasificacion.graphql');
 const GenerarEliminacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarEliminacion.graphql');
@@ -195,6 +197,16 @@ export class FixtureService {
       variables: { key, encuentro },
     })
     obs$.subscribe(({data}) => this.setEstado(data.quitarGanador.estado))
+    return obs$;
+  }
+
+  agregarAdversario(encuentro: Number) {
+    // Llamando a la mutacion agregar a un ganador
+    let obs$ = this.apollo.mutate<AgregarAdversarioMutation>({
+      mutation: AgregarAdversarioMutationNode,
+      variables: { encuentro },
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.agregarAdversario.estado))
     return obs$;
   }
 }

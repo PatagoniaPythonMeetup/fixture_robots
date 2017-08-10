@@ -1,4 +1,5 @@
 import graphene
+import traceback
 from graphene import resolve_only_args
 
 class Estado(graphene.ObjectType):
@@ -320,6 +321,7 @@ class AgregarGanador(graphene.Mutation):
             encuentro = fixture.agregar_ganador(robot, nencuentro)
             return AgregarGanador(ok = True, mensaje = "Robot declarado ganador", encuentro = encuentro, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
 
 class QuitarGanador(graphene.Mutation):
@@ -344,6 +346,26 @@ class QuitarGanador(graphene.Mutation):
         except Exception as ex:
             return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
 
+class AgregarAdversario(graphene.Mutation):
+    class Input:
+        encuentro = graphene.NonNull(graphene.Int)
+    
+    ok = graphene.Boolean()
+    mensaje = graphene.String()
+    encuentro = graphene.Field(lambda: Encuentro)
+    estado = graphene.Field(Estado)
+    
+    @staticmethod
+    def mutate(root, args, context, info):
+        fixture = context["fixture"]
+        nencuentro = args.get('encuentro')
+        try:
+            encuentro = fixture.agregar_adversario(nencuentro)
+            return AgregarGanador(ok = True, mensaje = "Encuentro resuelto con nuevo adversario", encuentro = encuentro, estado = fixture)
+        except Exception as ex:
+            traceback.print_exc()
+            return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
+
 class Mutations(graphene.ObjectType):
     generar_clasificacion = GenerarClasificacion.Field()
     generar_eliminacion = GenerarEliminacion.Field()
@@ -352,5 +374,6 @@ class Mutations(graphene.ObjectType):
     generar_ronda = GenerarRonda.Field()
     agregar_ganador = AgregarGanador.Field()
     quitar_ganador = QuitarGanador.Field()
+    agregar_adversario = AgregarAdversario.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
