@@ -1,39 +1,30 @@
 import Robot
 import Participante
+from recordclass import recordclass
 
-class Equipo(namedtuple("Equipo", "robot categoria profesor encargado alumnos escuela escudo")):
-	__slots__ = ()
+class Equipo(recordclass("Equipo", "robot categoria profesor encargado alumnos escuela escudo peso medidas")):
+    __slots__ = ()
 
-	# @validate_equipo()
     def __new__(cls, *args, **kwargs):
-	# def __init__(self, un_robot, una_categoria, un_profesor, un_encargado, alumnos, nombre_escuela, ruta_escudo): #arg):
-		return super().__new__(cls, *args, **kwargs)
+        n_values = 9 - len(args)
+        for i in range(n_values):
+            args = args + ("undefined",)
+        return super().__new__(cls, *args, **kwargs)
+    
+    def __init__(self, *args):
+        for attr in self.__slots__:
+            setattr(self, attr, self.def_value)
+    
+    def name(self):
+        return self.robot.nombre
 
-	def name(self):
-		return self.robot.name
+    def __str__(self):
+        return self.robot.nombre
 
-	def __str__(self):
-		return self.robot.name
-
+    @property
+    def key(self):
+        _key = self.robot.nombre + self.escuela + self.encargado.nombre
+        return hashlib.md5(_key.encode("utf-8")).hexdigest()
+    
     def __eq__(self, other):
-        return isinstance(other, Equipo) and self.robot == other.robot
-
-
-def validate_equipo():
-    def decorate(func):
-        def funcDecorated(*args, **kwargs):
-            types = [Robot, str, Participante, Participante, list, str, str]
-            newArgs = list(args)
-            assert ( ( len(newArgs) == len(types) ) or ( len(newArgs) == (len(types)-1) ) ), "Cantidad incompatible de argumentos({}, [{}])".format(len(newArgs), newArgs)
-            for i, (a, t) in enumerate(zip(newArgs, types)):
-                assert type(a) == t, "Arg Nº{} must be type: {}".format(i, t)
-            profesor = newArgs[2]
-            for alumno in newArgs[4]:
-                assert type(alumno) == Participante, "Arg Nº4 must contain only instances of Alumno"
-                assert alumno != profesor, "El rol de 'Profesor' no puede ser cumplido por uno de los alumnos"
-            # wrong arguments!
-            else:
-                return func(*newArgs, **kwargs)
-
-        return funcDecorated
-    return decorate
+        return isinstance(other, Equipo) and self.key == other.key 

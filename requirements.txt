@@ -14,3 +14,4 @@ python-dateutil==2.6.0
 six==1.10.0
 typing==3.6.1
 Werkzeug==0.12.2
+recordclass==0.4.3
