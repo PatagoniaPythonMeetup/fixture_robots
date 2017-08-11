@@ -1,7 +1,0 @@
-query Encuentros {
-  fixture {
-    encuentros {
-      numero
-    }
-  }
-}
