@@ -119,10 +119,6 @@ class Final(Fase):
         self.grupos[2].robots = [self.grupos[0].perdedor(), self.grupos[1].perdedor()]
         self.grupos[3].robots = [self.grupos[0].ganador(), self.grupos[1].ganador()]
 
-    def posiciones(self):
-        scores = [(r,) + self.score(r) for r in self.get_robots()]
-        return sorted(scores, key=lambda s: s[8], reverse=True)
-
     def ganadores(self):
         return [
             self.grupos[3].ganador(),   #Primer puesto
