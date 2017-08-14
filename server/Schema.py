@@ -397,6 +397,26 @@ class AgregarAdversario(graphene.Mutation):
             traceback.print_exc()
             return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
 
+class ArmarFinal(graphene.Mutation):
+    class Input:
+        fase = graphene.NonNull(graphene.Int)
+    
+    ok = graphene.Boolean()
+    mensaje = graphene.String()
+    fase = graphene.Field(lambda: Fase)
+    estado = graphene.Field(Estado)
+    
+    @staticmethod
+    def mutate(root, args, context, info):
+        fixture = context["fixture"]
+        nfase = args.get('fase')
+        try:
+            fase = fixture.armar_final(nfase)
+            return ArmarFinal(ok = True, mensaje = "Final completado con robots", fase = fase, estado = fixture)
+        except Exception as ex:
+            traceback.print_exc()
+            return ArmarFinal(ok = False, mensaje = str(ex), estado = fixture)
+
 class Mutations(graphene.ObjectType):
     generar_clasificacion = GenerarClasificacion.Field()
     generar_eliminacion = GenerarEliminacion.Field()
@@ -406,5 +426,6 @@ class Mutations(graphene.ObjectType):
     agregar_ganador = AgregarGanador.Field()
     quitar_ganador = QuitarGanador.Field()
     agregar_adversario = AgregarAdversario.Field()
+    armar_final = ArmarFinal.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

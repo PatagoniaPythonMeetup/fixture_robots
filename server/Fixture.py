@@ -117,6 +117,16 @@ class Fixture(object):
                 encuentros[0].agregar_adversario(random.choice(ronda.perdedores()))
                 return encuentros[0]
 
+    def armar_final(self, numero):
+        """Busca un fase final y loa completa con los robots de la fase
+        Completa solo cuando el resto de la fase esta finalizada"""
+        fases =[fase for fase in self.get_fases() if fase.numero == numero]
+        if fases:
+            fase = fases.pop()
+            if isinstance(fase, Final):
+                fase.completar()
+                return fase
+
     # Rondas
     def generar_ronda(self, ngrupo, tct, esc, allow_none, shuffle):
         fase = self.get_fase_actual()

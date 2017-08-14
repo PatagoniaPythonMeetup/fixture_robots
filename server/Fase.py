@@ -78,6 +78,9 @@ class Fase(object):
             "grupos": [grupo.to_dict() for grupo in self.get_grupos()]
         }
 
+    def completar(self):
+        return None
+
     # Trabajando sobre la fase
     def participa(self, robot):
         return any([g.participa(robot) for g in self.get_grupos()])
@@ -95,7 +98,9 @@ class Clasificacion(Fase):
 
 class Eliminacion(Fase):
     """Fase con un solo grupo donde todos compiten contra todos"""
-    pass
+
+    def ganador(self):
+        return self.grupos[-1].ganador()
 
 class Final(Fase):
     """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final"""
@@ -110,9 +115,24 @@ class Final(Fase):
         grupos = grupos + [Grupo(robots=[], nombre="Tercer y Cuarto"), Grupo(robots=[], nombre=self.NOMBRES[2])]
         super().__init__(robots, grupos)
 
+    def completar(self):
+        self.grupos[2].robots = [self.grupos[0].perdedor(), self.grupos[1].perdedor()]
+        self.grupos[3].robots = [self.grupos[0].ganador(), self.grupos[1].ganador()]
+
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]
         return sorted(scores, key=lambda s: s[8], reverse=True)
+
+    def ganadores(self):
+        return [
+            self.grupos[3].ganador(),   #Primer puesto
+            self.grupos[3].perdedor(),  #Segundo puesto
+            self.grupos[2].ganador(),   #Tercer puesto
+            self.grupos[2].perdedor()   #Cuarto puesto
+        ]
+
+    def ganador(self):
+        return self.grupos[3].ganador()
 
 class AdHoc(Fase):
     """Fase con dos o mas robots para scorear"""

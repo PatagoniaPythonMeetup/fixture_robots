@@ -3,6 +3,10 @@
 </div>
 <div *ngIf="fase && fase.tipo === 'final'">
   <fase [fase]="fase"></fase>
+  <button 
+    (click)="armarFinal()"
+    class="primary ui button" ><i class="plus icon"></i>Armar Final
+  </button>
 </div>
 <div *ngIf="fase && fase.tipo === 'eliminacion'">
   <fase [fase]="fase"></fase>

@@ -10,11 +10,6 @@
     (click)="rondaModal.show()"
     class="positive ui button" ><i class="plus icon"></i>Ronda
   </button>
-  <button 
-    *ngIf="!grupo.estado.finalizado && !grupo.estado.compitiendo && robots.length == 0"
-    (click)="completarGrupo()"
-    class="primary ui button" ><i class="plus icon"></i>Completar
-  </button>
 </div>
 
 <modal title="Nueva Ronda" class="mini" #rondaModal>
