@@ -6,11 +6,12 @@ from .Ronda import Ronda
 
 class Grupo(object):
     NUMERO = 1
-    def __init__(self, robots=None, rondas=None):
+    def __init__(self, robots=None, rondas=None, nombre=None):
         self.robots = robots or []
         self.rondas = rondas or []
         self.numero = Grupo.NUMERO
         Grupo.NUMERO = Grupo.NUMERO + 1
+        self.nombre = nombre or "Grupo %s" % self.numero;
 
     def __len__(self):
         return len(self.robots)
@@ -18,10 +19,10 @@ class Grupo(object):
     @staticmethod
     def generar(robots, cantidad, esc):
         if esc:
-            robots = sorted(robots, key=lambda e: e.escuela)
-        else:
             robots = robots[:]
             random.shuffle(robots)
+        else:
+            robots = sorted(robots, key=lambda e: e.escuela)
         nrobots = len(robots) // cantidad
         grupos = [robots[n * nrobots:n * nrobots + nrobots] for n in range(cantidad)]
         for i, r in enumerate(robots[cantidad*nrobots:], 1):
@@ -90,7 +91,8 @@ class Grupo(object):
     def to_dict(self):
         return {
             "robots": self.robots,
-            "rondas": [ronda.to_dict() for ronda in self.get_rondas()]
+            "rondas": [ronda.to_dict() for ronda in self.get_rondas()],
+            "nombre": self.nombre
         }
 
     def ganador(self):

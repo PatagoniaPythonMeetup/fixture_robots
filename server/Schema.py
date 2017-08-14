@@ -77,6 +77,7 @@ class Encuentro(graphene.ObjectType):
 
 class Ronda(graphene.ObjectType):
     robots = graphene.List(Robot)
+    nombre = graphene.String()
     numero = graphene.Int()
     encuentros = graphene.List(Encuentro)
     promovidos = graphene.List(Robot)
@@ -101,6 +102,7 @@ class Ronda(graphene.ObjectType):
 
 class Grupo(graphene.ObjectType):
     numero = graphene.Int()
+    nombre = graphene.String()
     robots = graphene.List(Robot)
     rondas = graphene.List(Ronda)
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
@@ -226,7 +228,7 @@ class Query(graphene.ObjectType):
 class GenerarClasificacion(graphene.Mutation):
     class Input:
         grupos = graphene.NonNull(graphene.Int)
-        esc = graphene.Boolean()
+        esc = graphene.NonNull(graphene.Boolean)
         
     ok = graphene.Boolean()
     mensaje = graphene.String()
@@ -237,11 +239,12 @@ class GenerarClasificacion(graphene.Mutation):
     def mutate(root, args, context, info):
         fixture = context["fixture"]
         grupos = args.get('grupos')
-        esc = args.get('esc') or True
+        esc = args.get('esc')
         try:
             fase = fixture.clasificacion(grupos, esc)
             return GenerarClasificacion(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return GenerarClasificacion(ok = False, mensaje = str(ex), estado = fixture)
 
 class GenerarEliminacion(graphene.Mutation):
@@ -257,6 +260,7 @@ class GenerarEliminacion(graphene.Mutation):
             fase = fixture.eliminacion()
             return GenerarEliminacion(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return GenerarEliminacion(ok = False, mensaje = str(ex), estado = fixture)
 
 class GenerarFinal(graphene.Mutation):
@@ -276,6 +280,7 @@ class GenerarFinal(graphene.Mutation):
             fase = fixture.final(jugadores)
             return GenerarFinal(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return GenerarFinal(ok = False, mensaje = str(ex), estado = fixture)
 
 class GenerarAdHoc(graphene.Mutation):
@@ -295,15 +300,16 @@ class GenerarAdHoc(graphene.Mutation):
             fase = fixture.adhoc(robots)
             return GenerarFinal(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return GenerarFinal(ok = False, mensaje = str(ex), estado = fixture)
 
 class GenerarRonda(graphene.Mutation):
     class Input:
         grupo = graphene.NonNull(graphene.Int)
-        tct = graphene.Boolean()
-        esc = graphene.Boolean()
-        allow_none = graphene.Boolean()
-        shuffle = graphene.Boolean()
+        tct = graphene.NonNull(graphene.Boolean)
+        esc = graphene.NonNull(graphene.Boolean)
+        allow_none = graphene.NonNull(graphene.Boolean)
+        shuffle = graphene.NonNull(graphene.Boolean)
     
     ok = graphene.Boolean()
     mensaje = graphene.String()
@@ -314,14 +320,15 @@ class GenerarRonda(graphene.Mutation):
     def mutate(root, args, context, info):
         fixture = context["fixture"]
         ngrupo = args.get('grupo')
-        tct = args.get('tct') or False
-        esc = args.get('esc') or True
-        allow_none = args.get('allow_none') or False
-        shuffle = args.get('shuffle') or True
+        tct = args.get('tct')
+        esc = args.get('esc')
+        allow_none = args.get('allow_none')
+        shuffle = args.get('shuffle')
         try:
             ronda = fixture.generar_ronda(ngrupo, tct, esc, allow_none, shuffle)
             return GenerarRonda(ok = True, mensaje = "Ronda creada", ronda = ronda, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return GenerarRonda(ok = False, mensaje = str(ex), estado = fixture)
 
 class AgregarGanador(graphene.Mutation):
@@ -367,6 +374,7 @@ class QuitarGanador(graphene.Mutation):
             encuentro = fixture.quitar_ganador(robot, nencuentro)
             return AgregarGanador(ok = True, mensaje = "Robot no declarado ganador", encuentro = encuentro, estado = fixture)
         except Exception as ex:
+            traceback.print_exc()
             return AgregarGanador(ok = False, mensaje = str(ex), estado = fixture)
 
 class AgregarAdversario(graphene.Mutation):

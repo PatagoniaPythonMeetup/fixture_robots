@@ -60,7 +60,7 @@ export class MenuComponent implements OnInit {
 
   generarAdhoc() {
     let seleccion = [...this.estado.seleccion];
-    if (seleccion.length > 2)
+    if (seleccion.length > 1)
       this.fixture.generarAdhoc(this.estado.seleccion)
         .subscribe(({data}) => this.fases$.refetch());
   }

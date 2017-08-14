@@ -11,7 +11,6 @@ declare var jQuery: any;
 })
 export class GrupoComponent implements OnInit {
   @Input() grupo: any = {}
-  nombre: string
   robots: any[];
   rondas: any[];
   @ViewChild("rondaModal") rondaModal: ModalComponent;
@@ -23,7 +22,6 @@ export class GrupoComponent implements OnInit {
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
-    this.nombre = `Grupo ${this.grupo.numero}`
     let robots = this.grupo.robots.slice().map(r => _.clone(r));
     let scores = this.grupo.scores.slice().map(s => _.clone(s));
     robots.forEach((r, i) => r.score = scores[i]);

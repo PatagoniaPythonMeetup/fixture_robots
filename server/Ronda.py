@@ -8,12 +8,13 @@ from .Encuentro import Encuentro
 class Ronda(object):
     TRACKS = 1
     NUMERO = 1
-    def __init__(self, encuentros, promovidos=None, tct=False):
+    def __init__(self, encuentros, promovidos=None, tct=False, nombre=None):
         self.numero = Ronda.NUMERO
         Ronda.NUMERO = Ronda.NUMERO + 1
         self.encuentros = encuentros
         self.promovidos = promovidos or []
         self.tct = tct
+        self.nombre = nombre or (self.tct and "Ronda Todos vs Todos" or "Ronda %s" % self.numero);
 
     #Generar nueva ronda
     @staticmethod
@@ -25,14 +26,12 @@ class Ronda(object):
         if esc:
             distinta_escuela = [e for e in tuplas if e[0].escuela != e[1].escuela]
             misma_escuela = [e for e in tuplas if e[0].escuela == e[1].escuela]
-            tuplas = [distinta_escuela, misma_escuela]
-        for _tuplas in tuplas:
-            while _tuplas:
-                tupla = _tuplas.pop()
-                if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda_tuplas]):
-                    ronda_tuplas.append(tupla)
-                if not tct and len(ronda_tuplas) == len(robots) // 2:
-                    break
+            tuplas = distinta_escuela + misma_escuela
+        for tupla in tuplas:
+            if tct or all([not (tupla[0] in encuentro or tupla[1] in encuentro) for encuentro in ronda_tuplas]):
+                ronda_tuplas.append(tupla)
+            if not tct and len(ronda_tuplas) == len(robots) // 2:
+                break
         # Ahora creamos la ronda
         promovidos = set(robots).difference(set(reduce(lambda a, t: a + t, ronda_tuplas, [])))
         if promovidos and allow_none:
@@ -89,7 +88,8 @@ class Ronda(object):
         return {
             "encuentros": [ encuentro.to_dict() for encuentro in self.encuentros ],
             "promovidos": self.promovidos,
-            "tct": self.tct
+            "tct": self.tct,
+            "nombre": self.nombre
         }
 
     # Estados

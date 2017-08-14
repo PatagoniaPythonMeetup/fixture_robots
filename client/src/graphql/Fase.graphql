@@ -11,6 +11,7 @@ query Fase($numero: Int!) {
       }
       grupos {
         numero
+        nombre
         robots {
           key
           nombre
@@ -30,6 +31,7 @@ query Fase($numero: Int!) {
         }
         rondas {
           numero
+          nombre
           tct
           promovidos {
             key

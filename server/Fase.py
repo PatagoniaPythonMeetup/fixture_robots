@@ -106,6 +106,10 @@ class Final(Fase):
         2: "Final"
     }
 
+    def __init__(self, robots, grupos):
+        grupos = grupos + [Grupo(robots=[], nombre="Tercer y Cuarto"), Grupo(robots=[], nombre=self.NOMBRES[2])]
+        super().__init__(robots, grupos)
+
     def posiciones(self):
         scores = [(r,) + self.score(r) for r in self.get_robots()]
         return sorted(scores, key=lambda s: s[8], reverse=True)

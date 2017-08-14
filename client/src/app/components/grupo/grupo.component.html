@@ -1,14 +1,19 @@
 <div class="ui horizontal divider">
-  <h1>{{nombre}}</h1>
+  <h1>{{grupo.nombre}}</h1>
 </div>
 <div class="ui segment">
   <score [robots]=robots></score>
   <ronda *ngFor="let ronda of rondas" [ronda]=ronda></ronda>
   <br>
   <button 
-    *ngIf="!grupo.estado.finalizado && !grupo.estado.compitiendo"
+    *ngIf="!grupo.estado.finalizado && !grupo.estado.compitiendo && robots.length != 0"
     (click)="rondaModal.show()"
     class="positive ui button" ><i class="plus icon"></i>Ronda
+  </button>
+  <button 
+    *ngIf="!grupo.estado.finalizado && !grupo.estado.compitiendo && robots.length == 0"
+    (click)="completarGrupo()"
+    class="primary ui button" ><i class="plus icon"></i>Completar
   </button>
 </div>
 

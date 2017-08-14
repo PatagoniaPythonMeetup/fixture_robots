@@ -2,6 +2,7 @@ query Ronda($numero: Int!) {
   fixture {
     ronda(numero: $numero) {
       numero
+      nombre
       tct
       encuentros {
         numero

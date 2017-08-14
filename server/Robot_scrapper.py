@@ -31,20 +31,16 @@ class Robot_scrapper(object):
         new_equipos = []
         for data_r in json_equipos:
             componentes = []
-            p = data_r["profesor"]
-            p["rol"] = "Profesor"
-            profesor = Participante(*list(p.values()))
+            participante = data_r["profesor"]
+            profesor = Participante(participante["nombre"], participante["dni"], participante["email"], "Profesor")
             
-            e = data_r["representante"]
-            e["rol"] = "Representante"
-            encargado = Participante(*list(e.values()))
+            participante = data_r["representante"]
+            encargado = Participante(participante["nombre"], participante["dni"], participante["email"], "Representante")
             
             lista_alumnos = data_r["alumnos"]
             alumnos_equipo = []
-            for a in lista_alumnos:
-                a["rol"] = "Alumno"
-                alumnos_equipo.append( Participante( *list( a.values() ) ) )
-                # alumnos_equipo.append( Participante(a["nombre"], a["dni"], a["email"], "Alumno") )
+            for participante in lista_alumnos:
+                alumnos_equipo.append(Participante(participante["nombre"], participante["dni"], participante["email"], "Alumno"))
 
             rob = Robot(data_r["nombre"], data_r["escuela"], encargado )
             componentes.append( rob )

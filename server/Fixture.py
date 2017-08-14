@@ -73,10 +73,12 @@ class Fixture(object):
         assert jugadores in Final.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        #TODO: Algo importante es que si estan ordenados por puntos los mejors se enfrentan seguro si no se hace un shuffle
         robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
         robots = robots[:jugadores]
         mitad = len(robots) // 2
-        grupos = [Grupo(robots[:mitad]), Grupo(robots[mitad:])]
+        nombre = Final.NOMBRES[len(robots)]
+        grupos = [Grupo(robots=robots[:mitad], nombre=nombre), Grupo(robots=robots[mitad:], nombre=nombre)]
         clas = Final(robots, grupos)
         self.fases.append(clas)
         return clas
@@ -180,11 +182,11 @@ class Fixture(object):
                     promovidos = [robot for robot in robots \
                         if robot in [Robot(*p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
-                        promovidos=promovidos, tct=ronda_data.pop("tct", False)))
+                        promovidos=promovidos, tct=ronda_data.pop("tct", False), nombre=grupo_data.pop("nombre")))
                 grobots = [robot for robot in robots \
                     if robot in [Robot(*p) for p in grupo_data["robots"]]]
                 frobots = frobots + grobots
-                grupos.append(Grupo(grobots, rondas))
+                grupos.append(Grupo(robots=grobots, rondas=rondas, nombre=grupo_data.pop("nombre")))
             fases.append(CLASES[klass](frobots, grupos))
         self.robots = robots
         self.fases = fases
