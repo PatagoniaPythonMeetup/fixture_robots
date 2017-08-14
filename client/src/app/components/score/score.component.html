@@ -1,7 +1,7 @@
 <table class="ui compact celled definition table">
   <thead>
     <tr>
-      <th class="five wide"></th>
+      <th class="six wide"></th>
       <th class="center aligned one wide"><div data-tooltip="Jugados" data-position="bottom center"><i class="asterisk icon"></i></div></th>
       <th class="center aligned one wide"><div data-tooltip="Triunfos" data-position="bottom center"><i class="plus icon"></i></div></th>
       <th class="center aligned one wide"><div data-tooltip="Empates" data-position="bottom center"><i class="checkmark icon"></i></div></th>
@@ -18,8 +18,8 @@
       <td>
         <div *ngIf="ordenable" class="ui ribbon label">#{{i + 1}}</div>
         <h4 class="ui image header">
-          <img src="/assets/images/escudos/{{robot.escudo}}" class="ui mini rounded image">
-            <div class="content">{{robot.nombre}} <div class="sub header">{{robot.escuela}}</div></div>
+          <img src="/assets/images/escuelas/{{robot.escuela}}.png" class="ui large rounded image">
+            <div class="content">{{robot.nombre}} <div class="sub header">{{robot.encargado.nombre}}</div></div>
         </h4>
       </td>
       <td class="center aligned">{{robot.score[0]}}</td>

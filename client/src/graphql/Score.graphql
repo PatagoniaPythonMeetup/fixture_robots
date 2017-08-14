@@ -4,7 +4,12 @@ query Score($key: String) {
       key
       nombre
       escuela
-      encargado
+      encargado {
+        nombre
+        dni
+        email
+        rol
+      }
       escudo
     }
     score(key: $key)

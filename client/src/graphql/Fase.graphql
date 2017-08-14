@@ -15,7 +15,12 @@ query Fase($numero: Int!) {
           key
           nombre
           escuela
-          encargado
+          encargado {
+            nombre
+            dni
+            email
+            rol
+          }
           escudo
         }
         estado {
@@ -29,7 +34,14 @@ query Fase($numero: Int!) {
           promovidos {
             key
             nombre
+            escuela
             escudo
+            encargado {
+              nombre
+              dni
+              email
+              rol
+            }
           }
           estado {
             iniciado
@@ -40,6 +52,7 @@ query Fase($numero: Int!) {
             robots {
               key
               nombre
+              escuela
               escudo
             }
             numero

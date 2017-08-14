@@ -5,13 +5,16 @@ from flask_cors import CORS
 
 from faker import Factory
 
-from server import Fixture, schema, Encuentro, Ronda
+from server import Fixture, schema, Encuentro, Ronda, Robot_scrapper
 
 fake = Factory.create()
+
 FIXTURE = Fixture()
 with open("./datos/robots.json", "r") as f:
     for robot in json.loads(f.read()):
         FIXTURE.inscribir_robot(*robot)
+
+SCRAPPER = Robot_scrapper()
 
 app = Flask(__name__)
 CORS(app)
@@ -24,6 +27,42 @@ app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture',
 @app.route('/')
 def index(): 
     return render_template("index.html", robots = len(FIXTURE.robots))
+
+@app.route('/robocomp/seguidor')
+def robocomp_seguidor():
+    equipos = SCRAPPER.get_equipos()
+    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Seguidor")]
+    FIXTURE.limpiar()
+    for equipo in equipos:
+        FIXTURE.inscribir_equipo(equipo)
+    return redirect("/")
+
+@app.route('/robocomp/sumo')
+def robocomp_sumo():
+    equipos = SCRAPPER.get_equipos()
+    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Sumo")]
+    FIXTURE.limpiar()
+    for equipo in equipos:
+        FIXTURE.inscribir_equipo(equipo)
+    return redirect("/")
+    
+@app.route('/robocomp/minisumo')
+def robocomp_minisumo():
+    equipos = SCRAPPER.get_equipos()
+    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Mini-Sumo")]
+    FIXTURE.limpiar()
+    for equipo in equipos:
+        FIXTURE.inscribir_equipo(equipo)
+    return redirect("/")
+
+@app.route('/robocomp/futbol')
+def robocomp_futbol():
+    equipos = SCRAPPER.get_equipos()
+    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Fútbol")]
+    FIXTURE.limpiar()
+    for equipo in equipos:
+        FIXTURE.inscribir_equipo(equipo)
+    return redirect("/")
 
 @app.route('/store')
 def dumps():

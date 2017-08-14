@@ -18,7 +18,7 @@ class Robot(namedtuple("Robot", "nombre escuela encargado escudo")):
 
     @property
     def key(self):
-        _key = self.nombre + self.escuela + self.encargado
+        _key = self.nombre + self.escuela + self.encargado.nombre
         return hashlib.md5(_key.encode("utf-8")).hexdigest()
 
     def __hash__(self):

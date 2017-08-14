@@ -4,6 +4,9 @@
 import json
 import threading
 import urllib.request
+from .Participante import Participante
+from .Equipo import Equipo
+from .Robot import Robot
 
 class Robot_scrapper(object):
     """ Objeto encargado de obtener y mantener actualizados los robots inscriptos a la competencia. """

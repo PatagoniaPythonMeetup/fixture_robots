@@ -29,13 +29,36 @@ class Estado(graphene.ObjectType):
     def resolve_ronda(self, args, context, info):
         ronda = self.get_ronda_actual()
         return ronda.numero if ronda is not None else 0
-    
+
+class Participante(graphene.ObjectType):
+    nombre = graphene.String()
+    dni = graphene.String()
+    email = graphene.String()
+    rol = graphene.String()
+
 class Robot(graphene.ObjectType):
     key = graphene.String()
     nombre = graphene.String()
     escuela = graphene.String()
-    encargado = graphene.String()
+    encargado = graphene.Field(Participante)
     escudo = graphene.String()
+
+    def resolve_estado(self, args, context, info):
+        return self.encargado
+
+class Equipo(graphene.ObjectType):
+    robot = graphene.Field(Robot)
+    categoria = graphene.String()
+    profesor = graphene.Field(Participante)
+    encargado = graphene.Field(Participante)
+    alumnos = graphene.List(Participante)
+    escuela = graphene.String()
+    escudo = graphene.String()
+    peso = graphene.String()
+    medidas = graphene.String()
+
+    def resolve_estado(self, args, context, info):
+        return self.encargado
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()

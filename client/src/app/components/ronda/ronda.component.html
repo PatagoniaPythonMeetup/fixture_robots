@@ -27,7 +27,7 @@
           <div class="content">{{encuentro.robots[0].nombre}}&nbsp;&nbsp;&nbsp;&nbsp;</div>
           <img class="ui large image" 
             (click)="resultado($event, encuentro.numero, encuentro.robots[0].key)"
-            src="/assets/images/escudos/{{encuentro.robots[0].escudo}}">
+            src="/assets/images/escuelas/{{encuentro.robots[0].escuela}}.png">
         </h4>
       </td>
       <td class="center aligned" [ngClass]="{'positive': encuentro.puntos[0] > encuentro.puntos[1], 'negative': encuentro.puntos[0] < encuentro.puntos[1]}">
@@ -40,7 +40,7 @@
         <h4 *ngIf="encuentro.robots[1]; else noRobotBlock" class="ui image header">
           <img class="ui large image" 
             (click)="resultado($event, encuentro.numero, encuentro.robots[1].key)"
-            src="/assets/images/escudos/{{encuentro.robots[1].escudo}}">
+            src="/assets/images/escuelas/{{encuentro.robots[1].escuela}}.png">
           <div class="content">{{encuentro.robots[1].nombre}}</div>
         </h4>
         <ng-template #noRobotBlock>
@@ -60,8 +60,9 @@
   <div class="ui horizontal divider">
     <h5>Promovidos</h5>
   </div>
-  <h4 class="ui image header" *ngFor="let robot of ronda.promovidos">
-    <img src="/assets/images/escudos/{{robot.escudo}}" class="ui large image">
-    <div class="content">{{robot.nombre}}</div>
+  <h4 *ngFor="let robot of ronda.promovidos" class="ui image header">
+    <img class="ui large image"
+      src="/assets/images/escuelas/{{robot.escuela}}.png">
+      <div class="content">{{robot.nombre}} <div class="sub header">{{robot.encargado.nombre}}</div></div>
   </h4>
 </div>

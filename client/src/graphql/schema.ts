@@ -66,7 +66,7 @@ export type EncuentroQuery = {
         key: string | null,
         nombre: string | null,
         escudo: string | null,
-      } | null > | null,
+      } > | null,
       puntos: Array< number | null > | null,
     } | null,
   } | null,
@@ -76,7 +76,7 @@ export type EncuentrosQuery = {
   fixture:  {
     encuentros:  Array< {
       numero: number | null,
-    } | null > | null,
+    } > | null,
   } | null,
 };
 
@@ -101,9 +101,14 @@ export type FaseQuery = {
           key: string | null,
           nombre: string | null,
           escuela: string | null,
-          encargado: string | null,
+          encargado:  {
+            nombre: string | null,
+            dni: string | null,
+            email: string | null,
+            rol: string | null,
+          } | null,
           escudo: string | null,
-        } | null > | null,
+        } > | null,
         estado:  {
           iniciado: boolean | null,
           compitiendo: boolean | null,
@@ -115,8 +120,15 @@ export type FaseQuery = {
           promovidos:  Array< {
             key: string | null,
             nombre: string | null,
+            escuela: string | null,
             escudo: string | null,
-          } | null > | null,
+            encargado:  {
+              nombre: string | null,
+              dni: string | null,
+              email: string | null,
+              rol: string | null,
+            } | null,
+          } > | null,
           estado:  {
             iniciado: boolean | null,
             compitiendo: boolean | null,
@@ -126,8 +138,9 @@ export type FaseQuery = {
             robots:  Array< {
               key: string | null,
               nombre: string | null,
+              escuela: string | null,
               escudo: string | null,
-            } | null > | null,
+            } > | null,
             numero: number | null,
             puntos: Array< number | null > | null,
             estado:  {
@@ -135,10 +148,10 @@ export type FaseQuery = {
               compitiendo: boolean | null,
               finalizado: boolean | null,
             } | null,
-          } | null > | null,
-        } | null > | null,
+          } > | null,
+        } > | null,
         scores: Array< Array< number | null > | null > | null,
-      } | null > | null,
+      } > | null,
     } | null,
   } | null,
 };
@@ -148,7 +161,7 @@ export type FasesQuery = {
     fases:  Array< {
       numero: number | null,
       nombre: string | null,
-    } | null > | null,
+    } > | null,
     estado:  {
       iniciado: boolean | null,
       compitiendo: boolean | null,
@@ -319,7 +332,12 @@ export type RobotQuery = {
       key: string | null,
       nombre: string | null,
       escuela: string | null,
-      encargado: string | null,
+      encargado:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
       escudo: string | null,
     } | null,
   } | null,
@@ -331,9 +349,14 @@ export type RobotsQuery = {
       key: string | null,
       nombre: string | null,
       escuela: string | null,
-      encargado: string | null,
+      encargado:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
       escudo: string | null,
-    } | null > | null,
+    } > | null,
   } | null,
 };
 
@@ -351,15 +374,23 @@ export type RondaQuery = {
         robots:  Array< {
           key: string | null,
           nombre: string | null,
+          escuela: string | null,
           escudo: string | null,
-        } | null > | null,
+        } > | null,
         puntos: Array< number | null > | null,
-      } | null > | null,
+      } > | null,
       promovidos:  Array< {
         key: string | null,
         nombre: string | null,
+        escuela: string | null,
+        encargado:  {
+          nombre: string | null,
+          dni: string | null,
+          email: string | null,
+          rol: string | null,
+        } | null,
         escudo: string | null,
-      } | null > | null,
+      } > | null,
     } | null,
   } | null,
 };
@@ -369,7 +400,7 @@ export type RondasQuery = {
     rondas:  Array< {
       numero: number | null,
       tct: boolean | null,
-    } | null > | null,
+    } > | null,
   } | null,
 };
 
@@ -383,7 +414,12 @@ export type ScoreQuery = {
       key: string | null,
       nombre: string | null,
       escuela: string | null,
-      encargado: string | null,
+      encargado:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
       escudo: string | null,
     } | null,
     score: Array< number | null > | null,
@@ -396,9 +432,14 @@ export type ScoresGeneralQuery = {
       key: string | null,
       nombre: string | null,
       escuela: string | null,
-      encargado: string | null,
+      encargado:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
       escudo: string | null,
-    } | null > | null,
+    } > | null,
     scores: Array< Array< number | null > | null > | null,
   } | null,
 };

@@ -1,6 +1,9 @@
-import Robot
-import Participante
+import hashlib
+
 from recordclass import recordclass
+
+from .Robot import Robot
+from .Participante import Participante
 
 class Equipo(recordclass("Equipo", "robot categoria profesor encargado alumnos escuela escudo peso medidas")):
     __slots__ = ()

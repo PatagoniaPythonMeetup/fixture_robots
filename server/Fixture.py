@@ -11,13 +11,21 @@ from .Grupo import Grupo
 from .Fase import Clasificacion, Eliminacion, Final, AdHoc
 
 class Fixture(object):
-    def __init__(self, robots=None, jugadas=3, tracks=1):
+    def __init__(self, equipos=None, robots=None, jugadas=3, tracks=1):
         # Numero de tracks en paralelo que pueden ser sostenidos por disponibilidad de pistas
         Ronda.TRACKS = tracks
         # Numero minimo de jugadas para determinar un ganador en un encuentro
         Encuentro.JUGADAS = jugadas
+        self.equipos = equipos or []
         self.robots = robots or []
         self.fases = []
+
+    # Equipos
+    def inscribir_equipo(self, equipo):
+        robot = equipo.robot
+        self.robots.append(robot)
+        self.equipos.append(equipo)
+        return robot
 
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable, escudo=None):

@@ -8,6 +8,7 @@ query Ronda($numero: Int!) {
         robots {
           key
           nombre
+          escuela
           escudo
         } 
         puntos
@@ -15,6 +16,13 @@ query Ronda($numero: Int!) {
       promovidos {
         key
         nombre
+        escuela
+        encargado {
+          nombre
+          dni
+          email
+          rol
+        }
         escudo
       }
     }
