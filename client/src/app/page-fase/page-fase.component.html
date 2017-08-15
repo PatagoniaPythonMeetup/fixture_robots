@@ -4,6 +4,7 @@
 <div *ngIf="fase && fase.tipo === 'final'">
   <fase [fase]="fase"></fase>
   <button 
+    *ngIf="fase.estado.finalizado && fase.grupos.length === 2"
     (click)="armarFinal()"
     class="primary ui button" ><i class="plus icon"></i>Armar Final
   </button>
