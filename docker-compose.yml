@@ -17,4 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
-    
+    expose:
+      - 4200
+    ports:
+      - "4200:4200"

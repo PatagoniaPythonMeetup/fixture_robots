@@ -28,3 +28,13 @@ npm start
 cd tests
 python runtests.py
 ```
+
+
+# Docker
+
+Si tenes [docker](https://docker.io) instalado y el repo en la rama `docke`,
+
+```
+docker-compose up --build -d
+docker-compose logs
+```
