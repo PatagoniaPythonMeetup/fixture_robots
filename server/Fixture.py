@@ -251,6 +251,11 @@ class Fixture(object):
         if fase is not None:
             return fase.perdedor()
 
+    def posiciones(self):
+        fase = self.get_fase_actual()
+        if fase is not None:
+            return fase.posiciones()
+
     def agregar_ganador(self, robot, nencuentro=None):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
         assert len(encuentros) == 1, "El robot no participa de la ronda o debe especificar un encuentro"

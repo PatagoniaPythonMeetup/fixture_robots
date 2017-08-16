@@ -71,6 +71,9 @@ class Fase(object):
     def perdedor(self):
         return None
 
+    def posiciones(self):
+        return []
+
     # Serialize
     def to_dict(self):
         return {
@@ -100,10 +103,17 @@ class Eliminacion(Fase):
     """Fase con un solo grupo donde todos compiten contra todos"""
 
     def ganador(self):
-        return self.grupos[-1].ganador()
+        return self.grupos[0].ganador()
+
+    def posiciones(self):
+        return [
+            self.grupos[0].ganador()
+            self.grupos[0].perdedor()
+        ]
 
 class Final(Fase):
-    """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final"""
+    """Fase donde los robots son separados en dos grupos y se enfrentan hasta quedar dos en la final
+    luego se arma la final, tercer y cuarto puesto"""
     NOMBRES = {
         16: "Octavos",
         8: "Cuartos",
@@ -119,7 +129,7 @@ class Final(Fase):
         self.grupos[2].robots = [self.grupos[0].perdedor(), self.grupos[1].perdedor()]
         self.grupos[3].robots = [self.grupos[0].ganador(), self.grupos[1].ganador()]
 
-    def ganadores(self):
+    def posiciones(self):
         return [
             self.grupos[3].ganador(),   #Primer puesto
             self.grupos[3].perdedor(),  #Segundo puesto
