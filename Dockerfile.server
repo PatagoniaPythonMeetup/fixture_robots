@@ -1,0 +1,17 @@
+FROM python:3.6
+
+COPY requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
+
+RUN mkdir /src
+COPY main.py /src
+COPY ./server /src/server
+COPY ./datos /src/datos
+COPY ./templates /src/templates
+COPY ./tests /src/tests
+
+WORKDIR /src
+
+ENV PYTHONPATH=/src
+
+CMD ["python", "./main.py"]

@@ -1,3 +1,15 @@
+import os
+import sys
+
+HOST = os.environ.get('HOST', '127.0.0.1')
+try:
+    PORT = int(os.environ.get('PORT', 5000))
+except Exception as e:
+    sys.stderr.write("Error {} getting PORT. Setting to 5000".format(e))
+    PORT = 5000
+
+DEBUG = True if os.environ.get('DEBUG') else False
+
 import json
 from flask import Flask, render_template, redirect
 from flask_graphql import GraphQLView
@@ -88,7 +100,7 @@ def faker(num):
     return redirect("/")
 
 def main():
-    app.run()
+    app.run(host=HOST, port=PORT, debug=DEBUG)
 
 if __name__ == '__main__':
     main()
