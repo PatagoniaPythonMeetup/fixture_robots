@@ -107,7 +107,7 @@ class Eliminacion(Fase):
 
     def posiciones(self):
         return [
-            self.grupos[0].ganador()
+            self.grupos[0].ganador(),
             self.grupos[0].perdedor()
         ]
 
