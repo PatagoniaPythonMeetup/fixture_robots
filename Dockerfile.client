@@ -4,7 +4,6 @@ RUN mkdir /src
 WORKDIR /src
 
 COPY client /src
-RUN npm install -g @angular/cli
 RUN npm install
 
 CMD ["npm", "start"]
