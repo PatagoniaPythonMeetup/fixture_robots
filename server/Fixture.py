@@ -9,6 +9,8 @@ from .Encuentro import Encuentro
 from .Ronda import Ronda
 from .Grupo import Grupo
 from .Fase import Clasificacion, Eliminacion, Final, AdHoc
+from .Equipo import Equipo
+from .Participante import Participante
 
 class Fixture(object):
     def __init__(self, equipos=None, robots=None, jugadas=3, tracks=1):
@@ -27,6 +29,9 @@ class Fixture(object):
         self.equipos.append(equipo)
         return robot
 
+    def get_equipos(self):
+        return self.equipos[:]
+    
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable, escudo=None):
         robot = Robot(nombre, escuela, responsable, escudo)
@@ -168,12 +173,15 @@ class Fixture(object):
     def to_dict(self):
         return {
             "robots": self.robots,
-            "fases": [fase.to_dict() for fase in self.get_fases()]
+            "fases": [fase.to_dict() for fase in self.get_fases()],
+            "equipos": [equipo.to_dict() for equipo in self.get_equipos()]
         }
 
     def from_dict(self, data):
-        CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final]}
-        robots = [Robot(*robot_data) for robot_data in data["robots"]]
+        def rbuild(tupla):
+            return Robot(tupla[0], tupla[1], Participante(*tupla[2]), tupla[3])
+        CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final, AdHoc]}
+        robots = [rbuild(robot_data) for robot_data in data["robots"]]
         fases = []
         for fase_data in data["fases"]:
             klass = fase_data["nombre"]
@@ -184,20 +192,29 @@ class Fixture(object):
                 for ronda_data in grupo_data["rondas"]:
                     encuentros = []
                     for encuentro_data in ronda_data["encuentros"]:
-                        r1 = Robot(*encuentro_data["robot_1"])
-                        r2 = Robot(*encuentro_data["robot_2"])
-                        ganadas = [Robot(*gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
+                        r1 = rbuild(encuentro_data["robot_1"])
+                        r2 = rbuild(encuentro_data["robot_2"])
+                        ganadas = [rbuild(gano) == r1 and r1 or r2 for gano in encuentro_data["ganadas"]]
                         encuentro = Encuentro(r1, r2, ganadas=ganadas)
                         encuentros.append(encuentro)
                     promovidos = [robot for robot in robots \
-                        if robot in [Robot(*p) for p in ronda_data["promovidos"]]]
+                        if robot in [rbuild(p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
                         promovidos=promovidos, tct=ronda_data.pop("tct", False), nombre=grupo_data.pop("nombre")))
                 grobots = [robot for robot in robots \
-                    if robot in [Robot(*p) for p in grupo_data["robots"]]]
+                    if robot in [rbuild(p) for p in grupo_data["robots"]]]
                 frobots = frobots + grobots
-                grupos.append(Grupo(robots=grobots, rondas=rondas, nombre=grupo_data.pop("nombre")))
+                grupos.append(Grupo(robots=grobots, rondas=rondas, nombre=grupo_data.pop("nombre", None)))
             fases.append(CLASES[klass](frobots, grupos))
+        equipos = []
+        for equipo_data in data["equipos"]:
+            robot = [robot for robot in robots if robot == rbuild(equipo_data["robot"])].pop()
+            print(robot)
+            profesor = Participante(*equipo_data["profesor"])
+            encargado = Participante(*equipo_data["encargado"])
+            alumnos = [Participante(*alumno) for alumno in equipo_data["alumnos"]]
+            equipos.append(Equipo(robot, equipo_data["categoria"], profesor, encargado, alumnos, equipo_data["escuela"], equipo_data["escudo"], equipo_data["peso"], equipo_data["medidas"]))
+        self.equipos = equipos
         self.robots = robots
         self.fases = fases
 

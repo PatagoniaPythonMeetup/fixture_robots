@@ -24,6 +24,20 @@ class Equipo(recordclass("Equipo", "robot categoria profesor encargado alumnos e
     def __str__(self):
         return self.robot.nombre
 
+    # Serialize
+    def to_dict(self):
+        return {
+            "robot": self.robot,
+            "categoria": self.categoria,
+            "profesor": self.profesor,
+            "encargado": self.encargado,
+            "alumnos": self.alumnos,
+            "escuela": self.escuela,
+            "escudo": self.escudo,
+            "peso": self.peso,
+            "medidas": self.medidas
+        }
+
     @property
     def key(self):
         _key = self.robot.nombre + self.escuela + self.encargado.nombre
