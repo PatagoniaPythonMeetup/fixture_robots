@@ -16,6 +16,7 @@ import { RondaComponent } from './components/ronda/ronda.component';
 import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.component';
 import { FaseComponent } from './components/fase/fase.component';
 import { ScoreComponent } from './components/score/score.component';
+import { PagePosicionesComponent } from './page-posiciones/page-posiciones.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ScoreComponent } from './components/score/score.component';
     ModalComponent,
     ModalTagsDirective,
     FaseComponent,
-    ScoreComponent
+    ScoreComponent,
+    PagePosicionesComponent
   ],
   imports: [
     BrowserModule,

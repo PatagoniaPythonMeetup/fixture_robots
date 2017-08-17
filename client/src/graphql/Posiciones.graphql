@@ -1,0 +1,35 @@
+query Posiciones {
+  fixture {
+    posiciones {
+      robot {
+        key
+        nombre
+        escuela
+        escudo
+      }
+      profesor {
+        nombre
+        dni
+        email
+        rol
+      }
+      encargado {
+        nombre
+        dni
+        email
+        rol
+      }
+      categoria
+      escuela
+      alumnos {
+        nombre
+        dni
+        email
+        rol
+      }
+      escudo
+      peso
+      medidas
+    } 
+  }
+}

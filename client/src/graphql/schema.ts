@@ -319,6 +319,42 @@ export type GenerarRondaMutation = {
   } | null,
 };
 
+export type PosicionesQuery = {
+  fixture:  {
+    posiciones:  Array< {
+      robot:  {
+        key: string | null,
+        nombre: string | null,
+        escuela: string | null,
+        escudo: string | null,
+      } | null,
+      profesor:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
+      encargado:  {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null,
+      categoria: string | null,
+      escuela: string | null,
+      alumnos:  Array< {
+        nombre: string | null,
+        dni: string | null,
+        email: string | null,
+        rol: string | null,
+      } | null > | null,
+      escudo: string | null,
+      peso: string | null,
+      medidas: string | null,
+    } | null > | null,
+  } | null,
+};
+
 export type QuitarGanadorMutationVariables = {
   key: string,
   encuentro: number,

@@ -16,6 +16,7 @@ import {
     FaseQuery,
     FasesQuery,
     EncuentroQuery,
+    PosicionesQuery,
     GenerarClasificacionMutation,
     GenerarEliminacionMutation,
     GenerarFinalMutation,
@@ -37,6 +38,7 @@ const ScoresGeneralQueryNode: DocumentNode = require('graphql-tag/loader!../grap
 const FaseQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fase.graphql');
 const FasesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fases.graphql');
 const EncuentroQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Encuentro.graphql');
+const PosicionesQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Posiciones.graphql');
 
 const GenerarRondaMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarRonda.graphql');
 const AgregarGanadorMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/AgregarGanador.graphql');
@@ -133,6 +135,10 @@ export class FixtureService {
     });
   }
   
+  posiciones(): ApolloQueryObservable<PosicionesQuery> {
+    return this.apollo.watchQuery<PosicionesQuery>({ query: PosicionesQueryNode});
+  }
+
   scoresGeneral(): ApolloQueryObservable<ScoresGeneralQuery> {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
