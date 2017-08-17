@@ -27,6 +27,10 @@ export class PageFaseComponent {
       });
     }
 
+  armarFinal(fase: Number) {
+    this.fixture.armarFinal(fase);
+  }
+
   setEstado(estado: Estado) {
     this.estado = estado
     this.faseQuery$.refetch();

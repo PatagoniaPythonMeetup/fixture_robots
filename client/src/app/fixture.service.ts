@@ -24,6 +24,7 @@ import {
     AgregarGanadorMutation,
     QuitarGanadorMutation,
     AgregarAdversarioMutation,
+    ArmarFinalMutation,
     FixtureQuery
 } from '../graphql/schema';
 const FixtureQueryNode: DocumentNode = require('graphql-tag/loader!../graphql/Fixture.graphql');
@@ -45,6 +46,7 @@ const GenerarClasificacionMutationNode: DocumentNode = require('graphql-tag/load
 const GenerarEliminacionMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarEliminacion.graphql');
 const GenerarFinalMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarFinal.graphql');
 const GenerarAdhocMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/GenerarAdhoc.graphql');
+const ArmarFinalMutationNode: DocumentNode = require('graphql-tag/loader!../graphql/ArmarFinal.graphql');
 
 export interface Estado {
   iniciado: Boolean
@@ -207,6 +209,16 @@ export class FixtureService {
       variables: { encuentro },
     })
     obs$.subscribe(({data}) => this.setEstado(data.agregarAdversario.estado))
+    return obs$;
+  }
+
+  armarFinal(fase: Number) {
+    // Llamando a la mutacion armar final
+    let obs$ = this.apollo.mutate<ArmarFinalMutation>({
+      mutation: ArmarFinalMutationNode,
+      variables: { fase },
+    })
+    obs$.subscribe(({data}) => this.setEstado(data.armarFinal.estado))
     return obs$;
   }
 }

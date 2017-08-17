@@ -1,0 +1,19 @@
+mutation ArmarFinal(
+  $fase: Int!
+) {
+  armarFinal(fase: $fase) {
+    ok
+    mensaje
+    fase {
+      nombre
+    }
+    estado {
+      iniciado
+      compitiendo
+      finalizado
+      jugadas
+      encuentros
+      ronda
+    }
+  }
+}

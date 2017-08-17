@@ -54,6 +54,28 @@ export type AgregarGanadorMutation = {
   } | null,
 };
 
+export type ArmarFinalMutationVariables = {
+  fase: number,
+};
+
+export type ArmarFinalMutation = {
+  armarFinal:  {
+    ok: boolean | null,
+    mensaje: string | null,
+    fase:  {
+      nombre: string | null,
+    } | null,
+    estado:  {
+      iniciado: boolean | null,
+      compitiendo: boolean | null,
+      finalizado: boolean | null,
+      jugadas: number | null,
+      encuentros: Array< number | null > | null,
+      ronda: number | null,
+    } | null,
+  } | null,
+};
+
 export type EncuentroQueryVariables = {
   numero: number,
 };
