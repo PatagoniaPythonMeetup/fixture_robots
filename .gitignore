@@ -90,3 +90,4 @@ ENV/
 .vscode/
 
 /node_modules/
+/data/fixture.json
