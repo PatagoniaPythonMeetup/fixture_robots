@@ -106,6 +106,8 @@ class Eliminacion(Fase):
         return self.grupos[0].ganador()
 
     def posiciones(self):
+        if not self.grupos[0].finalizado():
+            return []
         return [
             self.grupos[0].ganador(),
             self.grupos[0].perdedor()
@@ -121,15 +123,14 @@ class Final(Fase):
         2: "Final"
     }
 
-    def __init__(self, robots, grupos):
-        grupos = grupos + [Grupo(robots=[], nombre="Tercer y Cuarto"), Grupo(robots=[], nombre=self.NOMBRES[2])]
-        super().__init__(robots, grupos)
-
     def completar(self):
-        self.grupos[2].robots = [self.grupos[0].perdedor(), self.grupos[1].perdedor()]
-        self.grupos[3].robots = [self.grupos[0].ganador(), self.grupos[1].ganador()]
+        self.grupos = self.grupos + [
+            Grupo(robots=[self.grupos[0].perdedor(), self.grupos[1].perdedor()], nombre="Tercer y Cuarto"), 
+            Grupo(robots=[self.grupos[0].ganador(), self.grupos[1].ganador()], nombre=self.NOMBRES[2])]
 
     def posiciones(self):
+        if len(self.grupos) != 4:
+            return []
         return [
             self.grupos[3].ganador(),   #Primer puesto
             self.grupos[3].perdedor(),  #Segundo puesto
@@ -138,7 +139,8 @@ class Final(Fase):
         ]
 
     def ganador(self):
-        return self.grupos[3].ganador()
+        if len(self.grupos) == 4:
+            return self.grupos[3].ganador()
 
 class AdHoc(Fase):
     """Fase con dos o mas robots para scorear"""
