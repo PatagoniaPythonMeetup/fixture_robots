@@ -78,10 +78,16 @@ class Fixture(object):
         assert jugadores in Final.NOMBRES, "El numero de para una final debe ser 16, 8, 4 o 2"
         fase_actual = self.get_fase_actual()
         assert fase_actual is None or fase_actual.finalizado(), "La fase actual no fue finalizada"
+        
         #TODO: Algo importante es que si estan ordenados por puntos los mejors se enfrentan seguro si no se hace un shuffle
-        robots = fase_actual.ganadores() if fase_actual is not None else self.get_robots()
+        # Obtener los robots ordenados por los mejores
+        scores = [(r,) + self.score(r) for r in self.get_robots()]
+        scores = sorted(scores, key=lambda s: s[7] + s[8], reverse=True)
+        robots = [score[0] for score in scores]
+        
         robots = robots[:jugadores]
         mitad = len(robots) // 2
+        print(jugadores, robots)
         nombre = Final.NOMBRES[len(robots)]
         grupos = [Grupo(robots=robots[:mitad], nombre=nombre), Grupo(robots=robots[mitad:], nombre=nombre)]
         clas = Final(robots, grupos)
