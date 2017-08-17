@@ -34,6 +34,8 @@ class Fixture(object):
     
     # Robots
     def inscribir_robot(self, nombre, escuela, responsable, escudo=None):
+        if isinstance(responsable, str):
+            responsable = Participante(responsable, "12345678", "email@mail.com", "Responsable")
         robot = Robot(nombre, escuela, responsable, escudo)
         self.robots.append(robot)
         return robot
