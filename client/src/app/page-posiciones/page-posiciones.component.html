@@ -1,3 +1,32 @@
-<p>
-  page-posiciones works!
-</p>
+<div class="ui two cards">
+  <div class="card" *ngFor="let equipo of equipos; let i = index">
+      <div class="content">
+          <div class="ui blue statistic">
+            <div class="value">
+              {{i + 1}}
+            </div>
+          </div>
+      </div>
+    <div class="image">
+      <img src="/assets/images/escuelas/{{equipo.robot.escuela}}.png">
+    </div>
+    <div class="content">
+      <div class="header">{{ equipo.robot.nombre }}</div>
+      <div class="meta">
+        <a>{{ equipo.encargado.nombre }}</a>
+      </div>
+      <div class="description">
+        Aca va Todo el equipo
+      </div>
+    </div>
+    <div class="extra content">
+      <span class="right floated">
+        {{ equipo.escuela }}
+      </span>
+      <span>
+        <i class="selected radio icon"></i>
+        Puntos
+      </span>
+    </div>
+  </div>
+</div>

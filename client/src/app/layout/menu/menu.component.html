@@ -6,6 +6,7 @@
     </a>
     <a class="item" routerLink="/general" routerLinkActive="active">General</a>
     <a *ngFor="let fase of fases" class="item" [routerLink]="['/fase', fase.numero]" routerLinkActive="active">{{fase.nombre}}</a>
+    <a class="item" *ngIf="(estado && estado.iniciado && estado.finalizado)" routerLink="/posiciones" routerLinkActive="posiciones">Posiciones</a>
     <a class="item" [style.display]="(!estado || estado.finalizado || estado.compitiendo) ? 'none' : 'block'">
       <div class="ui selection dropdown primary">
         Nueva Fase <i class="dropdown icon"></i>

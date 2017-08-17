@@ -280,7 +280,14 @@ class Fixture(object):
         fase = self.get_fase_actual()
         if fase is not None:
             robots = fase.posiciones()
-            return [[equipo for equipo in self.get_equipos() if equipo.robot == robot].pop() for robot in robots]
+            equipos = []
+            for robot in robots:
+                _equipos = [equipo for equipo in self.get_equipos() if equipo.robot == robot]
+                if _equipos:
+                    equipos.append(_equipos.pop())
+                else:
+                    equipos.append(Equipo(robot, "Sin Categoria", robot.encargado, [robot.encargado], robot.escuela, robot.escuela, 0, 0))
+            return equipos
 
     def agregar_ganador(self, robot, nencuentro=None):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
