@@ -174,7 +174,7 @@ class Fixture(graphene.ObjectType):
     score = graphene.List(graphene.Int, key=graphene.Argument(graphene.NonNull(graphene.String)))
     scores = graphene.List(graphene.List(graphene.Int))
     ganador = graphene.Field(Robot)
-    posiciones = graphene.List(Robot)
+    posiciones = graphene.List(Equipo)
 
     def resolve_robot(self, args, context, info):
         key = args['key']

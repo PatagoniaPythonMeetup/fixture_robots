@@ -206,7 +206,7 @@ class Fixture(object):
                     promovidos = [robot for robot in robots \
                         if robot in [rbuild(p) for p in ronda_data["promovidos"]]]
                     rondas.append(Ronda(encuentros=encuentros, \
-                        promovidos=promovidos, tct=ronda_data.pop("tct", False), nombre=grupo_data.pop("nombre")))
+                        promovidos=promovidos, tct=ronda_data.pop("tct", False), nombre=grupo_data.pop("nombre", None)))
                 grobots = [robot for robot in robots \
                     if robot in [rbuild(p) for p in grupo_data["robots"]]]
                 frobots = frobots + grobots
@@ -277,7 +277,8 @@ class Fixture(object):
     def posiciones(self):
         fase = self.get_fase_actual()
         if fase is not None:
-            return fase.posiciones()
+            robots = fase.posiciones()
+            return [[equipo for equipo in self.get_equipos() if equipo.robot == robot].pop() for robot in robots]
 
     def agregar_ganador(self, robot, nencuentro=None):
         encuentros = [e for e in self.get_encuentros() if e.participa(robot) and (nencuentro is None or (nencuentro is not None and e.numero == nencuentro))]
