@@ -88,10 +88,10 @@ class Fixture(object):
         robots = [score[0] for score in scores]
         
         robots = robots[:jugadores]
-        mitad = len(robots) // 2
-        print(jugadores, robots)
+        guno = [r for i, r in enumerate(robots) if i % 2 == 0]
+        gdos = [r for i, r in enumerate(robots) if i % 2 != 0]
         nombre = Final.NOMBRES[len(robots)]
-        grupos = [Grupo(robots=robots[:mitad], nombre=nombre), Grupo(robots=robots[mitad:], nombre=nombre)]
+        grupos = [Grupo(robots=guno, nombre=nombre), Grupo(robots=gdos, nombre=nombre)]
         clas = Final(robots, grupos)
         self.fases.append(clas)
         return clas
