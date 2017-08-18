@@ -27,6 +27,7 @@ query Posiciones {
         email
         rol
       }
+      puntos
       escudo
       peso
       medidas

@@ -20,7 +20,6 @@ class Ronda(object):
     @staticmethod
     def generar(robots, tct=False, esc=True, allow_none=False, shuffle=True):
         tct = len(robots) > 2 and tct
-        print(tct)
         tuplas = [list(combine) for combine in combinations(robots, 2)]
         ronda_tuplas = []
         if shuffle:

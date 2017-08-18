@@ -56,9 +56,15 @@ class Equipo(graphene.ObjectType):
     escudo = graphene.String()
     peso = graphene.String()
     medidas = graphene.String()
+    puntos = graphene.Int()
 
     def resolve_estado(self, args, context, info):
         return self.encargado
+
+    def resolve_puntos(self, args, context, info):
+        fixture = context["fixture"]
+        score = fixture.score(self.robot)
+        return score[7]
 
 class Encuentro(graphene.ObjectType):
     numero = graphene.Int()

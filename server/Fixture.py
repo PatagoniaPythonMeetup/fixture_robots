@@ -221,7 +221,6 @@ class Fixture(object):
         equipos = []
         for equipo_data in data["equipos"]:
             robot = [robot for robot in robots if robot == rbuild(equipo_data["robot"])].pop()
-            print(robot)
             profesor = Participante(*equipo_data["profesor"])
             encargado = Participante(*equipo_data["encargado"])
             alumnos = [Participante(*alumno) for alumno in equipo_data["alumnos"]]

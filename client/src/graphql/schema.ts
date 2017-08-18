@@ -348,6 +348,7 @@ export type PosicionesQuery = {
         email: string | null,
         rol: string | null,
       } | null > | null,
+      puntos: number | null,
       escudo: string | null,
       peso: string | null,
       medidas: string | null,
