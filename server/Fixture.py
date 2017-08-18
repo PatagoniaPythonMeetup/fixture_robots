@@ -8,7 +8,7 @@ from .Robot import Robot
 from .Encuentro import Encuentro
 from .Ronda import Ronda
 from .Grupo import Grupo
-from .Fase import Clasificacion, Eliminacion, Final, AdHoc
+from .Fase import Fase, Clasificacion, Eliminacion, Final, AdHoc
 from .Equipo import Equipo
 from .Participante import Participante
 
@@ -176,6 +176,10 @@ class Fixture(object):
     def limpiar(self):
         self.robots = []
         self.fases = []
+        Encuentro.NUMERO = 1
+        Ronda.NUMERO = 1
+        Grupo.NUMERO = 1
+        Fase.NUMERO = 1
 
     # Json dumps and loads
     def to_dict(self):
