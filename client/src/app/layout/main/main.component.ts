@@ -4,8 +4,17 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  template: `
+<div class="ui main text container">
+  <router-outlet></router-outlet>
+</div>
+`,
+  styles: [`
+.ui.main.container {
+  margin-top: 4em;
+  margin-bottom: 7em;
+}
+`]
 })
 export class MainComponent implements OnInit {
   estado: Estado

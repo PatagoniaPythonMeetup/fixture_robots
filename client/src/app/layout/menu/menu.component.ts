@@ -6,8 +6,7 @@ declare var jQuery: any;
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  templateUrl: './menu.component.html'
 })
 export class MenuComponent implements OnInit {
   fases$: any
@@ -29,7 +28,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.fases$ = this.fixture.fases();
-    this.fases$.subscribe(({data}) => {
+    this.fases$.valueChanges.subscribe(({data}) => {
       this.fases = data.fixture.fases
     })
   }

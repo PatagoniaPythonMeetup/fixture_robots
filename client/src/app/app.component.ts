@@ -1,18 +1,12 @@
-import { FixtureService } from './fixture.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [FixtureService]
+  template: `
+<app-menu></app-menu>
+<app-main></app-main>
+<app-footer></app-footer>
+  `,
 })
-export class AppComponent implements OnInit {
-  constructor(private fixture: FixtureService) {
-    
-  }
-
-  ngOnInit() {
-  }
-
+export class AppComponent {
 }

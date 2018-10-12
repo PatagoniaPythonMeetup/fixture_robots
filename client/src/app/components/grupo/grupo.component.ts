@@ -22,6 +22,7 @@ export class GrupoComponent implements OnInit {
   constructor(private fixture: FixtureService) { }
 
   ngOnInit() {
+
     let robots = this.grupo.robots.slice().map(r => _.clone(r));
     let scores = this.grupo.scores.slice().map(s => _.clone(s));
     robots.forEach((r, i) => r.score = scores[i]);

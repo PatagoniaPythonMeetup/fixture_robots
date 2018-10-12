@@ -1,10 +1,6 @@
-import { ApolloQueryObservable } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Apollo } from "apollo-angular";
 import { DocumentNode } from 'graphql';
-
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
 
 import {
     RobotQuery,
@@ -77,7 +73,7 @@ export class FixtureService {
 
   constructor(private apollo: Apollo) {
     let estado = this.apollo.watchQuery<FixtureQuery>({ query: FixtureQueryNode})
-    estado.subscribe(({data}) => this.setEstado(data.fixture.estado))
+    estado.valueChanges.subscribe(({data}) => this.setEstado(data.fixture.estado))
   }
   
   setRobotsSeleccionados(robots) {
@@ -88,58 +84,58 @@ export class FixtureService {
     this.estado$.emit(Object.assign(this.estado, estado));
   }
 
-  robot(key: String): ApolloQueryObservable<RobotQuery> {
+  robot(key: String) {
     return this.apollo.watchQuery<RobotQuery>({ 
       query: RobotQueryNode,
       variables: { key }
     });
   }
 
-  robots(): ApolloQueryObservable<RobotsQuery> {
+  robots() {
     return this.apollo.watchQuery<RobotsQuery>({ query: RobotsQueryNode});
   }
 
-  fase(numero: Number): ApolloQueryObservable<FaseQuery> {
+  fase(numero: Number) {
     return this.apollo.watchQuery<FaseQuery>({ 
       query: FaseQueryNode,
       variables: { numero }
     });
   }
 
-  fases(): ApolloQueryObservable<FasesQuery> {
+  fases() {
     return this.apollo.watchQuery<FasesQuery>({ query: FasesQueryNode});
   }
 
-  ronda(numero: Number): ApolloQueryObservable<RondaQuery> {
+  ronda(numero: Number) {
     return this.apollo.watchQuery<RondaQuery>({ 
       query: RondaQueryNode,
       variables: { numero }
     });
   }
 
-  rondas(): ApolloQueryObservable<RondasQuery> {
+  rondas() {
     return this.apollo.watchQuery<RondasQuery>({ query: RondasQueryNode});
   }
 
-  encuentro(numero: Number): ApolloQueryObservable<EncuentroQuery> {
+  encuentro(numero: Number) {
     return this.apollo.watchQuery<EncuentroQuery>({ 
       query: EncuentroQueryNode,
       variables: { numero }
     });
   }
 
-  score(key: String): ApolloQueryObservable<ScoreQuery> {
+  score(key: String) {
     return this.apollo.watchQuery<ScoreQuery>({ 
       query: ScoreQueryNode,
       variables: { key }
     });
   }
   
-  posiciones(): ApolloQueryObservable<PosicionesQuery> {
+  posiciones() {
     return this.apollo.watchQuery<PosicionesQuery>({ query: PosicionesQueryNode});
   }
 
-  scoresGeneral(): ApolloQueryObservable<ScoresGeneralQuery> {
+  scoresGeneral() {
     return this.apollo.watchQuery<ScoresGeneralQuery>({ query: ScoresGeneralQueryNode});
   }
 

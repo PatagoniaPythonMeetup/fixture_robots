@@ -10,23 +10,23 @@ class Estado(graphene.ObjectType):
     encuentros = graphene.List(graphene.Int)
     ronda = graphene.Int()
 
-    def resolve_iniciado(self, args, context, info):
+    def resolve_iniciado(self, info):
         return self.iniciado()
 
-    def resolve_compitiendo(self, args, context, info):
+    def resolve_compitiendo(self, info):
         return self.compitiendo()
     
-    def resolve_finalizado(self, args, context, info):
+    def resolve_finalizado(self, info):
         return self.finalizado()
 
-    def resolve_jugadas(self, args, context, info):
+    def resolve_jugadas(self, info):
         return self.jugadas()
     
-    def resolve_encuentros(self, args, context, info):
+    def resolve_encuentros(self, info):
         encuentros = self.get_encuentros_actuales()
         return [e.numero for e in encuentros]
 
-    def resolve_ronda(self, args, context, info):
+    def resolve_ronda(self, info):
         ronda = self.get_ronda_actual()
         return ronda.numero if ronda is not None else 0
 
@@ -43,7 +43,7 @@ class Robot(graphene.ObjectType):
     encargado = graphene.Field(Participante)
     escudo = graphene.String()
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self.encargado
 
 class Equipo(graphene.ObjectType):
@@ -58,10 +58,11 @@ class Equipo(graphene.ObjectType):
     medidas = graphene.String()
     puntos = graphene.Int()
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self.encargado
 
-    def resolve_puntos(self, args, context, info):
+    def resolve_puntos(self, info):
+        context = info.context
         fixture = context["fixture"]
         score = fixture.score(self.robot)
         return score[7]
@@ -72,13 +73,13 @@ class Encuentro(graphene.ObjectType):
     estado = graphene.Field(Estado)
     puntos = graphene.List(graphene.Int)
 
-    def resolve_robots(self, args, context, info):
+    def resolve_robots(self, info):
         return [self.robot_1, self.robot_2]
 
-    def resolve_puntos(self, args, context, info):
+    def resolve_puntos(self, info):
         return self.score(self.robot_1)
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self
 
 class Ronda(graphene.ObjectType):
@@ -92,18 +93,20 @@ class Ronda(graphene.ObjectType):
     scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
-    def resolve_robots(self, args, context, info):
+    def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_score(self, args, context, info):
+    def resolve_score(self, info):
+        context = info.context
+        fixture = context["fixture"]
         key = args['key']
-        robot = fixture.get_robot_por_key(key)
+        robot = context["fixture"].get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_scores(self, args, context, info):
+    def resolve_scores(self, info):
         return [self.score(robot) for robot in self.get_robots()]
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self
 
 class Grupo(graphene.ObjectType):
@@ -115,21 +118,23 @@ class Grupo(graphene.ObjectType):
     scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
-    def resolve_robots(self, args, context, info):
+    def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_rondas(self, args, context, info):
+    def resolve_rondas(self, info):
         return self.get_rondas()
 
-    def resolve_score(self, args, context, info):
+    def resolve_score(self, info):
+        context = info.context
+        fixture = context["fixture"]
         key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_scores(self, args, context, info):
+    def resolve_scores(self, info):
         return [self.score(robot) for robot in self.get_robots()]
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self
 
 class Fase(graphene.ObjectType):
@@ -142,29 +147,33 @@ class Fase(graphene.ObjectType):
     scores = graphene.List(graphene.List(graphene.Int))
     estado = graphene.Field(Estado)
 
-    def resolve_tipo(self, args, context, info):
+    def resolve_tipo(self, info):
         return self.get_tipo()
 
-    def resolve_nombre(self, args, context, info):
+    def resolve_nombre(self, info):
         return self.get_nombre()
 
-    def resolve_robots(self, args, context, info):
+    def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_class(self, args, context, info):
+    def resolve_class(self, info):
+        context = info.context
+        fixture = context["fixture"]
         key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_score(self, args, context, info):
+    def resolve_score(self, info):
+        context = info.context
+        fixture = context["fixture"]
         key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_scores(self, args, context, info):
+    def resolve_scores(self, info):
         return [self.score(robot) for robot in self.get_robots()]
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self
 
 class Fixture(graphene.ObjectType):
@@ -182,57 +191,58 @@ class Fixture(graphene.ObjectType):
     ganador = graphene.Field(Robot)
     posiciones = graphene.List(Equipo)
 
-    def resolve_robot(self, args, context, info):
+    def resolve_robot(self, info):
         key = args['key']
         return self.get_robot_por_key(key)
 
-    def resolve_robots(self, args, context, info):
+    def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_encuentro(self, args, context, info):
+    def resolve_encuentro(self, info):
         numero = args['numero']
         return self.get_encuentro(numero)
 
-    def resolve_encuentros(self, args, context, info):
+    def resolve_encuentros(self, info):
         return self.get_encuentros()
 
-    def resolve_ronda(self, args, context, info):
+    def resolve_ronda(self, info):
         numero = args['numero']
         return self.get_ronda(numero)
 
-    def resolve_rondas(self, args, context, info):
+    def resolve_rondas(self, info):
         return self.get_rondas()
 
-    def resolve_fase(self, args, context, info):
+    def resolve_fase(self, info):
         numero = args['numero']
         return self.get_fase(numero)
 
-    def resolve_fases(self, args, context, info):
+    def resolve_fases(self, info):
         return self.get_fases()
 
-    def resolve_ganador(self, args, context, info):
+    def resolve_ganador(self, info):
         return self.ganador()
     
-    def resolve_posiciones(self, args, context, info):
+    def resolve_posiciones(self, info):
         return self.posiciones()
 
-    def resolve_score(self, args, context, info):
-        key = args['key']
+    def resolve_score(self, info):
+        context = info.context
         fixture = context["fixture"]
+        key = args['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_scores(self, args, context, info):
+    def resolve_scores(self, info):
         return [self.score(robot) for robot in self.get_robots()]
 
-    def resolve_estado(self, args, context, info):
+    def resolve_estado(self, info):
         return self
 
 class Query(graphene.ObjectType):
     fixture = graphene.Field(Fixture)
 
-    def resolve_fixture(self, args, context, info):
-        return context["fixture"]
+    def resolve_fixture(self, info):
+        return info.context["fixture"]
 
 # Mutaciones
 class GenerarClasificacion(graphene.Mutation):
@@ -246,10 +256,11 @@ class GenerarClasificacion(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        grupos = args.get('grupos')
-        esc = args.get('esc')
+        grupos = kwargs['grupos']
+        esc = kwargs['esc']
         try:
             fase = fixture.clasificacion(grupos, esc)
             return GenerarClasificacion(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
@@ -264,7 +275,8 @@ class GenerarEliminacion(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
         try:
             fase = fixture.eliminacion()
@@ -283,9 +295,10 @@ class GenerarFinal(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        jugadores = args.get('jugadores')
+        jugadores = kwargs.get('jugadores')
         try:
             fase = fixture.final(jugadores)
             return GenerarFinal(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
@@ -303,9 +316,10 @@ class GenerarAdHoc(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        robots = args.get('robots')
+        robots = kwargs.get('robots')
         try:
             fase = fixture.adhoc(robots)
             return GenerarFinal(ok = True, mensaje = "Fase creada", fase = fase, estado = fixture)
@@ -327,13 +341,14 @@ class GenerarRonda(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        ngrupo = args.get('grupo')
-        tct = args.get('tct')
-        esc = args.get('esc')
-        allow_none = args.get('allow_none')
-        shuffle = args.get('shuffle')
+        ngrupo = kwargs.get('grupo')
+        tct = kwargs.get('tct')
+        esc = kwargs.get('esc')
+        allow_none = kwargs.get('allow_none')
+        shuffle = kwargs.get('shuffle')
         try:
             ronda = fixture.generar_ronda(ngrupo, tct, esc, allow_none, shuffle)
             return GenerarRonda(ok = True, mensaje = "Ronda creada", ronda = ronda, estado = fixture)
@@ -352,10 +367,11 @@ class AgregarGanador(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        key = args.get('key')
-        nencuentro = args.get('encuentro')
+        key = kwargs.get('key')
+        nencuentro = kwargs.get('encuentro')
         try:
             robot = fixture.get_robot_por_key(key)
             encuentro = fixture.agregar_ganador(robot, nencuentro)
@@ -375,10 +391,11 @@ class QuitarGanador(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        key = args.get('key')
-        nencuentro = args.get('encuentro')
+        key = kwargs.get('key')
+        nencuentro = kwargs.get('encuentro')
         try:
             robot = fixture.get_robot_por_key(key)
             encuentro = fixture.quitar_ganador(robot, nencuentro)
@@ -397,9 +414,10 @@ class AgregarAdversario(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        nencuentro = args.get('encuentro')
+        nencuentro = kwargs.get('encuentro')
         try:
             encuentro = fixture.agregar_adversario(nencuentro)
             return AgregarGanador(ok = True, mensaje = "Encuentro resuelto con nuevo adversario", encuentro = encuentro, estado = fixture)
@@ -417,9 +435,10 @@ class ArmarFinal(graphene.Mutation):
     estado = graphene.Field(Estado)
     
     @staticmethod
-    def mutate(root, args, context, info):
+    def mutate(root, info, *args, **kwargs):
+        context = info.context
         fixture = context["fixture"]
-        nfase = args.get('fase')
+        nfase = kwargs.get('fase')
         try:
             fase = fixture.armar_final(nfase)
             return ArmarFinal(ok = True, mensaje = "Final completado con robots", fase = fase, estado = fixture)

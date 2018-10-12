@@ -2,21 +2,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ApolloModule } from "apollo-angular";
-import { getClient } from "./apollo-client";
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { MainComponent } from './layout/main/main.component';
 import { MenuComponent } from './layout/menu/menu.component';
-import { AppRoutingModule } from "./app-routing.module";
-import { PageGeneralComponent } from './page-general/page-general.component';
-import { PageFaseComponent } from './page-fase/page-fase.component';
+import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { PageNotFoundComponent } from './pages/not-found/page-not-found.component';
+import { PageGeneralComponent } from './pages/general/page-general.component';
+import { PageFaseComponent } from './pages/fase/page-fase.component';
 import { GrupoComponent } from './components/grupo/grupo.component';
 import { RondaComponent } from './components/ronda/ronda.component';
-import { ModalComponent, ModalTagsDirective } from './layout/modal/modal.component';
 import { FaseComponent } from './components/fase/fase.component';
 import { ScoreComponent } from './components/score/score.component';
-import { PagePosicionesComponent } from './page-posiciones/page-posiciones.component';
+import { PagePosicionesComponent } from './pages/posiciones/page-posiciones.component';
+import { FixtureService } from './fixture.service';
+import { HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 @NgModule({
   declarations: [
@@ -29,18 +33,21 @@ import { PagePosicionesComponent } from './page-posiciones/page-posiciones.compo
     PageFaseComponent,
     GrupoComponent,
     RondaComponent,
-    ModalComponent,
     ModalTagsDirective,
     FaseComponent,
     ScoreComponent,
-    PagePosicionesComponent
+    PagePosicionesComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
-    ApolloModule.withClient(getClient),
-    AppRoutingModule
+    ApolloModule,
+    GraphQLModule,
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [FixtureService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+ }

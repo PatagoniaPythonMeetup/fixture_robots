@@ -26,14 +26,15 @@ with open("./datos/robots.json", "r") as f:
     for robot in json.loads(f.read()):
         FIXTURE.inscribir_robot(*robot)
 
-SCRAPPER = Robot_scrapper()
+#SCRAPPER = Robot_scrapper()
+SCRAPPER = None
 
 app = Flask(__name__)
 CORS(app)
 
 app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture', 
     schema=schema, 
-    context={"fixture": FIXTURE},
+    get_context= lambda : {"fixture": FIXTURE},
     graphiql=True))
 
 @app.route('/')
