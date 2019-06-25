@@ -10,8 +10,8 @@ export class PagePosicionesComponent implements OnInit {
   equipos: any[];
   
   constructor(private fixture: FixtureService) {
-    this.posiciones$ = this.fixture.posiciones()
-    this.posiciones$.subscribe(({data}) => {
+    this.posiciones$ = this.fixture.posiciones();
+    this.posiciones$.valueChanges.subscribe(({data}) => {
       this.equipos = data.fixture.posiciones.slice();
     })
   }

@@ -34,7 +34,7 @@ CORS(app)
 
 app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture', 
     schema=schema, 
-    get_context= lambda : {"fixture": FIXTURE},
+    get_context= lambda *args, **kwargs: {"fixture": FIXTURE},
     graphiql=True))
 
 @app.route('/')

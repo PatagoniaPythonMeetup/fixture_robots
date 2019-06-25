@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Estado, FixtureService } from '../../fixture.service';
- 
+
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -35,23 +35,24 @@ export class PageFaseComponent {
     private route: ActivatedRoute,
     private router: Router,
     private fixture: FixtureService
-  ) { 
+  ) {
     this.fixture.estado$.subscribe(estado => this.setEstado(estado))
-    this.route.params.pipe(
-        switchMap(params => (this.faseQuery$ = this.fixture.fase(+params['numero']).valueChanges))
-        )
-      .subscribe(({data}) => {
-        this.fase = data.fixture.fase
+    this.route.params
+      .subscribe(params => {
+        this.faseQuery$ = this.fixture.fase(+params['numero']);
+        this.faseQuery$.valueChanges
+          .subscribe(({ data }) => {
+            this.fase = data.fixture.fase
+          })
       });
-    }
+  }
 
   armarFinal(fase: Number) {
     this.fixture.armarFinal(fase);
   }
 
   setEstado(estado: Estado) {
-    this.estado = estado
+    this.estado = estado;
     this.faseQuery$.refetch();
   }
-
 }

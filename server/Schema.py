@@ -61,7 +61,7 @@ class Equipo(graphene.ObjectType):
     def resolve_estado(self, info):
         return self.encargado
 
-    def resolve_puntos(self, info):
+    def resolve_puntos(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
         score = fixture.score(self.robot)
@@ -96,10 +96,10 @@ class Ronda(graphene.ObjectType):
     def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_score(self, info):
+    def resolve_score(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
-        key = args['key']
+        key = kwargs['key']
         robot = context["fixture"].get_robot_por_key(key)
         return self.score(robot)
 
@@ -124,10 +124,10 @@ class Grupo(graphene.ObjectType):
     def resolve_rondas(self, info):
         return self.get_rondas()
 
-    def resolve_score(self, info):
+    def resolve_score(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
-        key = args['key']
+        key = kwargs['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
@@ -156,17 +156,17 @@ class Fase(graphene.ObjectType):
     def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_class(self, info):
+    def resolve_class(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
-        key = args['key']
+        key = kwargs['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
-    def resolve_score(self, info):
+    def resolve_score(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
-        key = args['key']
+        key = kwargs['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
@@ -191,29 +191,29 @@ class Fixture(graphene.ObjectType):
     ganador = graphene.Field(Robot)
     posiciones = graphene.List(Equipo)
 
-    def resolve_robot(self, info):
-        key = args['key']
+    def resolve_robot(self, info, *args, **kwargs):
+        key = kwargs['key']
         return self.get_robot_por_key(key)
 
     def resolve_robots(self, info):
         return self.get_robots()
 
-    def resolve_encuentro(self, info):
-        numero = args['numero']
+    def resolve_encuentro(self, info, *args, **kwargs):
+        numero = kwargs['numero']
         return self.get_encuentro(numero)
 
     def resolve_encuentros(self, info):
         return self.get_encuentros()
 
-    def resolve_ronda(self, info):
-        numero = args['numero']
+    def resolve_ronda(self, info, *args, **kwargs):
+        numero = kwargs['numero']
         return self.get_ronda(numero)
 
     def resolve_rondas(self, info):
         return self.get_rondas()
 
-    def resolve_fase(self, info):
-        numero = args['numero']
+    def resolve_fase(self, info, *args, **kwargs):
+        numero = kwargs['numero']
         return self.get_fase(numero)
 
     def resolve_fases(self, info):
@@ -225,10 +225,10 @@ class Fixture(graphene.ObjectType):
     def resolve_posiciones(self, info):
         return self.posiciones()
 
-    def resolve_score(self, info):
+    def resolve_score(self, info, *args, **kwargs):
         context = info.context
         fixture = context["fixture"]
-        key = args['key']
+        key = kwargs['key']
         robot = fixture.get_robot_por_key(key)
         return self.score(robot)
 
@@ -241,7 +241,8 @@ class Fixture(graphene.ObjectType):
 class Query(graphene.ObjectType):
     fixture = graphene.Field(Fixture)
 
-    def resolve_fixture(self, info):
+    def resolve_fixture(self, info, *args, **kwargs):
+        print(info)
         return info.context["fixture"]
 
 # Mutaciones
