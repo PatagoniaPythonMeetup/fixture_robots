@@ -41,51 +41,24 @@ app.add_url_rule('/fixture', view_func = GraphQLView.as_view('fixture',
 def index(): 
     return render_template("index.html", robots = len(FIXTURE.robots))
 
-@app.route('/robocomp/seguidor')
-def robocomp_seguidor():
+@app.route('/scrapper/<categoria>')
+def scrapper(categoria):
     equipos = SCRAPPER.get_equipos()
-    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Seguidor")]
+    equipos = [equipo for equipo in equipos if equipo.categoria.lower().startswith(categoria)]
     FIXTURE.limpiar()
     for equipo in equipos:
         FIXTURE.inscribir_equipo(equipo)
     return redirect("/")
 
-@app.route('/robocomp/sumo')
-def robocomp_sumo():
-    equipos = SCRAPPER.get_equipos()
-    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Sumo")]
-    FIXTURE.limpiar()
-    for equipo in equipos:
-        FIXTURE.inscribir_equipo(equipo)
-    return redirect("/")
-    
-@app.route('/robocomp/minisumo')
-def robocomp_minisumo():
-    equipos = SCRAPPER.get_equipos()
-    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Mini-Sumo")]
-    FIXTURE.limpiar()
-    for equipo in equipos:
-        FIXTURE.inscribir_equipo(equipo)
-    return redirect("/")
-
-@app.route('/robocomp/futbol')
-def robocomp_futbol():
-    equipos = SCRAPPER.get_equipos()
-    equipos = [equipo for equipo in equipos if equipo.categoria.startswith("Fútbol")]
-    FIXTURE.limpiar()
-    for equipo in equipos:
-        FIXTURE.inscribir_equipo(equipo)
-    return redirect("/")
-
-@app.route('/store')
-def dumps():
-    with open("./datos/fixture.json", "w") as f:
+@app.route('/store/<categoria>')
+def dumps(categoria):
+    with open(f"./datos/{categoria}.json", "w") as f:
         f.write(json.dumps(FIXTURE.to_dict()))
     return redirect("/")
 
-@app.route('/restore')
-def loads():
-    with open("./datos/fixture.json", "r") as f:
+@app.route('/restore/<categoria>')
+def loads(categoria):
+    with open(f"./datos/{categoria}.json", "r") as f:
         FIXTURE.from_dict(json.loads(f.read()))
     return redirect("/")
 
