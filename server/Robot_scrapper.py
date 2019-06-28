@@ -8,26 +8,32 @@ from .Participante import Participante
 from .Equipo import Equipo
 from .Robot import Robot
 
+ONLINE="http://robocomp.dit.ing.unp.edu.ar/getRobots"
+OFFLINE="./datos/datos.json"
+
 class Robot_scrapper(object):
     """ Objeto encargado de obtener y mantener actualizados los robots inscriptos a la competencia. """
 
-    def __init__(self, pagina="http://robocomp.dit.ing.unp.edu.ar/getRobots", reload_data=False):
-        self.pagina = pagina
+    def __init__(self, reload_data=False):
         self.equipos = []
         self.reload = reload_data
-        self.scrap_equipos()
 
-    def scrap_equipos(self):
+    def scrap_url(self, url=ONLINE):
         """  Obtiene los datos de los equipos desde la pagina """
-        rta_page = urllib.request.urlopen( self.pagina ).read().decode()
-        self.build_equipos(rta_page)
+        rta_page = urllib.request.urlopen( url ).read().decode()
+        self.build_equipos(json.loads(rta_page))
         if self.reload:
-            threading.Timer(60.0, self.scrap_equipos).start()
-        return
+            threading.Timer(60.0, self.scrap_url, url).start()
 
-    def build_equipos(self, raw_equipos):
+    def scrap_file(self, path=OFFLINE):
+        """  Obtiene los datos de los equipos desde la pagina """
+        with open(path, 'r') as f:
+            self.build_equipos(json.load(f))
+        if self.reload:
+            threading.Timer(60.0, self.scrap_file, path).start()
+
+    def build_equipos(self, json_equipos):
         """ Construye los equipos a partir de la información obtenida desde la pagina """
-        json_equipos = json.loads(raw_equipos)
         new_equipos = []
         for data_r in json_equipos:
             componentes = []

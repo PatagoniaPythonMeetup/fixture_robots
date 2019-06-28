@@ -26,8 +26,8 @@ with open("./datos/robots.json", "r") as f:
     for robot in json.loads(f.read()):
         FIXTURE.inscribir_robot(*robot)
 
-#SCRAPPER = Robot_scrapper()
-SCRAPPER = None
+SCRAPPER = Robot_scrapper(True)
+SCRAPPER.scrap_file()
 
 app = Flask(__name__)
 CORS(app)
