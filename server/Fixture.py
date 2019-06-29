@@ -194,6 +194,7 @@ class Fixture(object):
             return Robot(tupla[0], tupla[1], Participante(*tupla[2]), tupla[3])
         CLASES = {kls.__name__: kls for kls in [Clasificacion, Eliminacion, Final, AdHoc]}
         robots = [rbuild(robot_data) for robot_data in data["robots"]]
+        print(robots)
         fases = []
         for fase_data in data["fases"]:
             klass = fase_data["nombre"]
@@ -220,7 +221,7 @@ class Fixture(object):
             fases.append(CLASES[klass](frobots, grupos))
         equipos = []
         for equipo_data in data["equipos"]:
-            robot = [robot for robot in robots if robot == rbuild(equipo_data["robot"])].pop()
+            robot = [robot for robot in robots if robot.nombre == equipo_data["robot"][0]].pop()
             profesor = Participante(*equipo_data["profesor"])
             encargado = Participante(*equipo_data["encargado"])
             alumnos = [Participante(*alumno) for alumno in equipo_data["alumnos"]]

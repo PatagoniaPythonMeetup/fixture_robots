@@ -44,7 +44,7 @@ def index():
 @app.route('/scrapper/<categoria>')
 def scrapper(categoria):
     equipos = SCRAPPER.get_equipos()
-    equipos = [equipo for equipo in equipos if equipo.categoria.lower().startswith(categoria)]
+    equipos = [equipo for equipo in equipos if equipo.categoria.startswith(categoria)]
     FIXTURE.limpiar()
     for equipo in equipos:
         FIXTURE.inscribir_equipo(equipo)
