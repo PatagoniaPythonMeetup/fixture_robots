@@ -5,7 +5,7 @@ click==6.7
 docutils==0.14
 Faker==0.7.17
 Flask==0.12.2
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 Flask-GraphQL==1.4.1
 graphene==2.1.6
 graphql-core==2.2
